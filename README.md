@@ -1,7 +1,7 @@
 # YoutubeDownloader
 A music downloader for YouTube with Spotify integration. Quickly and easily download music with it's respective ID3 tags.
 
-DISCLAIMER: I am not responsibe for any misuse of this program. You need permission from the author/copyright holder of the content before downloading it.
+**DISCLAIMER**: I am not responsibe for any misuse of this program. You need permission from the author/copyright holder of the content before downloading it.
 
 
 # Downloads:
