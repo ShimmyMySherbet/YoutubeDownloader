@@ -8,9 +8,9 @@ DISCLAIMER: I am not responsibe for any misuse of this program. You need permiss
 If you do not wish to build the project yourself, you can download the Windows Binary here:
 
 ## Installer:
-Download: [Download via MEGA](https://mega.nz/#!EUkjwC7T!k8enJW-48hUzuFHrbx9-llQ0OZwCunWWazz7KG2p62I) 
+Download: [Via MEGA](https://mega.nz/#!EUkjwC7T!k8enJW-48hUzuFHrbx9-llQ0OZwCunWWazz7KG2p62I) 
 Installer MD5 sum: 27806D1CBD11476831885DAB0EFF6127
 
 ## Portable: 
-Download: [Download via MEGA](https://mega.nz/#!dBsHiA7R!NyJll0QF5nIsJbNrNudId6XB6ob3Y1NLeuUg5c7vy-Y) 
+Download: [Via MEGA](https://mega.nz/#!dBsHiA7R!NyJll0QF5nIsJbNrNudId6XB6ob3Y1NLeuUg5c7vy-Y) 
 Installer MD5 sum: 9CFBC776D0AF42D2C23E0A9D5CF85522
