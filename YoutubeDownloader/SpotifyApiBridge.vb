@@ -1,4 +1,4 @@
-﻿Imports SpotifyAPI
+Imports SpotifyAPI
 Imports SpotifyAPI.Web
 Imports SpotifyAPI.Web.Models
 Imports SpotifyAPI.Web.Auth
@@ -24,13 +24,47 @@ Public Class SpotifyApiBridge
         Dim VideoDuration As Double = Video.Duration.TotalMilliseconds
         Dim YearOfRelease As UShort = Video.UploadDate.Year
         Dim SearchString As String = ""
+        Dim performAlternativeSearch As Boolean = False
+        If MexMedia.Artist = "" Then
+            performAlternativeSearch = True
+        End If
+        Dim SelectedResult As FullTrack = Nothing
+        Console.WriteLine(Video.Author)
+        If performAlternativeSearch Then
+            Console.WriteLine("Running alt search")
+            If Video.Author.EndsWith("- Topic") Then
+                SearchString = Video.Author.Replace("- Topic", "").Trim(" ") & " " & MexMedia.Name
+            Else
+                SearchString = Video.Author & " " & MexMedia.Name
+            End If
+
+            Console.WriteLine("Alt Search: {0}", SearchString)
+
+
+            Dim AlternativeSearchResults As SearchItem = Spotify.SearchItems(SearchString, Enums.SearchType.Track, 2)
+            For Each item In AlternativeSearchResults.Tracks.Items
+                If IsNothing(SelectedResult) Then
+                    Dim TrackDuration As Double = item.DurationMs
+                    Dim DurationDifferance As Double = GetIntgralDifferance(VideoDuration, TrackDuration)
+                    If DurationDifferance < TrackLogic.MaxDurationDifferance Then
+                        '/*todo: Create further verification logic/*'
+                        SelectedResult = item
+                    End If
+                End If
+            Next
+        End If
+
+
+
         If MexMedia.Artist <> "" Then
             SearchString = MexMedia.Artist & " " & MexMedia.Name
         Else
             SearchString = MexMedia.Name
+            performAlternativeSearch = True
         End If
+        Console.WriteLine("Running main search")
         Dim SearchResults As SearchItem = Spotify.SearchItems(SearchString, Enums.SearchType.Track)
-        Dim SelectedResult As FullTrack = Nothing
+
         For Each item In SearchResults.Tracks.Items
             If IsNothing(SelectedResult) Then
                 Dim TrackDuration As Double = item.DurationMs
@@ -55,3 +89,4 @@ Public Class SpotifyApiBridge
         End If
     End Function
 End Class
+
