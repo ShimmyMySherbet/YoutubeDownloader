@@ -3,6 +3,8 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 
 **DISCLAIMER**: I am not responsibe for any misuse of this program. You need permission from the author/copyright holder of the content before downloading it.
 
+# NOTICE:
+Youtube has recently changed the way it's backend works. As of right now, (10PM AEST) This project is not working. This is because the package that this project relies upon, YoutubeExplode, has not been updated.
 
 # Downloads:
 If you do not wish to build the project yourself, you can download the Windows Binary here:
