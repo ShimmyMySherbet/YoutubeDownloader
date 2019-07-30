@@ -8,11 +8,13 @@ Youtube has recently changed the way it's backend works. As of right now, (10PM 
 
 # Downloads:
 If you do not wish to build the project yourself, you can download the Windows Binary here:
+Links Last Updated: 30/07/19
 
 ## Installer:
-Download: [Via MEGA](https://mega.nz/#!EUkjwC7T!k8enJW-48hUzuFHrbx9-llQ0OZwCunWWazz7KG2p62I) 
-Installer MD5 sum: 27806D1CBD11476831885DAB0EFF6127
+Download: [Via MEGA](https://mega.nz/#!4JdBAKAb!grltGmE4zZ7E-02lCQO7fj2GJw4Zo79dvQKo5f3HRz8) 
+Installer MD5 sum: CAE19DD588140A82E35450DBE34582F4
+
 
 ## Portable: 
-Download: [Via MEGA](https://mega.nz/#!dBsHiA7R!NyJll0QF5nIsJbNrNudId6XB6ob3Y1NLeuUg5c7vy-Y) 
-Installer MD5 sum: 9CFBC776D0AF42D2C23E0A9D5CF85522
+Download: [Via MEGA](https://mega.nz/#!sFUxmSYA!ThmbrwhDqYNCtCCY-ksIVTQyOK6zQ9iaA_TE2cINYJQ) 
+Installer MD5 sum: 5D5FD9C22A4004245FC98E932EE10108
