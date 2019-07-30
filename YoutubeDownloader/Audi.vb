@@ -223,14 +223,12 @@ Public Class Audi
         Dim VideoID As String = Client.ParseVideoId(Video.GetUrl)
         Console.WriteLine("Downloading video with id of {0}", VideoID)
         If Not IsFromPlaylist Then
-
             Await UiTaskfactory.StartNew(Sub()
                                              PbProgress.PerformStep()
                                          End Sub)
         Else
             TypePipe = PipeType.Progress
         End If
-
 
         Dim SteaminfoSet As MediaStreams.MediaStreamInfoSet = Await Client.GetVideoMediaStreamInfosAsync(VideoID)
         If Not IsFromPlaylist Then
