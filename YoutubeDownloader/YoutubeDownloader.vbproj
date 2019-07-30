@@ -25,13 +25,16 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <SupportUrl>https://github.com/ShimmyMySherbet/YoutubeDownloader/issues</SupportUrl>
+    <ErrorReportUrl>https://github.com/ShimmyMySherbet/YoutubeDownloader/issues</ErrorReportUrl>
     <TargetCulture>en-AU</TargetCulture>
     <ProductName>Youtube Downloader</ProductName>
     <PublisherName>Daniel Hyndman</PublisherName>
     <SuiteName>Youtube Downloader</SuiteName>
-    <ApplicationRevision>5</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
