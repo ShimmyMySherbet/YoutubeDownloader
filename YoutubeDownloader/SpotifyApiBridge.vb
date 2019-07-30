@@ -1,4 +1,4 @@
-﻿Imports SpotifyAPI
+Imports SpotifyAPI
 Imports SpotifyAPI.Web
 Imports SpotifyAPI.Web.Models
 Imports SpotifyAPI.Web.Auth
@@ -89,3 +89,4 @@ Public Class SpotifyApiBridge
         End If
     End Function
 End Class
+
