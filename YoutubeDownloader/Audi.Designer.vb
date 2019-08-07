@@ -28,17 +28,19 @@ Partial Class Audi
         Me.BtnPlayAudio = New System.Windows.Forms.Button()
         Me.lblytChannel = New System.Windows.Forms.Label()
         Me.lblSpotifySong = New System.Windows.Forms.Label()
-        Me.Pbicon2 = New System.Windows.Forms.PictureBox()
-        Me.PbIcon1 = New System.Windows.Forms.PictureBox()
-        Me.PbArtwork = New System.Windows.Forms.PictureBox()
-        Me.PbBtnClose = New System.Windows.Forms.PictureBox()
         Me.PbProgress = New System.Windows.Forms.ProgressBar()
         Me.btnDownload = New System.Windows.Forms.Button()
         Me.BackgroundDownloader = New System.ComponentModel.BackgroundWorker()
+        Me.PbCrop = New System.Windows.Forms.PictureBox()
+        Me.PbBtnClose = New System.Windows.Forms.PictureBox()
+        Me.Pbicon2 = New System.Windows.Forms.PictureBox()
+        Me.PbIcon1 = New System.Windows.Forms.PictureBox()
+        Me.PbArtwork = New System.Windows.Forms.PictureBox()
+        CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbIcon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblYTtitle
@@ -95,6 +97,47 @@ Partial Class Audi
         Me.lblSpotifySong.TabIndex = 8
         Me.lblSpotifySong.Text = "Spotify Song"
         '
+        'PbProgress
+        '
+        Me.PbProgress.Location = New System.Drawing.Point(51, 129)
+        Me.PbProgress.Maximum = 40
+        Me.PbProgress.Name = "PbProgress"
+        Me.PbProgress.Size = New System.Drawing.Size(387, 15)
+        Me.PbProgress.TabIndex = 10
+        '
+        'btnDownload
+        '
+        Me.btnDownload.Location = New System.Drawing.Point(143, 100)
+        Me.btnDownload.Name = "btnDownload"
+        Me.btnDownload.Size = New System.Drawing.Size(86, 23)
+        Me.btnDownload.TabIndex = 11
+        Me.btnDownload.Text = "Download"
+        Me.btnDownload.UseVisualStyleBackColor = True
+        '
+        'BackgroundDownloader
+        '
+        Me.BackgroundDownloader.WorkerReportsProgress = True
+        '
+        'PbCrop
+        '
+        Me.PbCrop.Image = Global.YoutubeDownloader.My.Resources.Resources.CropAudio
+        Me.PbCrop.Location = New System.Drawing.Point(25, 124)
+        Me.PbCrop.Name = "PbCrop"
+        Me.PbCrop.Size = New System.Drawing.Size(20, 20)
+        Me.PbCrop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PbCrop.TabIndex = 12
+        Me.PbCrop.TabStop = False
+        '
+        'PbBtnClose
+        '
+        Me.PbBtnClose.Image = Global.YoutubeDownloader.My.Resources.Resources.CloseEntry
+        Me.PbBtnClose.Location = New System.Drawing.Point(3, 124)
+        Me.PbBtnClose.Name = "PbBtnClose"
+        Me.PbBtnClose.Size = New System.Drawing.Size(21, 20)
+        Me.PbBtnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PbBtnClose.TabIndex = 9
+        Me.PbBtnClose.TabStop = False
+        '
         'Pbicon2
         '
         Me.Pbicon2.Location = New System.Drawing.Point(3, 23)
@@ -122,42 +165,12 @@ Partial Class Audi
         Me.PbArtwork.TabIndex = 0
         Me.PbArtwork.TabStop = False
         '
-        'PbBtnClose
-        '
-        Me.PbBtnClose.Image = Global.YoutubeDownloader.My.Resources.Resources.CloseEntry
-        Me.PbBtnClose.Location = New System.Drawing.Point(3, 124)
-        Me.PbBtnClose.Name = "PbBtnClose"
-        Me.PbBtnClose.Size = New System.Drawing.Size(21, 20)
-        Me.PbBtnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PbBtnClose.TabIndex = 9
-        Me.PbBtnClose.TabStop = False
-        '
-        'PbProgress
-        '
-        Me.PbProgress.Location = New System.Drawing.Point(51, 129)
-        Me.PbProgress.Maximum = 40
-        Me.PbProgress.Name = "PbProgress"
-        Me.PbProgress.Size = New System.Drawing.Size(361, 15)
-        Me.PbProgress.TabIndex = 10
-        '
-        'btnDownload
-        '
-        Me.btnDownload.Location = New System.Drawing.Point(143, 100)
-        Me.btnDownload.Name = "btnDownload"
-        Me.btnDownload.Size = New System.Drawing.Size(86, 23)
-        Me.btnDownload.TabIndex = 11
-        Me.btnDownload.Text = "Download"
-        Me.btnDownload.UseVisualStyleBackColor = True
-        '
-        'BackgroundDownloader
-        '
-        Me.BackgroundDownloader.WorkerReportsProgress = True
-        '
         'Audi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Controls.Add(Me.PbCrop)
         Me.Controls.Add(Me.btnDownload)
         Me.Controls.Add(Me.PbProgress)
         Me.Controls.Add(Me.PbBtnClose)
@@ -172,10 +185,11 @@ Partial Class Audi
         Me.Controls.Add(Me.PbArtwork)
         Me.Name = "Audi"
         Me.Size = New System.Drawing.Size(608, 147)
+        CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbIcon1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -194,4 +208,5 @@ Partial Class Audi
     Friend WithEvents PbProgress As ProgressBar
     Friend WithEvents btnDownload As Button
     Friend WithEvents BackgroundDownloader As System.ComponentModel.BackgroundWorker
+    Friend WithEvents PbCrop As PictureBox
 End Class

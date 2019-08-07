@@ -26,6 +26,11 @@ Public Class Audi
 
     Private WithEvents WorkaroundTimer As New Timer With {.Interval = 100}
 
+    Public CropAudio As Boolean = False
+    Public CropStartSpan As TimeSpan
+    Public CropEndSpan As TimeSpan
+
+
 #Region "Thread Glicth Woraround"
     'Strange glitch from when a video was added from a playlist, whenever the thread would attempt to add a task to the UI Thread's Task factory,
     'The calling thread would immediatley exit with no error or stop code.
@@ -211,7 +216,11 @@ Public Class Audi
         Downloading = True
         If Not IsFromPlaylist Then
             Await UiTaskfactory.StartNew(Sub()
-                                             PbProgress.Maximum = 5
+                                             If CropAudio Then
+                                                 PbProgress.Maximum = 6
+                                             Else
+                                                 PbProgress.Maximum = 5
+                                             End If
                                              PbProgress.Value = 0
                                              PbProgress.Step = 1
                                              PbProgress.Show()
@@ -293,6 +302,11 @@ RetryDownload:
         Dim ExitedWithError As Boolean = False
         Try
             Dim Mp3Out As String = "Music\" & Filename & ".mp3"
+            If CropAudio Then
+                Mp3Out = "audiocache\" & Filename & ".crop.mp3"
+            End If
+
+
             If IO.File.Exists(Mp3Out) Then
                 IO.File.Delete(Mp3Out)
             End If
@@ -320,6 +334,24 @@ RetryDownload:
                 Console.WriteLine("Conversion Failiure.")
             End If
             Console.WriteLine("Conversion Finished  ")
+
+
+            If CropAudio Then
+                Dim BaseMP3Out As String = "Music\" & Filename & ".mp3"
+                TrimMp3(Mp3Out, BaseMP3Out, CropStartSpan, CropEndSpan)
+                If Not IsFromPlaylist Then
+                    Await UiTaskfactory.StartNew(Sub()
+                                                     PbProgress.PerformStep()
+                                                 End Sub)
+                Else
+                    TypePipe = PipeType.Progress
+                End If
+                Mp3Out = BaseMP3Out
+                Console.WriteLine("Audio Cropped")
+            End If
+
+
+
 
             Dim ID3File As TagLib.File = TagLib.File.Create(Mp3Out)
             TagLib.Id3v2.Tag.DefaultVersion = 3
@@ -393,7 +425,11 @@ RetryDownload:
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnDownload.Click
         If Not Downloading Then
             If IsFromPlaylist Then
-                PbProgress.Maximum = 5
+                If CropAudio Then
+                    PbProgress.Maximum = 6
+                Else
+                    PbProgress.Maximum = 5
+                End If
                 PbProgress.Value = 0
                 PbProgress.Step = 1
                 ProgressbarModification.SetState(PbProgress, 1)
@@ -430,6 +466,40 @@ RetryDownload:
     End Function
 
 
+
+    Private Sub TrimMp3(ByVal inputPath As String, ByVal outputPath As String, ByVal begin As TimeSpan?, ByVal [end] As TimeSpan?)
+        If begin.HasValue AndAlso [end].HasValue AndAlso begin > [end] Then Throw New ArgumentOutOfRangeException("end", "end should be greater than begin")
+        Using reader = New Mp3FileReader(inputPath)
+            Using writer = IO.File.Create(outputPath)
+                Dim frame As Mp3Frame = Nothing
+                While (AssignFunc(frame, reader.ReadNextFrame())) IsNot Nothing
+                    If reader.CurrentTime >= begin OrElse Not begin.HasValue Then
+
+                        If reader.CurrentTime <= [end] OrElse Not [end].HasValue Then
+                            writer.Write(frame.RawData, 0, frame.RawData.Length)
+                        Else
+                            Exit While
+                        End If
+                    End If
+                End While
+            End Using
+        End Using
+    End Sub
+
+    Shared Function AssignFunc(Of T)(ByRef target As T, value As T) As T
+        target = value
+        Return value
+    End Function
+
+    Private Sub PbCrop_Click(sender As Object, e As EventArgs) Handles PbCrop.Click
+        Dim CropShow As New AudioTrimDialog(Video.Duration.TotalSeconds)
+        AddHandler CropShow.DataSubmitted, Sub(St As TimeSpan, Et As TimeSpan)
+                                               CropStartSpan = St
+                                               CropEndSpan = Et
+                                               CropAudio = True
+                                           End Sub
+        CropShow.ShowDialog()
+    End Sub
 End Class
 Public Class AudioControlData
     Public Video As YoutubeExplode.Models.Video

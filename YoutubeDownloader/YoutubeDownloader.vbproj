@@ -157,6 +157,12 @@
     <Compile Include="Audi.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="AudioTrimDialog.Designer.vb">
+      <DependentUpon>AudioTrimDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AudioTrimDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Downloader.Designer.vb">
       <DependentUpon>Downloader.vb</DependentUpon>
     </Compile>
@@ -217,6 +223,9 @@
     <EmbeddedResource Include="Audi.resx">
       <DependentUpon>Audi.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AudioTrimDialog.resx">
+      <DependentUpon>AudioTrimDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Downloader.resx">
       <DependentUpon>Downloader.vb</DependentUpon>
     </EmbeddedResource>
@@ -240,7 +249,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="My Project\app.manifest" />
+    <None Include="My Project\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -289,6 +300,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Music_Notes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CropAudio.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

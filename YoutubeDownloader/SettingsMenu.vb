@@ -1,8 +1,4 @@
 ﻿Public Class SettingsMenu
-    Private Sub SettingsMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
-
     Private Sub BtnUpdateFfmpeg_Click(sender As Object, e As EventArgs) Handles BtnUpdateFfmpeg.Click
         Xabe.FFmpeg.FFmpeg.GetLatestVersion()
         MessageBox.Show("FFMPEG Updated.")
