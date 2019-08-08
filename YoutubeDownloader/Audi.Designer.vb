@@ -31,11 +31,15 @@ Partial Class Audi
         Me.PbProgress = New System.Windows.Forms.ProgressBar()
         Me.btnDownload = New System.Windows.Forms.Button()
         Me.BackgroundDownloader = New System.ComponentModel.BackgroundWorker()
+        Me.FlowButtons = New System.Windows.Forms.FlowLayoutPanel()
+        Me.PbBtnEditMex = New System.Windows.Forms.PictureBox()
         Me.PbCrop = New System.Windows.Forms.PictureBox()
         Me.PbBtnClose = New System.Windows.Forms.PictureBox()
         Me.Pbicon2 = New System.Windows.Forms.PictureBox()
         Me.PbIcon1 = New System.Windows.Forms.PictureBox()
         Me.PbArtwork = New System.Windows.Forms.PictureBox()
+        Me.FlowButtons.SuspendLayout()
+        CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -55,7 +59,7 @@ Partial Class Audi
         'LblAlbum
         '
         Me.LblAlbum.AutoSize = True
-        Me.LblAlbum.Location = New System.Drawing.Point(55, 80)
+        Me.LblAlbum.Location = New System.Drawing.Point(59, 80)
         Me.LblAlbum.Name = "LblAlbum"
         Me.LblAlbum.Size = New System.Drawing.Size(71, 13)
         Me.LblAlbum.TabIndex = 2
@@ -64,7 +68,7 @@ Partial Class Audi
         'LblArtist
         '
         Me.LblArtist.AutoSize = True
-        Me.LblArtist.Location = New System.Drawing.Point(55, 61)
+        Me.LblArtist.Location = New System.Drawing.Point(59, 61)
         Me.LblArtist.Name = "LblArtist"
         Me.LblArtist.Size = New System.Drawing.Size(65, 13)
         Me.LblArtist.TabIndex = 3
@@ -72,7 +76,8 @@ Partial Class Audi
         '
         'BtnPlayAudio
         '
-        Me.BtnPlayAudio.Location = New System.Drawing.Point(51, 100)
+        Me.BtnPlayAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnPlayAudio.Location = New System.Drawing.Point(3, 3)
         Me.BtnPlayAudio.Name = "BtnPlayAudio"
         Me.BtnPlayAudio.Size = New System.Drawing.Size(86, 23)
         Me.BtnPlayAudio.TabIndex = 4
@@ -91,7 +96,7 @@ Partial Class Audi
         'lblSpotifySong
         '
         Me.lblSpotifySong.AutoSize = True
-        Me.lblSpotifySong.Location = New System.Drawing.Point(55, 43)
+        Me.lblSpotifySong.Location = New System.Drawing.Point(59, 43)
         Me.lblSpotifySong.Name = "lblSpotifySong"
         Me.lblSpotifySong.Size = New System.Drawing.Size(67, 13)
         Me.lblSpotifySong.TabIndex = 8
@@ -99,15 +104,16 @@ Partial Class Audi
         '
         'PbProgress
         '
-        Me.PbProgress.Location = New System.Drawing.Point(51, 129)
+        Me.PbProgress.Location = New System.Drawing.Point(70, 129)
         Me.PbProgress.Maximum = 40
         Me.PbProgress.Name = "PbProgress"
-        Me.PbProgress.Size = New System.Drawing.Size(387, 15)
+        Me.PbProgress.Size = New System.Drawing.Size(368, 15)
         Me.PbProgress.TabIndex = 10
         '
         'btnDownload
         '
-        Me.btnDownload.Location = New System.Drawing.Point(143, 100)
+        Me.btnDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnDownload.Location = New System.Drawing.Point(95, 3)
         Me.btnDownload.Name = "btnDownload"
         Me.btnDownload.Size = New System.Drawing.Size(86, 23)
         Me.btnDownload.TabIndex = 11
@@ -118,9 +124,28 @@ Partial Class Audi
         '
         Me.BackgroundDownloader.WorkerReportsProgress = True
         '
+        'FlowButtons
+        '
+        Me.FlowButtons.Controls.Add(Me.BtnPlayAudio)
+        Me.FlowButtons.Controls.Add(Me.btnDownload)
+        Me.FlowButtons.Location = New System.Drawing.Point(59, 96)
+        Me.FlowButtons.Name = "FlowButtons"
+        Me.FlowButtons.Size = New System.Drawing.Size(297, 27)
+        Me.FlowButtons.TabIndex = 13
+        '
+        'PbBtnEditMex
+        '
+        Me.PbBtnEditMex.Image = Global.YoutubeDownloader.My.Resources.Resources.ModifyData_Blue
+        Me.PbBtnEditMex.Location = New System.Drawing.Point(47, 124)
+        Me.PbBtnEditMex.Name = "PbBtnEditMex"
+        Me.PbBtnEditMex.Size = New System.Drawing.Size(20, 20)
+        Me.PbBtnEditMex.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PbBtnEditMex.TabIndex = 14
+        Me.PbBtnEditMex.TabStop = False
+        '
         'PbCrop
         '
-        Me.PbCrop.Image = Global.YoutubeDownloader.My.Resources.Resources.CropAudio
+        Me.PbCrop.Image = Global.YoutubeDownloader.My.Resources.Resources.CropAudio_Blue
         Me.PbCrop.Location = New System.Drawing.Point(25, 124)
         Me.PbCrop.Name = "PbCrop"
         Me.PbCrop.Size = New System.Drawing.Size(20, 20)
@@ -169,22 +194,26 @@ Partial Class Audi
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(49, Byte), Integer), CType(CType(52, Byte), Integer), CType(CType(56, Byte), Integer))
         Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Controls.Add(Me.PbBtnEditMex)
+        Me.Controls.Add(Me.FlowButtons)
         Me.Controls.Add(Me.PbCrop)
-        Me.Controls.Add(Me.btnDownload)
         Me.Controls.Add(Me.PbProgress)
         Me.Controls.Add(Me.PbBtnClose)
         Me.Controls.Add(Me.lblSpotifySong)
         Me.Controls.Add(Me.Pbicon2)
         Me.Controls.Add(Me.PbIcon1)
         Me.Controls.Add(Me.lblytChannel)
-        Me.Controls.Add(Me.BtnPlayAudio)
         Me.Controls.Add(Me.LblArtist)
         Me.Controls.Add(Me.LblAlbum)
         Me.Controls.Add(Me.lblYTtitle)
         Me.Controls.Add(Me.PbArtwork)
+        Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.Name = "Audi"
         Me.Size = New System.Drawing.Size(608, 147)
+        Me.FlowButtons.ResumeLayout(False)
+        CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -209,4 +238,6 @@ Partial Class Audi
     Friend WithEvents btnDownload As Button
     Friend WithEvents BackgroundDownloader As System.ComponentModel.BackgroundWorker
     Friend WithEvents PbCrop As PictureBox
+    Friend WithEvents FlowButtons As FlowLayoutPanel
+    Friend WithEvents PbBtnEditMex As PictureBox
 End Class

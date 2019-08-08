@@ -19,8 +19,14 @@ Public Class SpotifyApiBridge
     Public Function SearchMusic(Query As String) As SearchItem
         Return Spotify.SearchItems(Query, Enums.SearchType.Track)
     End Function
-    Public Function GetSpotifyTrack(Video As YoutubeExplode.Models.Video) As FullTrack
-        Dim MexMedia As MexMediaInfo = MexMediaInfo.FromMediaTitle(Video.Title)
+    Public Function GetSpotifyTrack(Video As YoutubeExplode.Models.Video, Optional ByVal MexDataOverride As MexMediaInfo = Nothing) As FullTrack
+        Dim MexMedia As MexMediaInfo = Nothing
+        If Not IsNothing(Video) Then
+            MexMedia = MexMediaInfo.FromMediaTitle(Video.Title)
+        End If
+        If Not IsNothing(MexDataOverride) Then
+            MexMedia = MexDataOverride
+        End If
         Dim VideoDuration As Double = Video.Duration.TotalMilliseconds
         Dim YearOfRelease As UShort = Video.UploadDate.Year
         Dim SearchString As String = ""

@@ -67,6 +67,9 @@ Public Class Audi
 
     Public Sub New(Data As AudioControlData)
         InitializeComponent()
+        StartInstance(Data)
+    End Sub
+    Public Sub StartInstance(Data As AudioControlData)
         PbProgress.Hide()
         Video = Data.Video
         SpotifyTrack = Data.SpotifyTrack
@@ -492,13 +495,35 @@ RetryDownload:
     End Function
 
     Private Sub PbCrop_Click(sender As Object, e As EventArgs) Handles PbCrop.Click
-        Dim CropShow As New AudioTrimDialog(Video.Duration.TotalSeconds)
-        AddHandler CropShow.DataSubmitted, Sub(St As TimeSpan, Et As TimeSpan)
-                                               CropStartSpan = St
-                                               CropEndSpan = Et
-                                               CropAudio = True
-                                           End Sub
-        CropShow.ShowDialog()
+        If Downloading Then
+            MessageBox.Show(Me, "This action is not permitted during track download.", "Track Data Input")
+        Else
+            Dim CropShow As New AudioTrimDialog(Video.Duration.TotalSeconds)
+            AddHandler CropShow.DataSubmitted, Sub(St As TimeSpan, Et As TimeSpan)
+                                                   CropStartSpan = St
+                                                   CropEndSpan = Et
+                                                   CropAudio = True
+                                               End Sub
+            CropShow.ShowDialog()
+        End If
+    End Sub
+    Public Sub RefreshSpotifyData()
+        If Not Downloading Then
+            Console.WriteLine("Restarting Instance...")
+            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.Spotify.GetSpotifyTrack(Video, MexData)
+            Dim ControlData As New AudioControlData(Video, SpotifyResult, MexData, IsFromPlaylist)
+            StartInstance(ControlData)
+        End If
+    End Sub
+    Private Sub EditTrackData() Handles lblSpotifySong.DoubleClick, LblArtist.DoubleClick, PbBtnEditMex.Click
+        Dim PreMex As MexMediaInfo = MexData
+        Dim mexdialog As New ManualTrackInputDialog(MexData.Name, MexData.Artist)
+        AddHandler mexdialog.DataSubmitted, Sub(Track As String, artist As String)
+                                                Dim NewMex As New MexMediaInfo(artist, Track)
+                                                MexData = NewMex
+                                                RefreshSpotifyData()
+                                            End Sub
+        mexdialog.ShowDialog()
     End Sub
 End Class
 Public Class AudioControlData

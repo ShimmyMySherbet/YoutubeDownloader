@@ -22,6 +22,7 @@ Partial Class AudioTrimDialog
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AudioTrimDialog))
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Cancel_Button = New System.Windows.Forms.Button()
@@ -33,10 +34,9 @@ Partial Class AudioTrimDialog
         Me.NudEnd = New System.Windows.Forms.NumericUpDown()
         Me.TbEnd = New System.Windows.Forms.TrackBar()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.tsLbloriginal = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TsLblNew = New System.Windows.Forms.ToolStripLabel()
+        Me.pnLables = New System.Windows.Forms.FlowLayoutPanel()
+        Me.tslbloriginal = New System.Windows.Forms.Label()
+        Me.Tslblnew = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.TbStart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudStart, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -44,7 +44,7 @@ Partial Class AudioTrimDialog
         Me.GroupBox2.SuspendLayout()
         CType(Me.NudEnd, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TbEnd, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ToolStrip1.SuspendLayout()
+        Me.pnLables.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -64,6 +64,7 @@ Partial Class AudioTrimDialog
         'OK_Button
         '
         Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.OK_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.OK_Button.Location = New System.Drawing.Point(3, 3)
         Me.OK_Button.Name = "OK_Button"
         Me.OK_Button.Size = New System.Drawing.Size(67, 23)
@@ -74,6 +75,7 @@ Partial Class AudioTrimDialog
         '
         Me.Cancel_Button.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Cancel_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.Cancel_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Cancel_Button.Location = New System.Drawing.Point(76, 3)
         Me.Cancel_Button.Name = "Cancel_Button"
         Me.Cancel_Button.Size = New System.Drawing.Size(67, 23)
@@ -108,6 +110,7 @@ Partial Class AudioTrimDialog
         Me.GroupBox1.Controls.Add(Me.NudStart)
         Me.GroupBox1.Controls.Add(Me.TbStart)
         Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.GroupBox1.Location = New System.Drawing.Point(12, 28)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(634, 88)
@@ -120,6 +123,7 @@ Partial Class AudioTrimDialog
         Me.GroupBox2.Controls.Add(Me.NudEnd)
         Me.GroupBox2.Controls.Add(Me.TbEnd)
         Me.GroupBox2.Controls.Add(Me.Label1)
+        Me.GroupBox2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.GroupBox2.Location = New System.Drawing.Point(12, 122)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(634, 88)
@@ -150,44 +154,51 @@ Partial Class AudioTrimDialog
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "Time In Secconds:"
         '
-        'ToolStrip1
+        'pnLables
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsLbloriginal, Me.ToolStripSeparator1, Me.TsLblNew})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(650, 25)
-        Me.ToolStrip1.TabIndex = 13
-        Me.ToolStrip1.Text = "ToolStrip1"
+        Me.pnLables.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.pnLables.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnLables.Controls.Add(Me.tslbloriginal)
+        Me.pnLables.Controls.Add(Me.Tslblnew)
+        Me.pnLables.Location = New System.Drawing.Point(0, 0)
+        Me.pnLables.Name = "pnLables"
+        Me.pnLables.Padding = New System.Windows.Forms.Padding(7, 3, 3, 0)
+        Me.pnLables.Size = New System.Drawing.Size(654, 21)
+        Me.pnLables.TabIndex = 11
         '
-        'tsLbloriginal
+        'tslbloriginal
         '
-        Me.tsLbloriginal.Name = "tsLbloriginal"
-        Me.tsLbloriginal.Size = New System.Drawing.Size(154, 22)
-        Me.tsLbloriginal.Text = "Original Length: 0 Secconds"
+        Me.tslbloriginal.AutoSize = True
+        Me.tslbloriginal.Location = New System.Drawing.Point(10, 3)
+        Me.tslbloriginal.Name = "tslbloriginal"
+        Me.tslbloriginal.Size = New System.Drawing.Size(135, 13)
+        Me.tslbloriginal.TabIndex = 0
+        Me.tslbloriginal.Text = "Original Length: 0 Seconds"
         '
-        'ToolStripSeparator1
+        'Tslblnew
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'TsLblNew
-        '
-        Me.TsLblNew.Name = "TsLblNew"
-        Me.TsLblNew.Size = New System.Drawing.Size(136, 22)
-        Me.TsLblNew.Text = "New Length: 0 Secconds"
+        Me.Tslblnew.AutoSize = True
+        Me.Tslblnew.Location = New System.Drawing.Point(151, 3)
+        Me.Tslblnew.Name = "Tslblnew"
+        Me.Tslblnew.Size = New System.Drawing.Size(122, 13)
+        Me.Tslblnew.TabIndex = 1
+        Me.Tslblnew.Text = "New Length: 0 Seconds"
         '
         'AudioTrimDialog
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(650, 247)
-        Me.Controls.Add(Me.ToolStrip1)
+        Me.Controls.Add(Me.pnLables)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.TableLayoutPanel1)
+        Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "AudioTrimDialog"
@@ -203,10 +214,9 @@ Partial Class AudioTrimDialog
         Me.GroupBox2.PerformLayout()
         CType(Me.NudEnd, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TbEnd, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
+        Me.pnLables.ResumeLayout(False)
+        Me.pnLables.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
@@ -220,8 +230,7 @@ Partial Class AudioTrimDialog
     Friend WithEvents NudEnd As NumericUpDown
     Friend WithEvents TbEnd As TrackBar
     Friend WithEvents Label1 As Label
-    Friend WithEvents ToolStrip1 As ToolStrip
-    Friend WithEvents tsLbloriginal As ToolStripLabel
-    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-    Friend WithEvents TsLblNew As ToolStripLabel
+    Friend WithEvents pnLables As FlowLayoutPanel
+    Friend WithEvents tslbloriginal As Label
+    Friend WithEvents Tslblnew As Label
 End Class

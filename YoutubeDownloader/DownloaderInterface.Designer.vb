@@ -41,7 +41,9 @@ Partial Class DownloaderInterface
         'txturl
         '
         Me.txturl.AcceptsReturn = True
+        Me.txturl.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.txturl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txturl.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.txturl.Location = New System.Drawing.Point(12, 12)
         Me.txturl.Name = "txturl"
         Me.txturl.Size = New System.Drawing.Size(640, 20)
@@ -63,8 +65,7 @@ Partial Class DownloaderInterface
         Me.FlowItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FlowItems.AutoScroll = True
-        Me.FlowItems.BackColor = System.Drawing.SystemColors.Control
-        Me.FlowItems.BackgroundImage = CType(resources.GetObject("FlowItems.BackgroundImage"), System.Drawing.Image)
+        Me.FlowItems.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.FlowItems.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.FlowItems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.FlowItems.Location = New System.Drawing.Point(12, 38)
@@ -79,9 +80,10 @@ Partial Class DownloaderInterface
         Me.GroupBox1.Controls.Add(Me.Button4)
         Me.GroupBox1.Controls.Add(Me.Button3)
         Me.GroupBox1.Controls.Add(Me.BtnDownloadAll)
+        Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.GroupBox1.Location = New System.Drawing.Point(668, 38)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(175, 415)
+        Me.GroupBox1.Size = New System.Drawing.Size(175, 141)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Manage"
@@ -89,7 +91,7 @@ Partial Class DownloaderInterface
         'Button5
         '
         Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button5.Location = New System.Drawing.Point(7, 144)
+        Me.Button5.Location = New System.Drawing.Point(6, 106)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(162, 23)
         Me.Button5.TabIndex = 4
@@ -99,7 +101,7 @@ Partial Class DownloaderInterface
         'Button4
         '
         Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button4.Location = New System.Drawing.Point(7, 115)
+        Me.Button4.Location = New System.Drawing.Point(6, 77)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(162, 23)
         Me.Button4.TabIndex = 3
@@ -109,7 +111,7 @@ Partial Class DownloaderInterface
         'Button3
         '
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button3.Location = New System.Drawing.Point(7, 86)
+        Me.Button3.Location = New System.Drawing.Point(6, 48)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(162, 23)
         Me.Button3.TabIndex = 2
@@ -129,7 +131,7 @@ Partial Class DownloaderInterface
         'PbSettings
         '
         Me.PbSettings.BackColor = System.Drawing.Color.Transparent
-        Me.PbSettings.Image = Global.YoutubeDownloader.My.Resources.Resources.settings
+        Me.PbSettings.Image = Global.YoutubeDownloader.My.Resources.Resources.settings_Blue_Larger
         Me.PbSettings.Location = New System.Drawing.Point(827, 2)
         Me.PbSettings.Name = "PbSettings"
         Me.PbSettings.Size = New System.Drawing.Size(25, 23)
@@ -140,7 +142,7 @@ Partial Class DownloaderInterface
         'PbOpenOutput
         '
         Me.PbOpenOutput.BackColor = System.Drawing.Color.Transparent
-        Me.PbOpenOutput.Image = Global.YoutubeDownloader.My.Resources.Resources.Music_Notes
+        Me.PbOpenOutput.Image = Global.YoutubeDownloader.My.Resources.Resources.Music_Notes_Blue
         Me.PbOpenOutput.Location = New System.Drawing.Point(796, 2)
         Me.PbOpenOutput.Name = "PbOpenOutput"
         Me.PbOpenOutput.Size = New System.Drawing.Size(25, 23)
@@ -152,7 +154,7 @@ Partial Class DownloaderInterface
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(855, 457)
         Me.Controls.Add(Me.PbOpenOutput)
@@ -162,9 +164,10 @@ Partial Class DownloaderInterface
         Me.Controls.Add(Me.BtnGo)
         Me.Controls.Add(Me.txturl)
         Me.DoubleBuffered = True
+        Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "DownloaderInterface"
-        Me.Text = "DownloaderInterface"
+        Me.Text = "Music Downloader"
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PbSettings, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).EndInit()

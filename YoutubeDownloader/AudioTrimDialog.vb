@@ -8,8 +8,8 @@
         NudStart.Maximum = TrackLengthInSecconds
         NudEnd.Value = TrackLengthInSecconds
         TbEnd.Value = TrackLengthInSecconds
-        tsLbloriginal.Text = "Original Length: " & TrackLengthInSecconds & " Secconds"
-        TsLblNew.Text = "New Length: " & TrackLengthInSecconds & " Secconds"
+        tslbloriginal.Text = "Original Length: " & TrackLengthInSecconds & " Secconds"
+        Tslblnew.Text = "New Length: " & TrackLengthInSecconds & " Secconds"
     End Sub
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Console.WriteLine("S: {0}", NudStart.Value)

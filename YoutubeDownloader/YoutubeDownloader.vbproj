@@ -71,7 +71,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\downloadericon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\downloadericon_Blue_Sized.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>CB33D64F83530996A771A70FFB8F5D0A075DCF66</ManifestCertificateThumbprint>
@@ -176,6 +176,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FFMPEGHandler.vb" />
+    <Compile Include="ManualTrackInputDialog.Designer.vb">
+      <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ManualTrackInputDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -231,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DownloaderInterface.resx">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManualTrackInputDialog.resx">
+      <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -303,6 +312,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CropAudio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Music_Notes_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_Blue_Larger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CropAudio_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GreyBacker1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ModifyData_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\downloadericon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\downloadericon_Blue.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\downloadericon_Blue_Sized.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
