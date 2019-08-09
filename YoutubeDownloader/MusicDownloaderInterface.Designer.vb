@@ -32,9 +32,11 @@ Partial Class MusicDownloaderinterface
         Me.txturl = New System.Windows.Forms.TextBox()
         Me.PbOpenOutput = New System.Windows.Forms.PictureBox()
         Me.PbSettings = New System.Windows.Forms.PictureBox()
+        Me.PbBtnBack = New System.Windows.Forms.PictureBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbSettings, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -100,9 +102,9 @@ Partial Class MusicDownloaderinterface
         Me.FlowItems.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.FlowItems.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.FlowItems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.FlowItems.Location = New System.Drawing.Point(12, 38)
+        Me.FlowItems.Location = New System.Drawing.Point(33, 38)
         Me.FlowItems.Name = "FlowItems"
-        Me.FlowItems.Size = New System.Drawing.Size(640, 437)
+        Me.FlowItems.Size = New System.Drawing.Size(629, 437)
         Me.FlowItems.TabIndex = 8
         '
         'BtnGo
@@ -122,9 +124,9 @@ Partial Class MusicDownloaderinterface
         Me.txturl.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.txturl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txturl.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.txturl.Location = New System.Drawing.Point(12, 12)
+        Me.txturl.Location = New System.Drawing.Point(33, 12)
         Me.txturl.Name = "txturl"
-        Me.txturl.Size = New System.Drawing.Size(640, 20)
+        Me.txturl.Size = New System.Drawing.Size(629, 20)
         Me.txturl.TabIndex = 6
         '
         'PbOpenOutput
@@ -149,12 +151,24 @@ Partial Class MusicDownloaderinterface
         Me.PbSettings.TabIndex = 10
         Me.PbSettings.TabStop = False
         '
+        'PbBtnBack
+        '
+        Me.PbBtnBack.BackColor = System.Drawing.Color.Transparent
+        Me.PbBtnBack.Image = Global.YoutubeDownloader.My.Resources.Resources.BackArrow_Blue
+        Me.PbBtnBack.Location = New System.Drawing.Point(1, 3)
+        Me.PbBtnBack.Name = "PbBtnBack"
+        Me.PbBtnBack.Size = New System.Drawing.Size(26, 29)
+        Me.PbBtnBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PbBtnBack.TabIndex = 0
+        Me.PbBtnBack.TabStop = False
+        '
         'MusicDownloaderinterface
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Controls.Add(Me.PbBtnBack)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.FlowItems)
         Me.Controls.Add(Me.BtnGo)
@@ -168,6 +182,7 @@ Partial Class MusicDownloaderinterface
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbSettings, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -183,4 +198,5 @@ Partial Class MusicDownloaderinterface
     Friend WithEvents txturl As TextBox
     Friend WithEvents PbOpenOutput As PictureBox
     Friend WithEvents PbSettings As PictureBox
+    Friend WithEvents PbBtnBack As PictureBox
 End Class

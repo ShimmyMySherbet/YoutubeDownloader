@@ -259,6 +259,10 @@ Public Class MusicDownloaderinterface
         End If
         Process.Start(resp & "Music")
     End Sub
+
+    Private Sub PbBtnBack_Click(sender As Object, e As EventArgs) Handles PbBtnBack.Click
+        DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.MainInterface)
+    End Sub
 End Class
 Public Class IniReader
     Public FileKeys As New List(Of KeyValuePair(Of String, String))

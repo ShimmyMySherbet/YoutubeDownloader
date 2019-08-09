@@ -43,11 +43,29 @@
         PbBtnExit.Image = My.Resources.ExitMenuicon_Blue
     End Sub
 
-    Private Sub ett(sender As Object, e As EventArgs)
+    Private Sub HomeMenuControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.BackgroundImage = Nothing
+    End Sub
+
+    Private Sub PbBtnGithub_Click(sender As Object, e As EventArgs) Handles PbBtnGithub.Click
+        Process.Start("https://github.com/ShimmyMySherbet/YoutubeDownloader")
+    End Sub
+
+    Private Sub PbBtnMusic_Click(sender As Object, e As EventArgs) Handles PbBtnMusic.Click
+        DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.MusicInterface)
+    End Sub
+
+    Private Sub PbBtnVideo_Click(sender As Object, e As EventArgs) Handles PbBtnVideo.Click
+        'DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.VideoInterface)
 
     End Sub
 
-    Private Sub PbBtnMusic_Click(sender As Object, e As EventArgs)
+    Private Sub PbBtnSettings_Click(sender As Object, e As EventArgs) Handles PbBtnSettings.Click
+        DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.SettingsInterface)
 
+    End Sub
+
+    Private Sub PbBtnExit_Click(sender As Object, e As EventArgs) Handles PbBtnExit.Click
+        End
     End Sub
 End Class
