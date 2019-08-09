@@ -176,6 +176,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FFMPEGHandler.vb" />
+    <Compile Include="HomeMenuControl.Designer.vb">
+      <DependentUpon>HomeMenuControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HomeMenuControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ManualTrackInputDialog.Designer.vb">
       <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
     </Compile>
@@ -211,6 +217,12 @@
     <Compile Include="SettingsMenu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SettingsMenuControl.Designer.vb">
+      <DependentUpon>SettingsMenuControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsMenuControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SpotifyApiBridge.vb" />
     <Compile Include="SpotifyPrompt.Designer.vb">
       <DependentUpon>SpotifyPrompt.vb</DependentUpon>
@@ -244,6 +256,9 @@
     <EmbeddedResource Include="DownloaderInterface.resx">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HomeMenuControl.resx">
+      <DependentUpon>HomeMenuControl.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ManualTrackInputDialog.resx">
       <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
     </EmbeddedResource>
@@ -258,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsMenu.resx">
       <DependentUpon>SettingsMenu.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsMenuControl.resx">
+      <DependentUpon>SettingsMenuControl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpotifyPrompt.resx">
       <DependentUpon>SpotifyPrompt.vb</DependentUpon>
@@ -348,6 +366,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\downloadericon_Blue_Sized.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackArrow_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VideoDownloaderMenuicon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VideoDownloaderMenuicon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExitMenuicon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExitMenuicon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MusicDownloadericon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MusicDownloadericon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TopBanner1_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Github_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SettingsmenuIcon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SettingsmenuIcon_Blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
