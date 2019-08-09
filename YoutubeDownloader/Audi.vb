@@ -510,7 +510,7 @@ RetryDownload:
     Public Sub RefreshSpotifyData()
         If Not Downloading Then
             Console.WriteLine("Restarting Instance...")
-            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.Spotify.GetSpotifyTrack(Video, MexData)
+            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.MusicInterface.Spotify.GetSpotifyTrack(Video, MexData)
             Dim ControlData As New AudioControlData(Video, SpotifyResult, MexData, IsFromPlaylist)
             StartInstance(ControlData)
         End If

@@ -104,7 +104,7 @@ Partial Class Audi
         '
         'PbProgress
         '
-        Me.PbProgress.Location = New System.Drawing.Point(70, 129)
+        Me.PbProgress.Location = New System.Drawing.Point(70, 125)
         Me.PbProgress.Maximum = 40
         Me.PbProgress.Name = "PbProgress"
         Me.PbProgress.Size = New System.Drawing.Size(368, 15)
