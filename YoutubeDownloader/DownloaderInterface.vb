@@ -1,6 +1,6 @@
 ﻿Public Class DownloaderInterface
     Public Shared MusicInterface As MusicDownloaderinterface
-    Public Shared VideoInterface As Object
+    Public Shared VideoInterface As VideoDownloaderInterface
     Public Shared SettingsInterface As SettingsMenuControl
     Public Shared MainInterface As HomeMenuControl
     Public Enum InterfaceScreen
@@ -11,19 +11,19 @@
     End Enum
     Public Sub MyLoad() Handles MyBase.Load
         MusicInterface = New MusicDownloaderinterface
-        VideoInterface = New Object
+        VideoInterface = New VideoDownloaderInterface
         SettingsInterface = New SettingsMenuControl
         MainInterface = New HomeMenuControl
         MusicInterface.Dock = DockStyle.Fill
-        'VideoInterface.Dock = DockStyle.Fill
+        VideoInterface.Dock = DockStyle.Fill
         SettingsInterface.Dock = DockStyle.Fill
         MainInterface.Dock = DockStyle.Fill
         MusicInterface.Tag = InterfaceScreen.MusicInterface
-        'VideoInterface.Tag = InterfaceScreen.VideoInterface
+        VideoInterface.Tag = InterfaceScreen.VideoInterface
         SettingsInterface.Tag = InterfaceScreen.SettingsInterface
         MainInterface.Tag = InterfaceScreen.MainInterface
         Me.Controls.Add(MusicInterface)
-        'Me.Controls.Add(VideoInterface)
+        Me.Controls.Add(VideoInterface)
         Me.Controls.Add(SettingsInterface)
         Me.Controls.Add(MainInterface)
         SetInterface(InterfaceScreen.MainInterface)

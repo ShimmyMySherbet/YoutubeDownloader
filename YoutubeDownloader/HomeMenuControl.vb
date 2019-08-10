@@ -20,7 +20,6 @@
         PbBtnMusic.Tag = 0
         PbBtnVideo.Image = My.Resources.VideoDownloaderMenuicon_Blue
     End Sub
-
     Private Sub ShadeSettingsIcon(sender As Object, e As EventArgs) Handles PbBtnSettings.MouseMove
         If PbBtnMusic.Tag = 0 Then
             PbBtnMusic.Tag = 1
@@ -31,7 +30,6 @@
         PbBtnMusic.Tag = 0
         PbBtnSettings.Image = My.Resources.SettingsmenuIcon_Blue
     End Sub
-
     Private Sub ShadeExitIcon(sender As Object, e As EventArgs) Handles PbBtnExit.MouseMove
         If PbBtnMusic.Tag = 0 Then
             PbBtnMusic.Tag = 1
@@ -56,13 +54,11 @@
     End Sub
 
     Private Sub PbBtnVideo_Click(sender As Object, e As EventArgs) Handles PbBtnVideo.Click
-        'DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.VideoInterface)
-
+        DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.VideoInterface)
     End Sub
 
     Private Sub PbBtnSettings_Click(sender As Object, e As EventArgs) Handles PbBtnSettings.Click
         DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.SettingsInterface)
-
     End Sub
 
     Private Sub PbBtnExit_Click(sender As Object, e As EventArgs) Handles PbBtnExit.Click

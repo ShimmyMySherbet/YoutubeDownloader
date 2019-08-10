@@ -242,6 +242,12 @@
     <Compile Include="UserInterface.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VideoDownloaderInterface.Designer.vb">
+      <DependentUpon>VideoDownloaderInterface.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VideoDownloaderInterface.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Audi.resx">
@@ -282,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SpotifyPromptEntry.resx">
       <DependentUpon>SpotifyPromptEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VideoDownloaderInterface.resx">
+      <DependentUpon>VideoDownloaderInterface.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
