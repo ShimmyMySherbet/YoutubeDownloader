@@ -22,8 +22,19 @@ Partial Class VideoEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container()
+        Me.SuspendLayout()
+        '
+        'VideoEntry
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(49, Byte), Integer), CType(CType(52, Byte), Integer), CType(CType(56, Byte), Integer))
+        Me.DoubleBuffered = True
+        Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
+        Me.Name = "VideoEntry"
+        Me.Size = New System.Drawing.Size(608, 147)
+        Me.ResumeLayout(False)
+
     End Sub
 
 End Class

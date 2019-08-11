@@ -1,7 +1,7 @@
 ﻿Imports NAudio.Wave
 Imports YoutubeExplode.Models
 Imports Xabe.FFmpeg
-Public Class Audi
+Public Class AudioEntry
     Dim Downloading As Boolean = False
     Public Video As YoutubeExplode.Models.Video
     Public SpotifyTrack As SpotifyAPI.Web.Models.FullTrack
@@ -112,7 +112,7 @@ Public Class Audi
             Artworkdownloadthread.Start(IconUrl)
         End If
     End Sub
-    Public Async Sub getVideoBack()
+    Public Async Sub GetVideoBack()
         Video = Await Client.GetVideoAsync(Video.Id)
         PbArtwork.Show()
     End Sub
@@ -197,7 +197,7 @@ Public Class Audi
 
     End Sub
 
-    Private Event progress()
+    Private Event Progress()
     Public Async Sub SPD() Handles Me.progress
         Await Me.UiTaskfactory.StartNew(Sub()
                                             PbProgress.PerformStep()

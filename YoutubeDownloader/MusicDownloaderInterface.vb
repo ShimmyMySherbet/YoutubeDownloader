@@ -110,7 +110,7 @@ Public Class MusicDownloaderinterface
         Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
         Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(Vid.Title)
         Dim UiControlData As New AudioControlData(Vid, SpotifyResult, MexData)
-        Dim UiControl As New Audi(UiControlData)
+        Dim UiControl As New AudioEntry(UiControlData)
         AddHandler UiControl.DisposingData, Sub(x As Control)
                                                 FlowItems.Controls.Remove(x)
                                             End Sub
@@ -137,7 +137,7 @@ Public Class MusicDownloaderinterface
             Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(video)
             Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(video.Title)
             Dim UiControlData As New AudioControlData(video, SpotifyResult, MexData, True)
-            Dim UiControl As New Audi(UiControlData)
+            Dim UiControl As New AudioEntry(UiControlData)
             AddHandler UiControl.DisposingData, Sub(x As Control)
                                                     FlowItems.Controls.Remove(x)
                                                 End Sub
@@ -154,7 +154,7 @@ Public Class MusicDownloaderinterface
         Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
         Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(Vid.Title)
         Dim UiControlData As New AudioControlData(Vid, SpotifyResult, MexData)
-        Dim UiControl As New Audi(UiControlData)
+        Dim UiControl As New AudioEntry(UiControlData)
         AddHandler UiControl.DisposingData, Sub(x As Control)
                                                 FlowItems.Controls.Remove(x)
                                             End Sub
@@ -197,8 +197,8 @@ Public Class MusicDownloaderinterface
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         Dim res As DialogResult = MessageBox.Show(Me, "By clearing the current list, you will loose all current progress. Proceed?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2)
         If res = DialogResult.Yes Then
-            Do Until FlowItems.Controls.OfType(Of Audi).Count = 0
-                For Each control In FlowItems.Controls.OfType(Of Audi)
+            Do Until FlowItems.Controls.OfType(Of AudioEntry).Count = 0
+                For Each control In FlowItems.Controls.OfType(Of AudioEntry)
                     control.DisposeData()
                 Next
             Loop
@@ -207,7 +207,7 @@ Public Class MusicDownloaderinterface
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles BtnDownloadAll.Click
         Dim startt As New Threading.Thread(Sub()
-                                               For Each item In FlowItems.Controls.OfType(Of Audi)
+                                               For Each item In FlowItems.Controls.OfType(Of AudioEntry)
                                                    Threading.Thread.Sleep(800)
                                                    item.btnDownload.PerformClick()
                                                Next

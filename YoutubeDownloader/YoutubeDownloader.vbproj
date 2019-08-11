@@ -169,10 +169,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audi.Designer.vb">
-      <DependentUpon>Audi.vb</DependentUpon>
+    <Compile Include="AudioEntry.Designer.vb">
+      <DependentUpon>AudioEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Audi.vb">
+    <Compile Include="AudioEntry.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="AudioTrimDialog.Designer.vb">
@@ -276,8 +276,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Audi.resx">
-      <DependentUpon>Audi.vb</DependentUpon>
+    <EmbeddedResource Include="AudioEntry.resx">
+      <DependentUpon>AudioEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AudioTrimDialog.resx">
       <DependentUpon>AudioTrimDialog.vb</DependentUpon>
@@ -317,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VideoDownloaderInterface.resx">
       <DependentUpon>VideoDownloaderInterface.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VideoEntry.resx">
+      <DependentUpon>VideoEntry.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
