@@ -398,7 +398,7 @@ RetryDownload:
             ExitedWithError = True
         End Try
         If ExitedWithError Then
-            If DownloadTries >= ProgramConfigurationBase.TrackLogic.MaxDownloadRetries Then
+            If DownloadTries >= TrackLogic.MaxDownloadRetries Then
                 If IsFromPlaylist Then
                     TypePipe = PipeType.TriggerError
                 Else

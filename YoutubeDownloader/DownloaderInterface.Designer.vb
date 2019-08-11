@@ -36,7 +36,7 @@ Partial Class DownloaderInterface
         Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "DownloaderInterface"
-        Me.Text = "Music Downloader"
+        Me.Text = "Youtube Downloader"
         Me.ResumeLayout(False)
 
     End Sub

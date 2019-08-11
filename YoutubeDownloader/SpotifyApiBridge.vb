@@ -2,7 +2,6 @@ Imports SpotifyAPI
 Imports SpotifyAPI.Web
 Imports SpotifyAPI.Web.Models
 Imports SpotifyAPI.Web.Auth
-Imports YoutubeDownloader.ProgramConfigurationBase
 Public Class SpotifyApiBridge
     Public Spotify As SpotifyWebAPI
     Public Sub New(ClientID As String, ClientSecret As String)

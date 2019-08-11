@@ -19,9 +19,8 @@ When you register an application on your account, two credentials are created fo
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         If TxtClientID.Text <> "" Then
             If txtClientSecret.Text <> "" Then
-                Console.WriteLine(TxtClientID.Text)
-                Console.WriteLine(txtClientSecret.Text)
-                IO.File.WriteAllLines("Config.ini", {"#Auto-generated config file.", "SpotifyClientId=" & TxtClientID.Text, "SpotifyClientSecret=" & txtClientSecret.Text})
+                SpotifyData.ClientID = TxtClientID.Text
+                SpotifyData.ClientSecret = txtClientSecret.Text
                 RaiseEvent DataSubmitted()
             Else
                 Errorprovider.SetError(txtClientSecret, "Field cannot be empty")
@@ -40,9 +39,13 @@ When you register an application on your account, two credentials are created fo
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim res As DialogResult = MessageBox.Show(Me, "Are you sure you want to skip this stage? Doing so will disable all usage of spotify, meaning you won't be able to get any media information for music. If you wish to add this later, you can enter the values into Config.ini manually. Continue?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
+        Dim res As DialogResult = MessageBox.Show(Me, "Are you sure you want to skip this stage? Doing so will disable all usage of spotify, meaning you won't be able to get any media information for music. If you wish to add this later, you can enter the values in the settings menu. Continue?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
         If res = DialogResult.Yes Then
             RaiseEvent DataSkiped()
         End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        End
     End Sub
 End Class

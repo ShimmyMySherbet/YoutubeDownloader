@@ -54,48 +54,18 @@ Public Class MusicDownloaderinterface
         End If
     End Sub
     Public Sub Main() Handles MyBase.Load
-        If Not IO.Directory.Exists("Music") Then
-            IO.Directory.CreateDirectory("Music")
-        End If
-        If Not IO.Directory.Exists("AudioCache") Then
-            IO.Directory.CreateDirectory("AudioCache")
-        End If
-        If Not IO.Directory.Exists("ImageCache") Then
-            IO.Directory.CreateDirectory("ImageCache")
-        End If
-        If Not IO.Directory.Exists("Downloads") Then
-            IO.Directory.CreateDirectory("Downloads")
-        End If
-        If Not IO.File.Exists("ffmpeg.exe") Then
-            Console.WriteLine("Getting FFMPEG...")
-            Xabe.FFmpeg.FFmpeg.GetLatestVersion()
-        End If
-        Dim SpotifyID As String = ""
-        Dim SpotifySecret As String = ""
-        If Not IO.File.Exists("config.ini") Then
-            Dim Res As DialogResult = SpotifyPrompt.ShowDialog()
-            If Res = DialogResult.Ignore Then
-                Console.WriteLine("Input Ignored; generating blank file...")
-                IO.File.WriteAllLines("config.ini", {"#Auto-generated config file.", "SpotifyClientId=", "SpotifyClientSecret="})
-            End If
-        End If
-        Dim Reader As New IniReader("Config.ini")
-        SpotifyID = Reader.GetValue("SpotifyClientId")
-        SpotifySecret = Reader.GetValue("SpotifyClientSecret")
-        Console.WriteLine("ID: " & SpotifyID)
-        Console.WriteLine("Secret: " & SpotifySecret)
-
         CheckForIllegalCrossThreadCalls = False
         UiThread = Threading.Thread.CurrentThread
         UiTaskScehule = TaskScheduler.FromCurrentSynchronizationContext
         UiTaskfactory = New TaskFactory(UiTaskScehule)
         Console.WriteLine("loading...")
-        If SpotifyID <> "" Then
-            If SpotifySecret <> "" Then
-                Spotify = New SpotifyApiBridge(SpotifyID, SpotifySecret)
+        Console.WriteLine("ID: {0}", SpotifyData.ClientID)
+        Console.WriteLine("sec: {0}", SpotifyData.ClientSecret)
+        If SpotifyData.ClientID <> "" Then
+            If SpotifyData.ClientSecret <> "" Then
+                Spotify = New SpotifyApiBridge(SpotifyData.ClientID, SpotifyData.ClientSecret)
             End If
         End If
-
         Console.WriteLine("finished.")
         LoadUIElements()
         Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
@@ -247,7 +217,7 @@ Public Class MusicDownloaderinterface
 
     End Sub
 
-    Private Sub PbSettings_Click(sender As Object, e As EventArgs) Handles PbSettings.Click
+    Private Sub PbSettings_Click(sender As Object, e As EventArgs)
         SettingsMenu.Show()
         SettingsMenu.BringToFront()
     End Sub

@@ -205,4 +205,7 @@
   <data name="VideoDownloaderMenuicon_Blue_MouseOver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VideoDownloaderMenuicon_Blue_MouseOver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="VideoIcon_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VideoIcon_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

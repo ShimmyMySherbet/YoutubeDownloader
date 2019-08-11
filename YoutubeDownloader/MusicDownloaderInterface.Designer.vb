@@ -31,11 +31,9 @@ Partial Class MusicDownloaderinterface
         Me.BtnGo = New System.Windows.Forms.Button()
         Me.txturl = New System.Windows.Forms.TextBox()
         Me.PbOpenOutput = New System.Windows.Forms.PictureBox()
-        Me.PbSettings = New System.Windows.Forms.PictureBox()
         Me.PbBtnBack = New System.Windows.Forms.PictureBox()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PbSettings, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,23 +131,12 @@ Partial Class MusicDownloaderinterface
         '
         Me.PbOpenOutput.BackColor = System.Drawing.Color.Transparent
         Me.PbOpenOutput.Image = Global.YoutubeDownloader.My.Resources.Resources.Music_Notes_Blue
-        Me.PbOpenOutput.Location = New System.Drawing.Point(796, 2)
+        Me.PbOpenOutput.Location = New System.Drawing.Point(818, 3)
         Me.PbOpenOutput.Name = "PbOpenOutput"
         Me.PbOpenOutput.Size = New System.Drawing.Size(25, 23)
         Me.PbOpenOutput.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PbOpenOutput.TabIndex = 11
         Me.PbOpenOutput.TabStop = False
-        '
-        'PbSettings
-        '
-        Me.PbSettings.BackColor = System.Drawing.Color.Transparent
-        Me.PbSettings.Image = Global.YoutubeDownloader.My.Resources.Resources.settings_Blue_Larger
-        Me.PbSettings.Location = New System.Drawing.Point(827, 2)
-        Me.PbSettings.Name = "PbSettings"
-        Me.PbSettings.Size = New System.Drawing.Size(25, 23)
-        Me.PbSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PbSettings.TabIndex = 10
-        Me.PbSettings.TabStop = False
         '
         'PbBtnBack
         '
@@ -174,14 +161,12 @@ Partial Class MusicDownloaderinterface
         Me.Controls.Add(Me.BtnGo)
         Me.Controls.Add(Me.txturl)
         Me.Controls.Add(Me.PbOpenOutput)
-        Me.Controls.Add(Me.PbSettings)
         Me.DoubleBuffered = True
         Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.Name = "MusicDownloaderinterface"
         Me.Size = New System.Drawing.Size(855, 487)
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PbSettings, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -197,6 +182,5 @@ Partial Class MusicDownloaderinterface
     Friend WithEvents BtnGo As Button
     Friend WithEvents txturl As TextBox
     Friend WithEvents PbOpenOutput As PictureBox
-    Friend WithEvents PbSettings As PictureBox
     Friend WithEvents PbBtnBack As PictureBox
 End Class
