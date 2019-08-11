@@ -198,13 +198,13 @@ Public Class AudioEntry
     End Sub
 
     Private Event Progress()
-    Public Async Sub SPD() Handles Me.progress
+    Public Async Sub SPD() Handles Me.Progress
         Await Me.UiTaskfactory.StartNew(Sub()
                                             PbProgress.PerformStep()
                                         End Sub)
     End Sub
     Private Event Hideprog()
-    Public Async Sub SPHD() Handles Me.progress
+    Public Async Sub SPHD() Handles Me.Progress
         Await Me.UiTaskfactory.StartNew(Sub()
                                             PbProgress.Hide()
                                         End Sub)
@@ -232,7 +232,7 @@ Public Class AudioEntry
 
 
 
-        Dim VideoID As String = Client.ParseVideoId(Video.GetUrl)
+        Dim VideoID As String = YoutubeExplode.YoutubeClient.ParseVideoId(Video.GetUrl)
         Console.WriteLine("Downloading video with id of {0}", VideoID)
         If Not IsFromPlaylist Then
             Await UiTaskfactory.StartNew(Sub()
@@ -368,8 +368,8 @@ RetryDownload:
                 PbArtwork.Image.Save(ImageFile)
                 Dim picture As TagLib.Picture = New TagLib.Picture(ImageFile)
                 'create Id3v2 Picture Frame
-                Dim albumCoverPictFrame As New TagLib.Id3v2.AttachedPictureFrame(picture)
-                albumCoverPictFrame.MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg
+                Dim albumCoverPictFrame As TagLib.Id3v2.AttachedPictureFrame = New TagLib.Id3v2.AttachedPictureFrame(picture)
+                albumCoverPictFrame.MimeType = Net.Mime.MediaTypeNames.Image.Jpeg
                 'set the type of picture (front cover)
                 albumCoverPictFrame.Type = TagLib.PictureType.FrontCover
                 'Id3v2 allows more than one type of image, just one needed
@@ -524,6 +524,10 @@ RetryDownload:
                                                 RefreshSpotifyData()
                                             End Sub
         mexdialog.ShowDialog()
+    End Sub
+
+    Private Sub AudioEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class
 Public Class AudioControlData

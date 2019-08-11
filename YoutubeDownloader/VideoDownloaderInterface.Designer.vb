@@ -39,6 +39,7 @@ Partial Class VideoDownloaderInterface
         '
         'FlowItems
         '
+        Me.FlowItems.AllowDrop = True
         Me.FlowItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FlowItems.AutoScroll = True
@@ -124,7 +125,7 @@ Partial Class VideoDownloaderInterface
         Me.BtnDownloadAll.Name = "BtnDownloadAll"
         Me.BtnDownloadAll.Size = New System.Drawing.Size(162, 23)
         Me.BtnDownloadAll.TabIndex = 1
-        Me.BtnDownloadAll.Text = "Download All With MP3 Tags"
+        Me.BtnDownloadAll.Text = "Download All"
         Me.BtnDownloadAll.UseVisualStyleBackColor = True
         '
         'PbOpenOutput
@@ -154,7 +155,7 @@ Partial Class VideoDownloaderInterface
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
-        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Controls.Add(Me.PbOpenOutput)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.FlowItems)

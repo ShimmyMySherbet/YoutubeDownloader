@@ -94,15 +94,16 @@ Partial Class MusicDownloaderinterface
         '
         'FlowItems
         '
+        Me.FlowItems.AllowDrop = True
         Me.FlowItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FlowItems.AutoScroll = True
         Me.FlowItems.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.FlowItems.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.FlowItems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.FlowItems.Location = New System.Drawing.Point(33, 38)
+        Me.FlowItems.Location = New System.Drawing.Point(24, 38)
         Me.FlowItems.Name = "FlowItems"
-        Me.FlowItems.Size = New System.Drawing.Size(629, 437)
+        Me.FlowItems.Size = New System.Drawing.Size(638, 437)
         Me.FlowItems.TabIndex = 8
         '
         'BtnGo
@@ -122,9 +123,9 @@ Partial Class MusicDownloaderinterface
         Me.txturl.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.txturl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txturl.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.txturl.Location = New System.Drawing.Point(33, 12)
+        Me.txturl.Location = New System.Drawing.Point(24, 12)
         Me.txturl.Name = "txturl"
-        Me.txturl.Size = New System.Drawing.Size(629, 20)
+        Me.txturl.Size = New System.Drawing.Size(638, 20)
         Me.txturl.TabIndex = 6
         '
         'PbOpenOutput
@@ -142,7 +143,7 @@ Partial Class MusicDownloaderinterface
         '
         Me.PbBtnBack.BackColor = System.Drawing.Color.Transparent
         Me.PbBtnBack.Image = Global.YoutubeDownloader.My.Resources.Resources.BackArrow_Blue
-        Me.PbBtnBack.Location = New System.Drawing.Point(1, 3)
+        Me.PbBtnBack.Location = New System.Drawing.Point(-2, 3)
         Me.PbBtnBack.Name = "PbBtnBack"
         Me.PbBtnBack.Size = New System.Drawing.Size(26, 29)
         Me.PbBtnBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
