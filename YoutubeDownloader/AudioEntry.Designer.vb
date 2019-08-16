@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Audi
+Partial Class AudioEntry
     Inherits System.Windows.Forms.UserControl
 
     'UserControl overrides dispose to clean up the component list.
@@ -104,7 +104,7 @@ Partial Class Audi
         '
         'PbProgress
         '
-        Me.PbProgress.Location = New System.Drawing.Point(70, 129)
+        Me.PbProgress.Location = New System.Drawing.Point(70, 125)
         Me.PbProgress.Maximum = 40
         Me.PbProgress.Name = "PbProgress"
         Me.PbProgress.Size = New System.Drawing.Size(368, 15)
@@ -190,7 +190,7 @@ Partial Class Audi
         Me.PbArtwork.TabIndex = 0
         Me.PbArtwork.TabStop = False
         '
-        'Audi
+        'AudioEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -210,7 +210,7 @@ Partial Class Audi
         Me.Controls.Add(Me.lblYTtitle)
         Me.Controls.Add(Me.PbArtwork)
         Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.Name = "Audi"
+        Me.Name = "AudioEntry"
         Me.Size = New System.Drawing.Size(608, 147)
         Me.FlowButtons.ResumeLayout(False)
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).EndInit()

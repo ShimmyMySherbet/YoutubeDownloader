@@ -35,6 +35,7 @@ Partial Class SpotifyPromptEntry
         Me.btnSubmit = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Errorprovider = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.Errorprovider, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -156,10 +157,20 @@ Partial Class SpotifyPromptEntry
         '
         Me.Errorprovider.ContainerControl = Me
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(383, 259)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(85, 23)
+        Me.Button1.TabIndex = 11
+        Me.Button1.Text = "Cancel"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'SpotifyPromptEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.Label2)
@@ -191,4 +202,5 @@ Partial Class SpotifyPromptEntry
     Friend WithEvents btnSubmit As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Errorprovider As ErrorProvider
+    Friend WithEvents Button1 As Button
 End Class

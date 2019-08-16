@@ -2,7 +2,6 @@ Imports SpotifyAPI
 Imports SpotifyAPI.Web
 Imports SpotifyAPI.Web.Models
 Imports SpotifyAPI.Web.Auth
-Imports YoutubeDownloader.ProgramConfigurationBase
 Public Class SpotifyApiBridge
     Public Spotify As SpotifyWebAPI
     Public Sub New(ClientID As String, ClientSecret As String)
@@ -19,7 +18,9 @@ Public Class SpotifyApiBridge
     Public Function SearchMusic(Query As String) As SearchItem
         Return Spotify.SearchItems(Query, Enums.SearchType.Track)
     End Function
-    Public Function GetSpotifyTrack(Video As YoutubeExplode.Models.Video, Optional ByVal MexDataOverride As MexMediaInfo = Nothing) As FullTrack
+    Public Function GetSpotifyTrack(Video As YoutubeExplode.Models.Video, Optional ByVal MexDataOverride As MexMediaInfo = Nothing,
+                                    Optional DurationDataOverride As TimeSpan = Nothing,
+                                    Optional UseDurationOverride As Boolean = False) As FullTrack
         Dim MexMedia As MexMediaInfo = Nothing
         If Not IsNothing(Video) Then
             MexMedia = MexMediaInfo.FromMediaTitle(Video.Title)
@@ -28,6 +29,10 @@ Public Class SpotifyApiBridge
             MexMedia = MexDataOverride
         End If
         Dim VideoDuration As Double = Video.Duration.TotalMilliseconds
+        If UseDurationOverride Then
+            Console.WriteLine("dur override")
+            VideoDuration = DurationDataOverride.TotalMilliseconds
+        End If
         Dim YearOfRelease As UShort = Video.UploadDate.Year
         Dim SearchString As String = ""
         Dim performAlternativeSearch As Boolean = False

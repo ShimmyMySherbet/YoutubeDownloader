@@ -37,6 +37,8 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -89,6 +91,12 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="LtGt, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LtGt.1.0.1\lib\net45\LtGt.dll</HintPath>
     </Reference>
@@ -112,7 +120,17 @@
       <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.111.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.111.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.111.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -133,8 +151,8 @@
     <Reference Include="Xabe.FFmpeg, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xabe.FFmpeg.3.4.0\lib\netstandard2.0\Xabe.FFmpeg.dll</HintPath>
     </Reference>
-    <Reference Include="YoutubeExplode, Version=4.7.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YoutubeExplode.4.7.7\lib\net45\YoutubeExplode.dll</HintPath>
+    <Reference Include="YoutubeExplode, Version=4.7.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExplode.4.7.9\lib\net45\YoutubeExplode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -151,10 +169,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audi.Designer.vb">
-      <DependentUpon>Audi.vb</DependentUpon>
+    <Compile Include="AudioEntry.Designer.vb">
+      <DependentUpon>AudioEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Audi.vb">
+    <Compile Include="AudioEntry.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="AudioTrimDialog.Designer.vb">
@@ -176,11 +194,23 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FFMPEGHandler.vb" />
+    <Compile Include="HomeMenuControl.Designer.vb">
+      <DependentUpon>HomeMenuControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HomeMenuControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ManualTrackInputDialog.Designer.vb">
       <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
     </Compile>
     <Compile Include="ManualTrackInputDialog.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MusicDownloaderInterface.Designer.vb">
+      <DependentUpon>MusicDownloaderInterface.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MusicDownloaderInterface.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -205,6 +235,12 @@
     <Compile Include="SettingsMenu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SettingsMenuControl.Designer.vb">
+      <DependentUpon>SettingsMenuControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsMenuControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SpotifyApiBridge.vb" />
     <Compile Include="SpotifyPrompt.Designer.vb">
       <DependentUpon>SpotifyPrompt.vb</DependentUpon>
@@ -218,16 +254,30 @@
     <Compile Include="SpotifyPromptEntry.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="SqliteClient.vb" />
+    <Compile Include="SqliteClientBridge.vb" />
     <Compile Include="UserInterface.Designer.vb">
       <DependentUpon>UserInterface.vb</DependentUpon>
     </Compile>
     <Compile Include="UserInterface.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VideoDownloaderInterface.Designer.vb">
+      <DependentUpon>VideoDownloaderInterface.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VideoDownloaderInterface.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VideoEntry.Designer.vb">
+      <DependentUpon>VideoEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VideoEntry.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Audi.resx">
-      <DependentUpon>Audi.vb</DependentUpon>
+    <EmbeddedResource Include="AudioEntry.resx">
+      <DependentUpon>AudioEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AudioTrimDialog.resx">
       <DependentUpon>AudioTrimDialog.vb</DependentUpon>
@@ -238,8 +288,14 @@
     <EmbeddedResource Include="DownloaderInterface.resx">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HomeMenuControl.resx">
+      <DependentUpon>HomeMenuControl.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ManualTrackInputDialog.resx">
       <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MusicDownloaderInterface.resx">
+      <DependentUpon>MusicDownloaderInterface.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -250,11 +306,20 @@
     <EmbeddedResource Include="SettingsMenu.resx">
       <DependentUpon>SettingsMenu.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SettingsMenuControl.resx">
+      <DependentUpon>SettingsMenuControl.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SpotifyPrompt.resx">
       <DependentUpon>SpotifyPrompt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpotifyPromptEntry.resx">
       <DependentUpon>SpotifyPromptEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VideoDownloaderInterface.resx">
+      <DependentUpon>VideoDownloaderInterface.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VideoEntry.resx">
+      <DependentUpon>VideoEntry.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -340,5 +405,51 @@
   <ItemGroup>
     <None Include="Resources\downloadericon_Blue_Sized.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackArrow_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VideoDownloaderMenuicon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VideoDownloaderMenuicon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExitMenuicon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExitMenuicon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MusicDownloadericon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MusicDownloadericon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TopBanner1_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Github_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SettingsmenuIcon_Blue_MouseOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SettingsmenuIcon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VideoIcon_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder_Blue.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.111.0\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
 </Project>

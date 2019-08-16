@@ -1,59 +1,17 @@
-﻿Imports YoutubeExplode
-Imports YoutubeExplode.Models
-Imports SpotifyAPI.Web
-Imports Xabe.FFmpeg
-Public Class DownloaderInterface
-    Dim Youtube As New YoutubeClient
-    Dim Webclient As New Net.WebClient
-    Public SpotifyNotAvalableException As New Exception
-    Public Shared Spotify As SpotifyApiBridge
-    Public Event PlaylistLoadComplete()
-    Public Event LoadControls(Controls As Control)
-    Public UiThread As Threading.Thread
-    Public UiTaskScehule As TaskScheduler
-    Public UiTaskfactory As TaskFactory
-    Private Sub BtnGo_Click(sender As Object, e As EventArgs) Handles BtnGo.Click
-
-
-
-        If IsUrl(txturl.Text) Then
-            'url
-            Dim url As String = txturl.Text
-            If url.ToLower.StartsWith("https://www.youtube.com/playlist?") Then
-                Dim playlistid As String = txturl.Text.Remove(0, "https://www.youtube.com/playlist?list=".Length)
-                FetchVideosFromPlaylist(playlistid)
-            ElseIf url.ToLower.Contains("&list=") Then
-
-                Dim urlparts As List(Of String) = url.Split("&").ToList
-                Dim listid As String = ""
-                For Each part In urlparts
-                    If part.ToLower.StartsWith("list=") Then
-                        listid = part.Remove(0, "list=".Length)
-                    End If
-                Next
-
-                Dim res As DialogResult = MessageBox.Show(Me, "The video you have entered is part of a playlist. Would you like to load the entire playlist?", "Playlist", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-
-                If res = DialogResult.Yes Then
-                    'load playlist
-                    FetchVideosFromPlaylist(listid)
-                ElseIf res = DialogResult.No Then
-                    FetchVideoFromUrl(txturl.Text)
-                End If
-            Else
-
-
-                FetchVideoFromUrl(txturl.Text)
-
-            End If
-
-
-        Else
-            'term
-            FetchVideoFromTerm(txturl.Text)
-        End If
-    End Sub
-    Public Sub Main() Handles MyBase.Load
+﻿Public Class DownloaderInterface
+    Public Shared MusicInterface As MusicDownloaderinterface
+    Public Shared VideoInterface As VideoDownloaderInterface
+    Public Shared SettingsInterface As SettingsMenuControl
+    Public Shared MainInterface As HomeMenuControl
+    Public Shared SQLClient As SqliteClientBridge
+    Public Enum InterfaceScreen
+        MainInterface = 0
+        MusicInterface = 1
+        VideoInterface = 2
+        SettingsInterface = 3
+    End Enum
+    Public Sub MyLoad() Handles MyBase.Load
+        Console.WriteLine("Loading...")
         If Not IO.Directory.Exists("Music") Then
             IO.Directory.CreateDirectory("Music")
         End If
@@ -70,227 +28,81 @@ Public Class DownloaderInterface
             Console.WriteLine("Getting FFMPEG...")
             Xabe.FFmpeg.FFmpeg.GetLatestVersion()
         End If
-        Dim SpotifyID As String = ""
-        Dim SpotifySecret As String = ""
-        If Not IO.File.Exists("config.ini") Then
-            Dim Res As DialogResult = SpotifyPrompt.ShowDialog()
-            If Res = DialogResult.Ignore Then
-                Console.WriteLine("Input Ignored; generating blank file...")
-                IO.File.WriteAllLines("config.ini", {"#Auto-generated config file.", "SpotifyClientId=", "SpotifyClientSecret="})
-            End If
-        End If
-        Dim Reader As New IniReader("Config.ini")
-        SpotifyID = Reader.GetValue("SpotifyClientId")
-        SpotifySecret = Reader.GetValue("SpotifyClientSecret")
-        Console.WriteLine("ID: " & SpotifyID)
-        Console.WriteLine("Secret: " & SpotifySecret)
+        Console.WriteLine("checking data...")
 
-        CheckForIllegalCrossThreadCalls = False
-        UiThread = Threading.Thread.CurrentThread
-        UiTaskScehule = TaskScheduler.FromCurrentSynchronizationContext
-        UiTaskfactory = New TaskFactory(UiTaskScehule)
-        Console.WriteLine("loading...")
-        If SpotifyID <> "" Then
-            If SpotifySecret <> "" Then
-                Spotify = New SpotifyApiBridge(SpotifyID, SpotifySecret)
-            End If
-        End If
-
-        Console.WriteLine("finished.")
-        LoadUIElements()
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
-        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
-        Me.SetStyle(ControlStyles.Selectable, True)
-        Me.SetStyle(ControlStyles.UserPaint, True)
-        Me.DoubleBuffered = True
-    End Sub
-
-    Public Sub LoadUIElements()
-        Me.BackgroundImage = My.Resources.GreyBacker1
-        FlowItems.BackgroundImage = My.Resources.GreyBacker1
-
-
-    End Sub
-
-
-
-
-    Public Sub InvalidateOnScrol() Handles FlowItems.Scroll
-        Application.DoEvents()
-    End Sub
-    Protected Overrides Sub OnScroll(ByVal se As ScrollEventArgs)
-        Me.Invalidate()
-        MyBase.OnScroll(se)
-    End Sub
-
-
-
-
-
-
-    Public Enum QueryType
-        Unknown = 0
-        Url = 1
-        SearchTerm = 2
-    End Enum
-
-
-    Async Sub FetchVideoFromUrl(url As String)
-        Dim Vid As Video = Await GetYoutubeVideo(url)
-        Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
-        Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(Vid.Title)
-        Dim UiControlData As New AudioControlData(Vid, SpotifyResult, MexData)
-        Dim UiControl As New Audi(UiControlData)
-        AddHandler UiControl.DisposingData, Sub(x As Control)
-                                                FlowItems.Controls.Remove(x)
-                                            End Sub
-        FlowItems.Controls.Add(UiControl)
-    End Sub
-
-
-
-    Async Sub FetchVideosFromPlaylist(PlaylistID As String)
-        Dim Playlist As Playlist = Await Youtube.GetPlaylistAsync(PlaylistID)
-        Dim BackgroundThread As New Threading.Thread(AddressOf BackgroundPlaylistDownload)
-        BackgroundThread.Start(Playlist)
-        txturl.Enabled = False
-        BtnGo.Enabled = False
-    End Sub
-    Public Sub ReEnableUrlFeed() Handles Me.PlaylistLoadComplete
-        txturl.Enabled = True
-        BtnGo.Enabled = True
-    End Sub
-
-
-    Public Sub BackgroundPlaylistDownload(Playlist As Playlist)
-        For Each video In Playlist.Videos
-            Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(video)
-            Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(video.Title)
-            Dim UiControlData As New AudioControlData(video, SpotifyResult, MexData, True)
-            Dim UiControl As New Audi(UiControlData)
-            AddHandler UiControl.DisposingData, Sub(x As Control)
-                                                    FlowItems.Controls.Remove(x)
-                                                End Sub
-            UiTaskfactory.StartNew(Sub()
-                                       FlowItems.Controls.Add(UiControl)
-                                       UiControl.BackColor = SystemColors.Control
-                                   End Sub)
-        Next
-        RaiseEvent PlaylistLoadComplete()
-    End Sub
-
-    Async Sub FetchVideoFromTerm(Term As String)
-        Dim Vid As Video = Await SearchVideos(Term)
-        Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
-        Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(Vid.Title)
-        Dim UiControlData As New AudioControlData(Vid, SpotifyResult, MexData)
-        Dim UiControl As New Audi(UiControlData)
-        AddHandler UiControl.DisposingData, Sub(x As Control)
-                                                FlowItems.Controls.Remove(x)
-                                            End Sub
-        FlowItems.Controls.Add(UiControl)
-    End Sub
-
-    Public Async Function GetYoutubeVideo(Url As String) As Task(Of Video)
-        Dim VideoID As String = YoutubeClient.ParseVideoId(Url)
-        Dim Video As Video = Await Youtube.GetVideoAsync(VideoID)
-        Return Video
-    End Function
-
-
-    Public Async Function SearchVideos(Term As String) As Task(Of Video)
-        Dim Results As IReadOnlyList(Of Video) = Await Youtube.SearchVideosAsync(Term, 1)
-        If Results.Count <> 0 Then
-            Return (Results(0))
+        If IO.File.Exists("data") Then
+            SQLClient = New SqliteClientBridge("data")
         Else
-            Return Nothing
+            CreateNewDatabaseFile()
+            SQLClient = New SqliteClientBridge("data")
         End If
-    End Function
+        Console.WriteLine("loading data...")
+        LoadSettings()
+        Console.WriteLine("Creating interface...")
+        MusicInterface = New MusicDownloaderinterface
+        VideoInterface = New VideoDownloaderInterface
+        SettingsInterface = New SettingsMenuControl
+        MainInterface = New HomeMenuControl
+        MusicInterface.Dock = DockStyle.Fill
+        VideoInterface.Dock = DockStyle.Fill
+        SettingsInterface.Dock = DockStyle.Fill
+        MainInterface.Dock = DockStyle.Fill
+        MusicInterface.Tag = InterfaceScreen.MusicInterface
+        VideoInterface.Tag = InterfaceScreen.VideoInterface
+        SettingsInterface.Tag = InterfaceScreen.SettingsInterface
+        MainInterface.Tag = InterfaceScreen.MainInterface
+        Me.Controls.Add(MusicInterface)
+        Me.Controls.Add(VideoInterface)
+        Me.Controls.Add(SettingsInterface)
+        Me.Controls.Add(MainInterface)
+        SetInterface(InterfaceScreen.MainInterface)
 
-    Public Function IsUrl(Term As String) As Boolean
-        If Term.ToLower.StartsWith("www.") Then
-            Term = "http://" & Term
+
+
+        Console.WriteLine(SpotifyData.ClientID)
+    End Sub
+    Public Sub CreateNewDatabaseFile()
+        Console.WriteLine("creating database file...")
+
+        Dim SpotifyP As New SpotifyPrompt()
+        Dim res As DialogResult = SpotifyP.ShowDialog
+        Dim Commands As New List(Of String) From {"CREATE TABLE Settings (Key text, Value text)",
+            "CREATE TABLE History (type text, title text, url text, id int)",
+            "CREATE UNIQUE INDEX ""SettingsIndex"" ON ""Settings"" (""Key"");",
+            "CREATE UNIQUE INDEX ""HistoryIndex"" ON ""History"" (""id"");",
+            "Insert into 'settings' Values('Music_MaxRetires', '5')",
+            "Insert into 'settings' Values('Music_MaxTrackDifference', '5000')"}
+        If res = DialogResult.OK Then
+            Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_ID", SpotifyData.ClientID))
+            Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_Secret", SpotifyData.ClientSecret))
         End If
-        Return Uri.IsWellFormedUriString(Term, UriKind.Absolute)
-    End Function
-
-    Private Sub TxtUrlEnter(sender As Object, e As KeyEventArgs) Handles txturl.KeyDown
-        If e.KeyData = Keys.Return Then
-            BtnGo.PerformClick()
-        End If
+        Dim myconn As New SQLite.SQLiteConnection("Data Source=data")
+        myconn.Open()
+        For Each Cmd In Commands
+            Dim CMMD As New SQLite.SQLiteCommand(Cmd, myconn)
+            CMMD.ExecuteNonQuery()
+        Next
+        myconn.Close()
     End Sub
-
-    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
-
-    End Sub
-
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        Dim res As DialogResult = MessageBox.Show(Me, "By clearing the current list, you will loose all current progress. Proceed?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2)
-        If res = DialogResult.Yes Then
-            Do Until FlowItems.Controls.OfType(Of Audi).Count = 0
-                For Each control In FlowItems.Controls.OfType(Of Audi)
-                    control.DisposeData()
-                Next
-            Loop
-        End If
-    End Sub
-
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles BtnDownloadAll.Click
-        Dim startt As New Threading.Thread(Sub()
-                                               For Each item In FlowItems.Controls.OfType(Of Audi)
-                                                   Threading.Thread.Sleep(800)
-                                                   item.btnDownload.PerformClick()
-                                               Next
-                                           End Sub)
-        startt.Start()
-
-
-    End Sub
-
-    Private Sub PbSettings_Click(sender As Object, e As EventArgs) Handles PbSettings.Click
-        SettingsMenu.Show()
-        SettingsMenu.BringToFront()
-    End Sub
-
-    Private Sub PbOpenOutput_Click(sender As Object, e As EventArgs) Handles PbOpenOutput.Click
-        Dim resp As String = IO.Directory.GetCurrentDirectory
-        If Not resp.EndsWith("\") Then
-            resp = resp & "\"
-        End If
-        Process.Start(resp & "Music")
-    End Sub
-End Class
-Public Class IniReader
-    Public FileKeys As New List(Of KeyValuePair(Of String, String))
-    Public Sub New(Inifile As String)
-        For Each line In IO.File.ReadAllLines(Inifile)
-            If Not line = "" And Not line.StartsWith("#") Then
-                If line.Contains("=") Then
-                    Dim arg1 As String = line.Split("=")(0)
-                    Dim arg2 As String = line.Remove(0, arg1.Length + 1)
-                    FileKeys.Add(New KeyValuePair(Of String, String)(arg1, arg2))
-                Else
-                    FileKeys.Add(New KeyValuePair(Of String, String)(line, ""))
-                End If
+    Public Shared Sub SetInterface(Intf As InterfaceScreen)
+        DownloaderInterface.SuspendLayout()
+        For Each int As Control In DownloaderInterface.Controls
+            If int.Tag = Intf Then
+                int.Show()
+            Else
+                int.Hide()
             End If
         Next
+        DownloaderInterface.ResumeLayout()
     End Sub
-    Public Function GetValue(Key As String) As String
-        Dim ret As String = Nothing
-        For Each entry In FileKeys
-            If entry.Key.ToLower = Key.ToLower Then
-                ret = entry.Value
-            End If
-        Next
-        Return ret
-    End Function
-    Public Function FileContainsKey(Key As String) As Boolean
-        Dim ret As String = Nothing
-        For Each entry In FileKeys
-            If entry.Key.ToLower = Key.ToLower Then
-                ret = entry.Value
-            End If
-        Next
-        Return Not IsNothing(ret)
-    End Function
+    Public Sub LoadSettings()
+        If Not IsNothing(SQLClient) Then
+            SpotifyData.ClientID = SQLClient.TryGetSettingsValue("Spotify_ID")
+            SpotifyData.ClientSecret = SQLClient.TryGetSettingsValue("Spotify_Secret")
+            TrackLogic.MaxDownloadRetries = SQLClient.TryGetSettingsValue("Music_MaxRetires")
+            TrackLogic.MaxDurationDifferance = SQLClient.TryGetSettingsValue("Music_MaxTrackDifference")
+        Else
+            Console.WriteLine("SQL client is nothing.")
+        End If
+    End Sub
 End Class

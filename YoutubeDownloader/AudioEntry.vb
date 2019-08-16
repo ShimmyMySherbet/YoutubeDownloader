@@ -1,7 +1,7 @@
 ﻿Imports NAudio.Wave
 Imports YoutubeExplode.Models
 Imports Xabe.FFmpeg
-Public Class Audi
+Public Class AudioEntry
     Dim Downloading As Boolean = False
     Public Video As YoutubeExplode.Models.Video
     Public SpotifyTrack As SpotifyAPI.Web.Models.FullTrack
@@ -112,7 +112,7 @@ Public Class Audi
             Artworkdownloadthread.Start(IconUrl)
         End If
     End Sub
-    Public Async Sub getVideoBack()
+    Public Async Sub GetVideoBack()
         Video = Await Client.GetVideoAsync(Video.Id)
         PbArtwork.Show()
     End Sub
@@ -197,14 +197,14 @@ Public Class Audi
 
     End Sub
 
-    Private Event progress()
-    Public Async Sub SPD() Handles Me.progress
+    Private Event Progress()
+    Public Async Sub SPD() Handles Me.Progress
         Await Me.UiTaskfactory.StartNew(Sub()
                                             PbProgress.PerformStep()
                                         End Sub)
     End Sub
     Private Event Hideprog()
-    Public Async Sub SPHD() Handles Me.progress
+    Public Async Sub SPHD() Handles Me.Progress
         Await Me.UiTaskfactory.StartNew(Sub()
                                             PbProgress.Hide()
                                         End Sub)
@@ -232,7 +232,7 @@ Public Class Audi
 
 
 
-        Dim VideoID As String = Client.ParseVideoId(Video.GetUrl)
+        Dim VideoID As String = YoutubeExplode.YoutubeClient.ParseVideoId(Video.GetUrl)
         Console.WriteLine("Downloading video with id of {0}", VideoID)
         If Not IsFromPlaylist Then
             Await UiTaskfactory.StartNew(Sub()
@@ -368,8 +368,8 @@ RetryDownload:
                 PbArtwork.Image.Save(ImageFile)
                 Dim picture As TagLib.Picture = New TagLib.Picture(ImageFile)
                 'create Id3v2 Picture Frame
-                Dim albumCoverPictFrame As New TagLib.Id3v2.AttachedPictureFrame(picture)
-                albumCoverPictFrame.MimeType = System.Net.Mime.MediaTypeNames.Image.Jpeg
+                Dim albumCoverPictFrame As TagLib.Id3v2.AttachedPictureFrame = New TagLib.Id3v2.AttachedPictureFrame(picture)
+                albumCoverPictFrame.MimeType = Net.Mime.MediaTypeNames.Image.Jpeg
                 'set the type of picture (front cover)
                 albumCoverPictFrame.Type = TagLib.PictureType.FrontCover
                 'Id3v2 allows more than one type of image, just one needed
@@ -398,7 +398,7 @@ RetryDownload:
             ExitedWithError = True
         End Try
         If ExitedWithError Then
-            If DownloadTries >= ProgramConfigurationBase.TrackLogic.MaxDownloadRetries Then
+            If DownloadTries >= TrackLogic.MaxDownloadRetries Then
                 If IsFromPlaylist Then
                     TypePipe = PipeType.TriggerError
                 Else
@@ -503,6 +503,7 @@ RetryDownload:
                                                    CropStartSpan = St
                                                    CropEndSpan = Et
                                                    CropAudio = True
+                                                   RefreshSpotifyData()
                                                End Sub
             CropShow.ShowDialog()
         End If
@@ -510,7 +511,12 @@ RetryDownload:
     Public Sub RefreshSpotifyData()
         If Not Downloading Then
             Console.WriteLine("Restarting Instance...")
-            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.Spotify.GetSpotifyTrack(Video, MexData)
+            Dim diff As TimeSpan = CropEndSpan.Subtract(CropStartSpan)
+            Dim usedif As Boolean = False
+            If Not IsNothing(diff) Then
+                usedif = diff.TotalMilliseconds > 0
+            End If
+            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.MusicInterface.Spotify.GetSpotifyTrack(Video, MexData, diff, usedif)
             Dim ControlData As New AudioControlData(Video, SpotifyResult, MexData, IsFromPlaylist)
             StartInstance(ControlData)
         End If
@@ -524,6 +530,10 @@ RetryDownload:
                                                 RefreshSpotifyData()
                                             End Sub
         mexdialog.ShowDialog()
+    End Sub
+
+    Private Sub AudioEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class
 Public Class AudioControlData
