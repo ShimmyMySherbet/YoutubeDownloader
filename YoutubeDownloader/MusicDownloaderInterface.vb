@@ -157,7 +157,6 @@ Public Class MusicDownloaderinterface
                                                 End Sub
             UiTaskfactory.StartNew(Sub()
                                        FlowItems.Controls.Add(UiControl)
-                                       UiControl.BackColor = SystemColors.Control
                                    End Sub)
         Next
         RaiseEvent PlaylistLoadComplete()

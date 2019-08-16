@@ -503,6 +503,7 @@ RetryDownload:
                                                    CropStartSpan = St
                                                    CropEndSpan = Et
                                                    CropAudio = True
+                                                   RefreshSpotifyData()
                                                End Sub
             CropShow.ShowDialog()
         End If
@@ -510,7 +511,12 @@ RetryDownload:
     Public Sub RefreshSpotifyData()
         If Not Downloading Then
             Console.WriteLine("Restarting Instance...")
-            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.MusicInterface.Spotify.GetSpotifyTrack(Video, MexData)
+            Dim diff As TimeSpan = CropEndSpan.Subtract(CropStartSpan)
+            Dim usedif As Boolean = False
+            If Not IsNothing(diff) Then
+                usedif = diff.TotalMilliseconds > 0
+            End If
+            Dim SpotifyResult As SpotifyAPI.Web.Models.FullTrack = DownloaderInterface.MusicInterface.Spotify.GetSpotifyTrack(Video, MexData, diff, usedif)
             Dim ControlData As New AudioControlData(Video, SpotifyResult, MexData, IsFromPlaylist)
             StartInstance(ControlData)
         End If
