@@ -368,7 +368,7 @@ RetryDownload:
                 PbArtwork.Image.Save(ImageFile)
                 Dim picture As TagLib.Picture = New TagLib.Picture(ImageFile)
                 'create Id3v2 Picture Frame
-                Dim albumCoverPictFrame As TagLib.Id3v2.AttachedPictureFrame = New TagLib.Id3v2.AttachedPictureFrame(picture)
+                Dim albumCoverPictFrame As New TagLib.Id3v2.AttachedPictureFrame(picture)
                 albumCoverPictFrame.MimeType = Net.Mime.MediaTypeNames.Image.Jpeg
                 'set the type of picture (front cover)
                 albumCoverPictFrame.Type = TagLib.PictureType.FrontCover
@@ -532,7 +532,8 @@ RetryDownload:
         mexdialog.ShowDialog()
     End Sub
 
-    Private Sub AudioEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    Private Sub LblAlbum_Click(sender As Object, e As EventArgs) Handles LblAlbum.Click
 
     End Sub
 End Class

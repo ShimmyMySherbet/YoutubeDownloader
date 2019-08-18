@@ -1,7 +1,7 @@
 ﻿Imports YoutubeExplode
 Imports YoutubeExplode.Models
 Imports SpotifyAPI.Web
-Imports Xabe.FFmpeg
+Imports SpotifyAPI.Web.Models
 Public Class MusicDownloaderinterface
     Dim Youtube As New YoutubeClient
     Dim Webclient As New Net.WebClient
@@ -16,37 +16,87 @@ Public Class MusicDownloaderinterface
         ParseEntryText(txturl.Text)
     End Sub
 
+
+    Public Enum LinkType
+        Unknown = -1
+        YoutubeVideo = 1
+        YoutubePlaylist = 2
+        YoutubeVideoPlaylist = 3
+        SpotifyTrack = 4
+        SpotifyAlbum = 5
+        SpotifyPlaylist = 6
+        SpotifyArtist = 7
+    End Enum
+    Public Function GetLinkType(Link As String) As LinkType
+        Dim url As String = Link.ToLower
+        If url.Contains("youtube.com/") Then
+            If url.StartsWith("https://www.youtube.com/playlist?") Then
+                Return LinkType.YoutubePlaylist
+            ElseIf url.Contains("&list=") Then
+                Return LinkType.YoutubeVideoPlaylist
+            ElseIf url.Contains("watch?") Then
+                Return LinkType.YoutubeVideo
+            Else
+                Return LinkType.Unknown
+            End If
+        ElseIf url.Contains("spotify.com/") Then
+            If url.Contains("/track/") Then
+                Return LinkType.SpotifyTrack
+            ElseIf url.Contains("/album/") Then
+                Return LinkType.SpotifyAlbum
+            ElseIf url.Contains("/artist/") Then
+                Return LinkType.SpotifyArtist
+            ElseIf url.Contains("/playlist/") Then
+                Return LinkType.SpotifyPlaylist
+            Else
+                Return LinkType.Unknown
+            End If
+        Else
+            Return LinkType.Unknown
+        End If
+    End Function
+
+
+
+
     Public Sub ParseEntryText(Txt As String)
         If IsUrl(Txt) Then
             'url
-            Dim url As String = Txt
-            If url.ToLower.StartsWith("https://www.youtube.com/playlist?") Then
-                Dim playlistid As String = Txt.Remove(0, "https://www.youtube.com/playlist?list=".Length)
-                FetchVideosFromPlaylist(playlistid)
-            ElseIf url.ToLower.Contains("&list=") Then
 
-                Dim urlparts As List(Of String) = url.Split("&").ToList
-                Dim listid As String = ""
-                For Each part In urlparts
-                    If part.ToLower.StartsWith("list=") Then
-                        listid = part.Remove(0, "list=".Length)
-                    End If
-                Next
-
-                Dim res As DialogResult = MessageBox.Show(Me, "The video you have entered is part of a playlist. Would you like to load the entire playlist?", "Playlist", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-
-                If res = DialogResult.Yes Then
-                    'load playlist
-                    FetchVideosFromPlaylist(listid)
-                ElseIf res = DialogResult.No Then
+            Console.WriteLine("isUrl")
+            Dim UrlType As LinkType = GetLinkType(Txt)
+            Console.WriteLine($"Video Type: {UrlType.ToString}")
+            Select Case UrlType
+                Case LinkType.YoutubeVideo
                     FetchVideoFromUrl(Txt)
-                End If
-            Else
+                Case LinkType.YoutubePlaylist
+                    Dim playlistid As String = Txt.Remove(0, "https://www.youtube.com/playlist?list=".Length)
+                    FetchVideosFromPlaylist(playlistid)
+                Case LinkType.YoutubeVideoPlaylist
+                    Dim urlparts As List(Of String) = Txt.Split("&").ToList
+                    Dim listid As String = ""
+                    For Each part In urlparts
+                        If part.ToLower.StartsWith("list=") Then
+                            listid = part.Remove(0, "list=".Length)
+                        End If
+                    Next
+                    Dim res As DialogResult = MessageBox.Show(Me, "The video you have entered is part of a playlist. Would you like to load the entire playlist?", "Playlist", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                    If res = DialogResult.Yes Then
+                        FetchVideosFromPlaylist(listid)
+                    ElseIf res = DialogResult.No Then
+                        FetchVideoFromUrl(Txt)
+                    End If
+                Case LinkType.SpotifyTrack
+                    FetchVideoFromTrack(Txt)
+                Case LinkType.SpotifyPlaylist
+                    FetchVideosFromSpotifyPlaylist(Txt)
+                Case LinkType.SpotifyAlbum
+                    FetchVideosFromSpotifyAlbum(Txt)
+                Case Else
+                    MessageBox.Show("Unknown Link")
+            End Select
 
 
-                FetchVideoFromUrl(Txt)
-
-            End If
 
 
         Else
@@ -130,9 +180,26 @@ Public Class MusicDownloaderinterface
                                             End Sub
         FlowItems.Controls.Add(UiControl)
     End Sub
-
-
-
+    Async Sub FetchVideoFromTrack(url As String, Optional trackOverride As FullTrack = Nothing)
+        Dim Mytrack As FullTrack = Nothing
+        If IsNothing(trackOverride) Then
+            Dim SpotifyTrackID As String = url.Split("/")(url.Split("/").Count - 1)
+            Console.WriteLine("ID: " & SpotifyTrackID)
+            Mytrack = Await Spotify.Spotify.GetTrackAsync(SpotifyTrackID)
+        Else
+            Mytrack = trackOverride
+        End If
+        Console.WriteLine("Recieved Track.")
+        Dim Vid As Video = Await Spotify.GetYoutubeTrack(Mytrack)
+        If Not IsNothing(Vid) Then
+            Dim UiControlData As New AudioControlData(Vid, Mytrack, New MexMediaInfo(Mytrack.Artists(0).Name, Mytrack.Name))
+            Dim UiControl As New AudioEntry(UiControlData)
+            AddHandler UiControl.DisposingData, Sub(x As Control)
+                                                    FlowItems.Controls.Remove(x)
+                                                End Sub
+            FlowItems.Controls.Add(UiControl)
+        End If
+    End Sub
     Async Sub FetchVideosFromPlaylist(PlaylistID As String)
         Dim Playlist As Playlist = Await Youtube.GetPlaylistAsync(PlaylistID)
         Dim BackgroundThread As New Threading.Thread(AddressOf BackgroundPlaylistDownload)
@@ -161,7 +228,48 @@ Public Class MusicDownloaderinterface
         Next
         RaiseEvent PlaylistLoadComplete()
     End Sub
-
+    Async Sub FetchVideosFromSpotifyPlaylist(Playlist As String)
+        Dim SpotifyPlaylistID As String = Playlist.Split("/")(Playlist.Split("/").Count - 1)
+        Dim pls As FullPlaylist = Await Spotify.Spotify.GetPlaylistAsync(SpotifyPlaylistID)
+        If Not IsNothing(pls) Then
+            For Each track In pls.Tracks.Items
+                FetchVideoFromTrack("", track.Track)
+            Next
+        End If
+    End Sub
+    Async Sub FetchVideosFromSpotifyAlbum(Album As String)
+        Dim AlbumID As String = Album.Split("/")(Album.Split("/").Count - 1)
+        Dim al As FullAlbum = Await Spotify.Spotify.GetAlbumAsync(AlbumID)
+        If Not IsNothing(al) Then
+            For Each track In al.Tracks.Items
+                FetchVideoFromTrack("", Spotify.Spotify.GetTrack(track.Id))
+            Next
+        End If
+    End Sub
+    Dim DlTracks As New List(Of FullTrack)
+    Dim dlip As Boolean = False
+    Dim ip As Timer
+    Public Sub BackgroundSpotifyPlaylistLoad(playlist As FullPlaylist)
+        For Each track In playlist.Tracks.Items
+            DlTracks.Add(track.Track)
+        Next
+        ip = New Timer With {.Interval = 500}
+        AddHandler ip.Tick, AddressOf UId
+        ip.Start()
+        RaiseEvent PlaylistLoadComplete()
+    End Sub
+    Public Async Sub UId()
+        If Not dlip Then
+            dlip = True
+            Console.WriteLine("getting yt track")
+            Dim mt As Video = Await Spotify.GetYoutubeTrack(DlTracks(0))
+            Console.WriteLine("ret")
+            If Not IsNothing(mt) Then
+                Console.WriteLine(mt.Title)
+            End If
+            dlip = False
+        End If
+    End Sub
     Async Sub FetchVideoFromTerm(Term As String)
         Dim Vid As Video = Await SearchVideos(Term)
         Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
@@ -246,10 +354,6 @@ Public Class MusicDownloaderinterface
     Private Sub PbBtnBack_Click(sender As Object, e As EventArgs) Handles PbBtnBack.Click
         DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.MainInterface)
     End Sub
-
-    Private Sub txturl_TextChanged(sender As Object, e As EventArgs) Handles txturl.TextChanged
-
-    End Sub
 End Class
 Public Class IniReader
     Public FileKeys As New List(Of KeyValuePair(Of String, String))
@@ -283,5 +387,88 @@ Public Class IniReader
             End If
         Next
         Return Not IsNothing(ret)
+    End Function
+End Class
+Public Class MexMediaInfo
+    Public Artist As String
+    Public Name As String
+    Sub New(Artst As String, Song As String)
+        Artist = Artst
+        Name = Song
+    End Sub
+    Public Shared Function FromMediaTitle(Title As String) As MexMediaInfo
+        If Title.Contains("-") Then
+            Dim ArtistName As String = ""
+            Dim SongName As String = ""
+            Dim IsArtist As Boolean = True
+            Dim isInBracket As Boolean = False
+            Dim isInparenthesis As Boolean = False
+            For Each cha As Char In Title
+                Dim chas As String = cha.ToString
+                If IsArtist Then
+                    If isInBracket Or isInparenthesis Then
+                        If chas = "]" Then
+                            isInBracket = False
+                        ElseIf chas = ")" Then
+                            isInparenthesis = False
+                        End If
+                    Else
+                        If chas = "[" Then
+                            isInBracket = True
+                        ElseIf chas = "(" Then
+                            isInparenthesis = True
+                        ElseIf chas = "-" Then
+                            IsArtist = False
+                        Else
+                            ArtistName = ArtistName & chas
+                        End If
+                    End If
+                Else
+                    If isInBracket Or isInparenthesis Then
+                        If chas = "]" Then
+                            isInBracket = False
+                        ElseIf chas = ")" Then
+                            isInparenthesis = False
+                        End If
+                    Else
+                        If chas = "[" Then
+                            isInBracket = True
+                        ElseIf chas = "(" Then
+                            isInparenthesis = True
+                        Else
+                            SongName = SongName & chas
+                        End If
+                    End If
+                End If
+            Next
+            ArtistName = ArtistName.Trim(" ")
+            SongName = SongName.Trim(" ")
+            Dim MyResInfo As New MexMediaInfo(ArtistName, SongName)
+            Return MyResInfo
+        Else
+            Dim ScrubbedTitle As String = ""
+            Dim isInBracket As Boolean = False
+            Dim isInparenthesis As Boolean = False
+            For Each cha As Char In Title
+                Dim chas As String = cha.ToString
+                If isInBracket Or isInparenthesis Then
+                    If chas = "]" Then
+                        isInBracket = False
+                    ElseIf chas = ")" Then
+                        isInparenthesis = False
+                    End If
+                Else
+                    If chas = "[" Then
+                        isInBracket = True
+                    ElseIf chas = "(" Then
+                        isInparenthesis = True
+                    Else
+                        ScrubbedTitle = ScrubbedTitle & chas
+                    End If
+                End If
+            Next
+            ScrubbedTitle = ScrubbedTitle.Trim(" ")
+            Return New MexMediaInfo("", ScrubbedTitle)
+        End If
     End Function
 End Class

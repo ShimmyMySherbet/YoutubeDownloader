@@ -6,3 +6,6 @@ Public Class SpotifyData
     Public Shared ClientID As String
     Public Shared ClientSecret As String
 End Class
+Public Class VideoLogic
+    Public Shared DefaultExtension As String = "webm"
+End Class

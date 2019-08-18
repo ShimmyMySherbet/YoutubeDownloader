@@ -2,8 +2,12 @@ Imports SpotifyAPI
 Imports SpotifyAPI.Web
 Imports SpotifyAPI.Web.Models
 Imports SpotifyAPI.Web.Auth
+Imports YoutubeExplode
+Imports YoutubeExplode.Models
+Imports System.Threading
 Public Class SpotifyApiBridge
     Public Spotify As SpotifyWebAPI
+    Public YoutubeClient As New YoutubeClient
     Public Sub New(ClientID As String, ClientSecret As String)
         StartApi(ClientID, ClientSecret)
     End Sub
@@ -153,20 +157,125 @@ Public Class SpotifyApiBridge
 
 
             End If
-
-
-
-
-
-
-
-
-
         End If
 
 
 
         Return SelectedResult
+    End Function
+
+    Public Async Function GetYoutubeTrack(Track As FullTrack) As Task(Of Video)
+
+        Console.WriteLine($"[GetYoutubeTrack] Track Length: {Track.DurationMs / 1000} seconds")
+
+        Dim MaxTrackDiff As Double = TrackLogic.MaxDurationDifferance
+        Dim ArtistStrings As New List(Of String)
+        Track.Artists.ForEach(Sub(x)
+                                  ArtistStrings.Add(x.Name)
+                              End Sub)
+        Dim Searchterm As String = $"{String.Join(" & ", ArtistStrings)} - {Track.Name}"
+        Console.WriteLine($"[GetYoutubeTrack] Term: {Searchterm}")
+        Dim TrackDuration As Double = Track.DurationMs
+        Console.WriteLine("[GetYoutubeTrack] Getting tracks from youtube...")
+        Dim cts = New CancellationTokenSource()
+        Dim ct As CancellationToken = cts.Token
+
+        Dim Videos As IReadOnlyList(Of Video) = Await YoutubeClient.SearchVideosAsync(Searchterm, 1)
+        Console.WriteLine("[GetYoutubeTrack] Sorting tracks from youtube...")
+        If Not IsNothing(Videos) Then
+
+            Console.WriteLine($"[GetYoutubeTrack] Recieved {Videos.Count} results.")
+
+            Dim SelectedVideo As Video = Nothing
+            For Each vid In Videos
+                Console.WriteLine(vid.Title)
+                If IsNothing(SelectedVideo) Then
+                    Dim VideoDuration As Double = vid.Duration.TotalMilliseconds
+                    Console.WriteLine($"[GetYoutubeTrack] Track Length: {VideoDuration / 1000} seconds")
+
+                    Dim Diff As Double = GetIntgralDifferance(TrackDuration, VideoDuration)
+                    Console.WriteLine($"[GetYoutubeTrack] Track Differance: {Diff}")
+                    If Not Diff > MaxTrackDiff Then
+                        SelectedVideo = vid
+                        Exit For
+                    End If
+                End If
+            Next
+            If IsNothing(SelectedVideo) Then
+                Console.WriteLine("Failed to find track.")
+            Else
+                Console.WriteLine($"Found track: {SelectedVideo.Title}")
+            End If
+            Return SelectedVideo
+        Else
+            Console.WriteLine("[GetYoutubeTrack] Search returned null.")
+            Return Nothing
+        End If
+    End Function
+
+
+
+    Public Function GetIntgralDifferance(left As Double, right As Double) As Double
+        If left = right Then
+            Return 0
+        Else
+            If left < right Then
+                Return right - left
+            Else
+                Return left - right
+            End If
+        End If
+    End Function
+End Class
+Public Class TempSpotifyobj
+    Dim YoutubeClient As New YoutubeClient
+    Public Async Function GetYoutubeTrack(Track As FullTrack) As Task(Of Video)
+
+        Console.WriteLine($"[GetYoutubeTrack] Track Length: {Track.DurationMs / 1000} seconds")
+
+        Dim MaxTrackDiff As Double = TrackLogic.MaxDurationDifferance
+        Dim ArtistStrings As New List(Of String)
+        Track.Artists.ForEach(Sub(x)
+                                  ArtistStrings.Add(x.Name)
+                              End Sub)
+        Dim Searchterm As String = $"{String.Join(" & ", ArtistStrings)} - {Track.Name}"
+        Console.WriteLine($"[GetYoutubeTrack] Term: {Searchterm}")
+        Dim TrackDuration As Double = Track.DurationMs
+        Console.WriteLine("[GetYoutubeTrack] Getting tracks from youtube...")
+        Dim cts = New CancellationTokenSource()
+        Dim ct As CancellationToken = cts.Token
+
+        Dim Videos As IReadOnlyList(Of Video) = Await YoutubeClient.SearchVideosAsync(Searchterm, 1)
+        Console.WriteLine("[GetYoutubeTrack] Sorting tracks from youtube...")
+        If Not IsNothing(Videos) Then
+
+            Console.WriteLine($"[GetYoutubeTrack] Recieved {Videos.Count} results.")
+
+            Dim SelectedVideo As Video = Nothing
+            For Each vid In Videos
+                Console.WriteLine(vid.Title)
+                If IsNothing(SelectedVideo) Then
+                    Dim VideoDuration As Double = vid.Duration.TotalMilliseconds
+                    Console.WriteLine($"[GetYoutubeTrack] Track Length: {VideoDuration / 1000} seconds")
+
+                    Dim Diff As Double = GetIntgralDifferance(TrackDuration, VideoDuration)
+                    Console.WriteLine($"[GetYoutubeTrack] Track Differance: {Diff}")
+                    If Not Diff > MaxTrackDiff Then
+                        SelectedVideo = vid
+                        Exit For
+                    End If
+                End If
+            Next
+            If IsNothing(SelectedVideo) Then
+                Console.WriteLine("Failed to find track.")
+            Else
+                Console.WriteLine($"Found track: {SelectedVideo.Title}")
+            End If
+            Return SelectedVideo
+        Else
+            Console.WriteLine("[GetYoutubeTrack] Search returned null.")
+            Return Nothing
+        End If
     End Function
     Public Function GetIntgralDifferance(left As Double, right As Double) As Double
         If left = right Then
@@ -180,4 +289,3 @@ Public Class SpotifyApiBridge
         End If
     End Function
 End Class
-
