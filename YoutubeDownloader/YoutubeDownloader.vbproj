@@ -237,6 +237,12 @@
     <Compile Include="SettingsMenuControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="SplashEntry.Designer.vb">
+      <DependentUpon>SplashEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SplashEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SpotifyApiBridge.vb" />
     <Compile Include="SpotifyPrompt.Designer.vb">
       <DependentUpon>SpotifyPrompt.vb</DependentUpon>
@@ -301,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsMenuControl.resx">
       <DependentUpon>SettingsMenuControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashEntry.resx">
+      <DependentUpon>SplashEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpotifyPrompt.resx">
       <DependentUpon>SpotifyPrompt.vb</DependentUpon>
