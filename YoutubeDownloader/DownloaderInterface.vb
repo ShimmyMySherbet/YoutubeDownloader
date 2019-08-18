@@ -41,8 +41,8 @@
         Console.WriteLine("Creating interface...")
         MusicInterface = New MusicDownloaderinterface
         VideoInterface = New VideoDownloaderInterface
-        SettingsInterface = New SettingsMenuControl
         MainInterface = New HomeMenuControl
+        SettingsInterface = New SettingsMenuControl
         MusicInterface.Dock = DockStyle.Fill
         VideoInterface.Dock = DockStyle.Fill
         SettingsInterface.Dock = DockStyle.Fill
@@ -51,14 +51,14 @@
         VideoInterface.Tag = InterfaceScreen.VideoInterface
         SettingsInterface.Tag = InterfaceScreen.SettingsInterface
         MainInterface.Tag = InterfaceScreen.MainInterface
+        Console.WriteLine("Adding Instance")
         Me.Controls.Add(MusicInterface)
         Me.Controls.Add(VideoInterface)
         Me.Controls.Add(SettingsInterface)
         Me.Controls.Add(MainInterface)
         SetInterface(InterfaceScreen.MainInterface)
-
-
-
+        SettingsInterface.AllowUpdates = True
+        SettingsInterface.ApplyThemes()
         Console.WriteLine(SpotifyData.ClientID)
     End Sub
     Public Sub CreateNewDatabaseFile()
@@ -71,7 +71,13 @@
             "CREATE UNIQUE INDEX ""SettingsIndex"" ON ""Settings"" (""Key"");",
             "CREATE UNIQUE INDEX ""HistoryIndex"" ON ""History"" (""id"");",
             "Insert into 'settings' Values('Music_MaxRetires', '5')",
-            "Insert into 'settings' Values('Music_MaxTrackDifference', '5000')"}
+            "Insert into 'settings' Values('Music_MaxTrackDifference', '5000')",
+            "Insert into 'settings' Values('Video_DefaultExtension', 'webm')",
+            "Insert into 'settings' Values('Interface_UseCustomBackground', 'False')",
+            "Insert into 'settings' Values('Interface_BackgroundTransparency', '100')",
+            "Insert into 'settings' Values('Interface_BackgroundImage', '')",
+            "Insert into 'settings' Values('Interface_BackgroundColour', '44, 47, 51')",
+            "Insert into 'settings' Values('Interface_Style', 'Complete')"}
         If res = DialogResult.OK Then
             Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_ID", SpotifyData.ClientID))
             Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_Secret", SpotifyData.ClientSecret))

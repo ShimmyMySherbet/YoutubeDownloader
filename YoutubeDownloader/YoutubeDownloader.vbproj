@@ -111,10 +111,10 @@
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SpotifyAPI.Web.4.2.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
+      <HintPath>..\packages\SpotifyAPI.Web.4.2.1\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web.Auth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SpotifyAPI.Web.Auth.4.2.0\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
+      <HintPath>..\packages\SpotifyAPI.Web.Auth.4.2.1\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
     </Reference>
     <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
@@ -142,11 +142,11 @@
     <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="Unosquare.Labs.EmbedIO, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EmbedIO.2.9.1\lib\netstandard2.0\Unosquare.Labs.EmbedIO.dll</HintPath>
+    <Reference Include="Unosquare.Labs.EmbedIO, Version=2.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EmbedIO.2.9.2\lib\netstandard2.0\Unosquare.Labs.EmbedIO.dll</HintPath>
     </Reference>
-    <Reference Include="Unosquare.Swan.Lite, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unosquare.Swan.Lite.1.3.0\lib\net461\Unosquare.Swan.Lite.dll</HintPath>
+    <Reference Include="Unosquare.Swan.Lite, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unosquare.Swan.Lite.1.3.1\lib\net461\Unosquare.Swan.Lite.dll</HintPath>
     </Reference>
     <Reference Include="Xabe.FFmpeg, Version=3.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xabe.FFmpeg.3.4.0\lib\netstandard2.0\Xabe.FFmpeg.dll</HintPath>
@@ -181,12 +181,7 @@
     <Compile Include="AudioTrimDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Downloader.Designer.vb">
-      <DependentUpon>Downloader.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Downloader.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="BackgroundRenderer.vb" />
     <Compile Include="DownloaderInterface.Designer.vb">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>
     </Compile>
@@ -227,6 +222,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PlaylistEngines.vb" />
     <Compile Include="ProgramConfigurationBase.vb" />
     <Compile Include="ProgressbarModification.vb" />
     <Compile Include="SettingsMenu.Designer.vb">
@@ -281,9 +277,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AudioTrimDialog.resx">
       <DependentUpon>AudioTrimDialog.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Downloader.resx">
-      <DependentUpon>Downloader.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DownloaderInterface.resx">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>

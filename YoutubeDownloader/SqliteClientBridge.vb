@@ -35,7 +35,11 @@
         End If
     End Function
     Public Sub UpdateSettingsKey(Key As String, Value As String)
-        Console.WriteLine("Updating key '{0}' with value '{1}'", Key, Value)
+        If Value.Length > 50 Then
+            Console.WriteLine("Updating key '{0}'", Key, Value)
+        Else
+            Console.WriteLine("Updating key '{0}' with value '{1}'", Key, Value)
+        End If
         If SettingsKeyExists(Key) Then
             Console.WriteLine("patching...")
             UnderlyingClient.RunNonQuery("Update settings SET value = '{1}' WHERE key = '{0}'", Key, Value)

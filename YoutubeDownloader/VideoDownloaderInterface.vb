@@ -139,11 +139,19 @@ Public Class VideoDownloaderInterface
 
     Private Sub VideoDownloaderInterface_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.BackgroundImage = My.Resources.GreyBacker1
-        FlowItems.BackgroundImage = My.Resources.GreyBacker1
+        'FlowItems.BackgroundImage = My.Resources.GreyBacker1
     End Sub
     Private Sub TxtUrlEnter(sender As Object, e As KeyEventArgs) Handles txturl.KeyDown
         If e.KeyData = Keys.Return Then
             BtnGo.PerformClick()
         End If
+    End Sub
+
+    Private Sub PbOpenOutput_Click(sender As Object, e As EventArgs) Handles PbOpenOutput.Click
+        Dim resp As String = IO.Directory.GetCurrentDirectory
+        If Not resp.EndsWith("\") Then
+            resp = resp & "\"
+        End If
+        Process.Start(resp & "Videos")
     End Sub
 End Class

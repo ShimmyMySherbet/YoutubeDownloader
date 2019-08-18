@@ -32,6 +32,7 @@ Partial Class VideoDownloaderInterface
         Me.BtnDownloadAll = New System.Windows.Forms.Button()
         Me.PbOpenOutput = New System.Windows.Forms.PictureBox()
         Me.PbBtnBack = New System.Windows.Forms.PictureBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -43,7 +44,7 @@ Partial Class VideoDownloaderInterface
         Me.FlowItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FlowItems.AutoScroll = True
-        Me.FlowItems.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
+        Me.FlowItems.BackColor = System.Drawing.Color.Transparent
         Me.FlowItems.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.FlowItems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.FlowItems.Location = New System.Drawing.Point(36, 32)
@@ -150,12 +151,23 @@ Partial Class VideoDownloaderInterface
         Me.PbBtnBack.TabIndex = 1
         Me.PbBtnBack.TabStop = False
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(36, 471)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(521, 13)
+        Me.Label1.TabIndex = 14
+        Me.Label1.Text = "NOTE: Only Muxed streams are avalable at this point. This will mean most videos c" &
+    "an only download at 320p."
+        '
         'VideoDownloaderInterface
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.PbOpenOutput)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.FlowItems)
@@ -184,4 +196,5 @@ Partial Class VideoDownloaderInterface
     Friend WithEvents Button3 As Button
     Friend WithEvents BtnDownloadAll As Button
     Friend WithEvents PbOpenOutput As PictureBox
+    Friend WithEvents Label1 As Label
 End Class
