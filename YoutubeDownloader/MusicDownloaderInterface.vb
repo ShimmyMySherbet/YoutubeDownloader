@@ -100,11 +100,20 @@ Public Class MusicDownloaderinterface
 
 
         Else
-            'term
-            FetchVideoFromTerm(Txt)
+            Fromterm(txturl.Text)
         End If
     End Sub
-
+    Public Async Sub Fromterm(term As String)
+        Dim Dep As AudioControlData = Await GetSpotifyDataFromterm(term)
+        If IsNothing(Dep) Then
+            Dep = Await GetYoutubeDataFromterm(term)
+        End If
+        Dim UiControl As New AudioEntry(Dep)
+        AddHandler UiControl.DisposingData, Sub(x As Control)
+                                                FlowItems.Controls.Remove(x)
+                                            End Sub
+        FlowItems.Controls.Add(UiControl)
+    End Sub
 
     Private Sub Flow_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FlowItems.DragEnter
         If (e.Data.GetDataPresent(DataFormats.Text)) Then
@@ -270,6 +279,20 @@ Public Class MusicDownloaderinterface
             dlip = False
         End If
     End Sub
+    Async Function GetYoutubeDataFromterm(Term As String) As Task(Of AudioControlData)
+        Dim Vid As Video = Await SearchVideos(Term)
+        Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
+        Dim MexData As MexMediaInfo = MexMediaInfo.FromMediaTitle(Vid.Title)
+        Dim UiControlData As New AudioControlData(Vid, SpotifyResult, MexData)
+        Return UiControlData
+    End Function
+    Public Async Function GetSpotifyDataFromterm(term As String) As Task(Of AudioControlData)
+        Dim si As SearchItem = Spotify.SearchMusic(term)
+        Dim sr As FullTrack = si.Tracks.Items(0)
+        Dim yti As Video = Await Spotify.GetYoutubeTrack(sr)
+        Dim UiControlData As New AudioControlData(yti, sr, New MexMediaInfo(sr.Artists(0).Name, sr.Name))
+        Return UiControlData
+    End Function
     Async Sub FetchVideoFromTerm(Term As String)
         Dim Vid As Video = Await SearchVideos(Term)
         Dim SpotifyResult As Models.FullTrack = Spotify.GetSpotifyTrack(Vid)
@@ -281,12 +304,13 @@ Public Class MusicDownloaderinterface
                                             End Sub
         FlowItems.Controls.Add(UiControl)
     End Sub
-
     Public Async Function GetYoutubeVideo(Url As String) As Task(Of Video)
         Dim VideoID As String = YoutubeClient.ParseVideoId(Url)
         Dim Video As Video = Await Youtube.GetVideoAsync(VideoID)
         Return Video
     End Function
+
+
 
 
     Public Async Function SearchVideos(Term As String) As Task(Of Video)
