@@ -5,19 +5,23 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 
 To view screen shots of this project, got to the [User Interface Wiki Page](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki/User-Interface)
 
-It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage.
+It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage. (NOTE: Wiki out of date. I will get around to updating it.)
 
 # Downloads:
 If you do not wish to build the project yourself, you can download the Windows Binary here:
-Links Last Updated: 30/07/19 (Downloads out-dated, will get around to fixing this soon)
+Links Last Updated: 26/08/19 (Version 1.0)(Latest)
 
 ## Installer:
-Download: [Via MEGA](https://mega.nz/#!4JdBAKAb!grltGmE4zZ7E-02lCQO7fj2GJw4Zo79dvQKo5f3HRz8) 
+Download: [Via MEGA](https://mega.nz/#!xcNG3YqD!DrVoWGXNjcY4AHvOvZjSmH2YQJNIJLFa4x_Bw8_FMFM) 
 
-Installer MD5 sum: CAE19DD588140A82E35450DBE34582F4
+Installer MD5 sum: 8EC2D6576FF5BA5CEEC6C970E53F2A1E
+
+Installer SHA1 sum: E81D5839EB41055C838F632D05382614E35BF066
 
 
 ## Portable: 
-Download: [Via MEGA](https://mega.nz/#!sFUxmSYA!ThmbrwhDqYNCtCCY-ksIVTQyOK6zQ9iaA_TE2cINYJQ) 
+Download: [Via MEGA](https://mega.nz/#!ZNdEnSxQ!1hX7uQ9qHk43JZBUUkS6WyLE4M55uO_II8UfWCa3ws0) 
 
-Installer MD5 sum: 5D5FD9C22A4004245FC98E932EE10108
+Portable MD5 sum: 62D630EE1A51BC2935D5307DD524E347
+
+Portable SAH1 sum: E6F6EFCF5167EF51BFB858C8BDED049C6D879AC2
