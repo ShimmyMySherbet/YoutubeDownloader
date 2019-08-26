@@ -3,6 +3,19 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 
 **DISCLAIMER**: I am not responsibe for any misuse of this program. You need permission from the author/copyright holder of the content before downloading it.
 
+**Features:**
+* Downloads Music from Youtube and automatically applies ID3 tags (Artists, Album, Album Artwork, ect.)
+* Smart song search functionality.
+* Ability to add songs by draging songs/albums/playlists directly from Spotify or Youtube
+* Ability to add songs by a songs/albums/playlist's url from YouTube or Spotify
+* Batch download functionality (Downlaod hundreds of songs at the click of a button!)
+* Track trimming/cropping functionality
+* Track data editing
+* Basic YouTube video downloading functionality (Currently there is only muxed streams avalable, so expect very poor quality)
+* Customisable UI
+
+**NOTE:** This project does not download music from spotify, it merely finds the song on YouTube utilising data from spotify such as artist name, song title and song duration.
+
 To view screen shots of this project, got to the [User Interface Wiki Page](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki/User-Interface)
 
 It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage. (NOTE: Wiki out of date. I will get around to updating it.)
