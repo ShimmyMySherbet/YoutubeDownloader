@@ -28,7 +28,7 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 
 **NOTE:** This project does not download music from spotify, it merely finds the song on YouTube utilising data from spotify such as artist name, song title and song duration.
 
-To view screen shots of this project, got to the [User Interface Wiki Page](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki/User-Interface)
+To view screen shots of this project, got to the [Wiki Page](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki)
 
 It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage. (NOTE: Wiki out of date. I will get around to updating it.)
 
