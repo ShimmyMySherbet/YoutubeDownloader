@@ -30,7 +30,7 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 
 To view screen shots of this project, got to the [Wiki Page](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki)
 
-It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage. (NOTE: Wiki out of date. I will get around to updating it.)
+It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage.
 
 # Downloads:
 If you do not wish to compile this project yourself, you can download the Windows Binary here:
