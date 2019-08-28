@@ -5,6 +5,8 @@ Public Class AudioEntry
     Dim Downloading As Boolean = False
     Public Video As YoutubeExplode.Models.Video
     Public SpotifyTrack As SpotifyAPI.Web.Models.FullTrack
+    Public SpotifyAlbum As SpotifyAPI.Web.Models.FullAlbum
+    Public SpotifyTrackAnalysis As SpotifyAPI.Web.Models.AudioAnalysis
     Public MexData As MexMediaInfo
     Public WebClient As New Net.WebClient
 
@@ -30,7 +32,7 @@ Public Class AudioEntry
     Public CropStartSpan As TimeSpan
     Public CropEndSpan As TimeSpan
 
-
+    Private AlbumDownloadThread As New Threading.Thread(AddressOf GetSpotifyAlbum)
 #Region "Thread Glicth Woraround"
     'Strange glitch from when a video was added from a playlist, whenever the thread would attempt to add a task to the UI Thread's Task factory,
     'The calling thread would immediatley exit with no error or stop code.
@@ -99,6 +101,7 @@ Public Class AudioEntry
             If Data.SpotifyTrack.PreviewUrl = "" Then
                 BtnPlayAudio.Hide()
             End If
+            RefreshSpotifyAlbum()
         End If
         If IconUrl = "" Then
             PbArtwork.Image = My.Resources.YouTube
@@ -110,6 +113,29 @@ Public Class AudioEntry
                                                                   PbArtwork.Image = resimage
                                                               End Sub)
             Artworkdownloadthread.Start(IconUrl)
+        End If
+    End Sub
+    Private Sub GetSpotifyAlbum()
+        Console.WriteLine("getting album...")
+        If Not IsNothing(SpotifyTrack) Then
+            Console.WriteLine("Passed track check")
+            If IsNothing(SpotifyAlbum) Then
+                Console.WriteLine("Passed album check; Getting album")
+                Dim alb As SpotifyAPI.Web.Models.FullAlbum = DownloaderInterface.MusicInterface.Spotify.Spotify.GetAlbum(SpotifyTrack.Album.Id)
+                SpotifyAlbum = alb
+            Else
+                Console.WriteLine("Failed track check; Checking IDs...")
+                If SpotifyTrack.Album.Id <> SpotifyAlbum.Id Then
+                    Console.WriteLine("Passed ID check; Getting album")
+                    Dim alb As SpotifyAPI.Web.Models.FullAlbum = DownloaderInterface.MusicInterface.Spotify.Spotify.GetAlbum(SpotifyTrack.Album.Id)
+                    SpotifyAlbum = alb
+                End If
+            End If
+        End If
+    End Sub
+    Public Sub RefreshSpotifyAlbum()
+        If Not AlbumDownloadThread.IsAlive Then
+            AlbumDownloadThread.Start()
         End If
     End Sub
     Public Async Sub GetVideoBack()
@@ -355,7 +381,6 @@ RetryDownload:
 
 
 
-
             Dim ID3File As TagLib.File = TagLib.File.Create(Mp3Out)
             TagLib.Id3v2.Tag.DefaultVersion = 3
             TagLib.Id3v2.Tag.ForceDefaultVersion = True
@@ -367,16 +392,29 @@ RetryDownload:
                 Dim ImageFile As String = "ImageCache\" & Filename & ".jpeg"
                 PbArtwork.Image.Save(ImageFile)
                 Dim picture As TagLib.Picture = New TagLib.Picture(ImageFile)
-                'create Id3v2 Picture Frame
                 Dim albumCoverPictFrame As New TagLib.Id3v2.AttachedPictureFrame(picture)
                 albumCoverPictFrame.MimeType = Net.Mime.MediaTypeNames.Image.Jpeg
-                'set the type of picture (front cover)
                 albumCoverPictFrame.Type = TagLib.PictureType.FrontCover
-                'Id3v2 allows more than one type of image, just one needed
                 Dim pictFrames() As TagLib.IPicture = {albumCoverPictFrame}
-                ID3File.Tag.Pictures = pictFrames 'set the pictures in the tag
+                ID3File.Tag.Pictures = pictFrames
+                If Not IsNothing(SpotifyAlbum) Then
+                    If Not SpotifyAlbum.HasError Then
+                        Console.WriteLine("Embedding genre data...")
+                        Console.WriteLine($"Genres: {String.Join(", ", SpotifyAlbum.Genres)}")
+                        ID3File.Tag.Genres = SpotifyAlbum.Genres.ToArray
+                        ID3File.Tag.TrackCount = SpotifyAlbum.TotalTracks
+                        ID3File.Tag.Track = SpotifyAlbum.Tracks.Items.IndexOf(SpotifyAlbum.Tracks.Items.Where(Function(x)
+                                                                                                                  If x.Id = SpotifyTrack.Id Then
+                                                                                                                      Return True
+                                                                                                                  Else
+                                                                                                                      Return False
+                                                                                                                  End If
+                                                                                                              End Function)(0)) + 1
+                        ID3File.Tag.Disc = SpotifyTrack.DiscNumber
+                        ID3File.Tag.AlbumSort = SpotifyAlbum.AlbumType
+                    End If
+                End If
             End If
-
 
             ID3File.Save()
 

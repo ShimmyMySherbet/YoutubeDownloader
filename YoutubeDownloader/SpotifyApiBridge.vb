@@ -20,7 +20,17 @@ Public Class SpotifyApiBridge
         }
     End Sub
     Public Function SearchMusic(Query As String) As SearchItem
-        Return Spotify.SearchItems(Query, Enums.SearchType.Track)
+        Console.WriteLine($"Seraching spotify for '{Query}'")
+        Dim si As SearchItem = Spotify.SearchItems(Query, Enums.SearchType.Track)
+        If si.HasError Then
+            MessageBox.Show($"Error!
+{si.Error.Message}
+Status: {si.Error.Status}.")
+            Console.WriteLine($"Error!
+{si.Error.Message}
+Status: {si.Error.Status}.")
+        End If
+        Return si
     End Function
     Public Function GetSpotifyTrack(Video As YoutubeExplode.Models.Video, Optional ByVal MexDataOverride As MexMediaInfo = Nothing,
                                     Optional DurationDataOverride As TimeSpan = Nothing,
