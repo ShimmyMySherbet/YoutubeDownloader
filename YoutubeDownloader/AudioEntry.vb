@@ -134,8 +134,11 @@ Public Class AudioEntry
         End If
     End Sub
     Public Sub RefreshSpotifyAlbum()
-        If Not AlbumDownloadThread.IsAlive Then
-            AlbumDownloadThread.Start()
+        If Not AlbumDownloadThread.ThreadState = Threading.ThreadState.Running Then
+            Try
+                AlbumDownloadThread.Start()
+            Catch ex As Exception
+            End Try
         End If
     End Sub
     Public Async Sub GetVideoBack()

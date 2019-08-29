@@ -288,7 +288,6 @@ Public Class MusicDownloaderinterface
     End Function
     Public Async Function GetSpotifyDataFromterm(term As String) As Task(Of AudioControlData)
         Dim si As SearchItem = Spotify.SearchMusic(term)
-
         Dim sr As FullTrack = si.Tracks.Items(0)
         Dim yti As Video = Await Spotify.GetYoutubeTrack(sr)
         Dim UiControlData As New AudioControlData(yti, sr, New MexMediaInfo(sr.Artists(0).Name, sr.Name))
