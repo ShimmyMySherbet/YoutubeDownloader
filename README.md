@@ -38,11 +38,13 @@ If you do not wish to compile this project yourself, you can download the Window
 Links Last Updated: 26/08/19 (Version 1.0)(Latest)
 
 ## Installer:
-Download: [Via MEGA](https://mega.nz/#!xcNG3YqD!DrVoWGXNjcY4AHvOvZjSmH2YQJNIJLFa4x_Bw8_FMFM) 
+Download: [Via DropBox](https://www.dropbox.com/s/cgt3hpvzvvg99vi/YouTubeDownloader_V1.0.0.2_Installer.zip?dl=1)
 
-Installer MD5 sum: 8EC2D6576FF5BA5CEEC6C970E53F2A1E
+Fixed issue where package would be missing SQLite components
 
-Installer SHA1 sum: E81D5839EB41055C838F632D05382614E35BF066
+Installer MD5 sum: 7E77A4ECCF372AB209B021F973B477EB
+
+Installer SHA1 sum: 158121C102370EF8819C8551782AF592098E4832
 
 
 ## Portable: 
