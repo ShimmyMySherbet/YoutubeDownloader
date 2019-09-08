@@ -223,6 +223,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="PlaylistEngines.vb" />
+    <Compile Include="PluginManager.vb" />
     <Compile Include="ProgramConfigurationBase.vb" />
     <Compile Include="ProgressbarModification.vb" />
     <Compile Include="SettingsMenu.Designer.vb">

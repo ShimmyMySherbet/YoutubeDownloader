@@ -4,6 +4,8 @@
     Public Shared SettingsInterface As SettingsMenuControl
     Public Shared MainInterface As HomeMenuControl
     Public Shared SQLClient As SqliteClientBridge
+
+    Public Shared PluginManager As New Plugins.PluginManager
     Public Enum InterfaceScreen
         MainInterface = 0
         MusicInterface = 1
@@ -14,6 +16,9 @@
         Console.WriteLine("Loading...")
         If Not IO.Directory.Exists("Music") Then
             IO.Directory.CreateDirectory("Music")
+        End If
+        If Not IO.Directory.Exists("Plugins") Then
+            IO.Directory.CreateDirectory("Plugins")
         End If
         If Not IO.Directory.Exists("AudioCache") Then
             IO.Directory.CreateDirectory("AudioCache")
@@ -60,6 +65,7 @@
         SettingsInterface.AllowUpdates = True
         SettingsInterface.ApplyThemes()
         Console.WriteLine(SpotifyData.ClientID)
+        PluginManager.LoadPlugins()
     End Sub
     Public Sub CreateNewDatabaseFile()
         Console.WriteLine("creating database file...")

@@ -311,7 +311,16 @@ Public Class AudioEntry
                 IO.File.Delete("Downloads\" & Filename & "." & ext)
             End If
             If Not IO.File.Exists("Downloads\" & Filename & "." & ext) Then
+                Console.WriteLine("Download Start.")
+                Dim StarTT As Date = Now
                 Await Client.DownloadMediaStreamAsync(auinfo, "Downloads\" & Filename & "." & ext)
+                Dim endT As Date = Now
+                Dim dif As TimeSpan = endT.Subtract(StarTT)
+                Dim difs As Double = Math.Round(dif.TotalSeconds, 2)
+                Console.WriteLine($"Download complete in {difs} Seconds.")
+                If difs < 1 Then
+                    Console.WriteLine("Something is wrong....")
+                End If
             End If
         Catch ex As Exception
             Console.WriteLine(ex.Message)

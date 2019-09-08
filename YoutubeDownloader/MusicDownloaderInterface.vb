@@ -18,6 +18,7 @@ Public Class MusicDownloaderinterface
 
 
     Public Enum LinkType
+        PluginSupported = -2
         Unknown = -1
         YoutubeVideo = 1
         YoutubePlaylist = 2
@@ -52,17 +53,20 @@ Public Class MusicDownloaderinterface
                 Return LinkType.Unknown
             End If
         Else
-            Return LinkType.Unknown
+            If DownloaderInterface.PluginManager.PluginsLoaded <> 0 Then
+                If DownloaderInterface.PluginManager.UrlSupported(Link) Then
+                    Return LinkType.PluginSupported
+                Else
+                    Return LinkType.Unknown
+                End If
+            Else
+                Return LinkType.Unknown
+            End If
         End If
     End Function
-
-
-
-
     Public Sub ParseEntryText(Txt As String)
         If IsUrl(Txt) Then
             'url
-
             Console.WriteLine("isUrl")
             Dim UrlType As LinkType = GetLinkType(Txt)
             Console.WriteLine($"Video Type: {UrlType.ToString}")
@@ -92,13 +96,13 @@ Public Class MusicDownloaderinterface
                     FetchVideosFromSpotifyPlaylist(Txt)
                 Case LinkType.SpotifyAlbum
                     FetchVideosFromSpotifyAlbum(Txt)
+                Case LinkType.PluginSupported
+                    For Each res In DownloaderInterface.PluginManager.QueryByURL(Txt)
+                        Fromterm(res)
+                    Next
                 Case Else
-                    MessageBox.Show("Unknown Link")
+                    MessageBox.Show("Unsupported type.")
             End Select
-
-
-
-
         Else
             Fromterm(txturl.Text)
         End If
