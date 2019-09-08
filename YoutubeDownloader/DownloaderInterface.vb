@@ -14,6 +14,19 @@
     End Enum
     Public Sub MyLoad() Handles MyBase.Load
         Console.WriteLine("Loading...")
+        If Not IO.Directory.Exists("x86") Then
+            IO.Directory.CreateDirectory("x86")
+        End If
+        If Not IO.Directory.Exists("x64") Then
+            IO.Directory.CreateDirectory("x64")
+        End If
+        If Not IO.File.Exists("x86\SQLite.Interop.dll") Then
+            IO.File.WriteAllBytes("x86\SQLite.Interop.dll", IO.File.ReadAllBytes("x86\SQLite.Interop.86.dll"))
+        End If
+        If Not IO.File.Exists("x64\SQLite.Interop.dll") Then
+            IO.File.WriteAllBytes("x64\SQLite.Interop.dll", IO.File.ReadAllBytes("x86\SQLite.Interop.64.dll"))
+        End If
+
         If Not IO.Directory.Exists("Music") Then
             IO.Directory.CreateDirectory("Music")
         End If
