@@ -14,6 +14,25 @@
     End Enum
     Public Sub MyLoad() Handles MyBase.Load
         Console.WriteLine("Loading...")
+        Console.WriteLine($"Load Directory: {Environment.CurrentDirectory}")
+        Dim startargl As List(Of String) = IO.Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().CodeBase).Split("\").ToList
+        startargl.RemoveAt(0)
+        ChDir(String.Join("\", startargl))
+        Console.WriteLine($"New Working Directory: {Environment.CurrentDirectory}")
+
+        If Environment.GetCommandLineArgs.Contains("-install") Then
+            If IsRunningAsAdmin() Then
+                InstallFileExtension()
+                MessageBox.Show(SplashEntry, "File extension '.ytdl' installed.")
+                End
+            Else
+                MessageBox.Show(SplashEntry, "This task requires Admin permissions.")
+                End
+            End If
+        End If
+
+
+
         If Not IO.Directory.Exists("x86") Then
             IO.Directory.CreateDirectory("x86")
         End If
@@ -79,7 +98,24 @@
         SettingsInterface.ApplyThemes()
         Console.WriteLine(SpotifyData.ClientID)
         PluginManager.LoadPlugins()
+        If Environment.GetCommandLineArgs.Count <> 1 Then
+            Dim LoadFiles As List(Of String) = Environment.GetCommandLineArgs.ToList
+            LoadFiles.RemoveAt(0)
+            For Each file In LoadFiles
+                file = file.Replace("""", "")
+                If IO.File.Exists(file) Then
+                    Console.WriteLine("file exists")
+                    MusicInterface.AutoLoadFiles.Add(file)
+                End If
+            Next
+        End If
+
     End Sub
+
+    Public Sub Shownd() Handles MyBase.Shown
+        MusicInterface.HandleAutos()
+    End Sub
+
     Public Sub CreateNewDatabaseFile()
         Console.WriteLine("creating database file...")
 

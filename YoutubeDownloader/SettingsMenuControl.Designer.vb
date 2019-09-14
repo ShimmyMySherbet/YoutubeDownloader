@@ -54,6 +54,8 @@ Partial Class SettingsMenuControl
         Me.BtnSelectImage = New System.Windows.Forms.Button()
         Me.CDColour = New System.Windows.Forms.ColorDialog()
         Me.OFDImage = New System.Windows.Forms.OpenFileDialog()
+        Me.BtnInstallTypes = New System.Windows.Forms.Button()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxDiff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxRet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,6 +66,7 @@ Partial Class SettingsMenuControl
         CType(Me.PbBackgroundColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbPreview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TBTransparency, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FlowLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'PbBtnBack
@@ -165,8 +168,9 @@ Partial Class SettingsMenuControl
         '
         'PnMusic
         '
+        Me.PnMusic.Controls.Add(Me.BtnClearCache)
+        Me.PnMusic.Controls.Add(Me.FlowLayoutPanel1)
         Me.PnMusic.Controls.Add(Me.Label9)
-        Me.PnMusic.Controls.Add(Me.BtnSaveChanges)
         Me.PnMusic.Controls.Add(Me.Label6)
         Me.PnMusic.Controls.Add(Me.txtSpotifySecret)
         Me.PnMusic.Controls.Add(Me.Label5)
@@ -179,7 +183,6 @@ Partial Class SettingsMenuControl
         Me.PnMusic.Controls.Add(Me.NudMaxRet)
         Me.PnMusic.Controls.Add(Me.Label1)
         Me.PnMusic.Controls.Add(Me.Label3)
-        Me.PnMusic.Controls.Add(Me.BtnClearCache)
         Me.PnMusic.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PnMusic.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.PnMusic.Location = New System.Drawing.Point(3, 20)
@@ -200,7 +203,7 @@ Partial Class SettingsMenuControl
         'BtnSaveChanges
         '
         Me.BtnSaveChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSaveChanges.Location = New System.Drawing.Point(6, 255)
+        Me.BtnSaveChanges.Location = New System.Drawing.Point(3, 37)
         Me.BtnSaveChanges.Name = "BtnSaveChanges"
         Me.BtnSaveChanges.Size = New System.Drawing.Size(256, 23)
         Me.BtnSaveChanges.TabIndex = 17
@@ -410,6 +413,26 @@ Partial Class SettingsMenuControl
         '
         Me.OFDImage.Filter = "Images|*.jpg;*.jpeg;*.png:*.tiff;*.bmp"
         '
+        'BtnInstallTypes
+        '
+        Me.BtnInstallTypes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnInstallTypes.Location = New System.Drawing.Point(3, 8)
+        Me.BtnInstallTypes.Name = "BtnInstallTypes"
+        Me.BtnInstallTypes.Size = New System.Drawing.Size(108, 23)
+        Me.BtnInstallTypes.TabIndex = 31
+        Me.BtnInstallTypes.Text = "Install File Types"
+        Me.BtnInstallTypes.UseVisualStyleBackColor = True
+        '
+        'FlowLayoutPanel1
+        '
+        Me.FlowLayoutPanel1.Controls.Add(Me.BtnSaveChanges)
+        Me.FlowLayoutPanel1.Controls.Add(Me.BtnInstallTypes)
+        Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 219)
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(271, 63)
+        Me.FlowLayoutPanel1.TabIndex = 31
+        '
         'SettingsMenuControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -435,6 +458,7 @@ Partial Class SettingsMenuControl
         CType(Me.PbBackgroundColour, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbPreview, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TBTransparency, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -471,4 +495,6 @@ Partial Class SettingsMenuControl
     Friend WithEvents CDColour As ColorDialog
     Friend WithEvents OFDImage As OpenFileDialog
     Friend WithEvents DudTheme As DomainUpDown
+    Friend WithEvents BtnInstallTypes As Button
+    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
 End Class

@@ -8,16 +8,20 @@ Imports System.Threading
 Public Class SpotifyApiBridge
     Public Spotify As SpotifyWebAPI
     Public YoutubeClient As New YoutubeClient
+    Public Ready As Boolean = False
     Public Sub New(ClientID As String, ClientSecret As String)
         StartApi(ClientID, ClientSecret)
     End Sub
     Private Async Sub StartApi(ClientID As String, ClientSecret As String)
+        Console.WriteLine("[API]Starting spotify API")
         Dim auth As Auth.CredentialsAuth = New Auth.CredentialsAuth(ClientID, ClientSecret)
         Dim token As Models.Token = Await auth.GetToken()
         Spotify = New SpotifyWebAPI() With {
             .TokenType = token.TokenType,
             .AccessToken = token.AccessToken
         }
+        Console.WriteLine("[API]Spotify API ready")
+        Ready = True
     End Sub
     Public Function SearchMusic(Query As String) As SearchItem
         Console.WriteLine($"Seraching spotify for '{Query}'")

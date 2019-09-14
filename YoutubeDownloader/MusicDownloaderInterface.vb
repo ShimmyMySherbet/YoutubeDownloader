@@ -12,6 +12,9 @@ Public Class MusicDownloaderinterface
     Public UiThread As Threading.Thread
     Public UiTaskScehule As TaskScheduler
     Public UiTaskfactory As TaskFactory
+
+    Public AutoLoadsHandled As Boolean = False
+    Public AutoLoadFiles As New List(Of String)
     Private Sub BtnGo_Click(sender As Object, e As EventArgs) Handles BtnGo.Click
         ParseEntryText(txturl.Text)
     End Sub
@@ -129,7 +132,6 @@ Public Class MusicDownloaderinterface
     Private Sub Flow_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FlowItems.DragDrop
         ParseEntryText(e.Data.GetData(DataFormats.Text).ToString)
     End Sub
-
     Public Sub Main() Handles MyBase.Load
         CheckForIllegalCrossThreadCalls = False
         UiThread = Threading.Thread.CurrentThread
@@ -140,6 +142,7 @@ Public Class MusicDownloaderinterface
         Console.WriteLine("sec: {0}", SpotifyData.ClientSecret)
         If SpotifyData.ClientID <> "" Then
             If SpotifyData.ClientSecret <> "" Then
+                Console.WriteLine("Creating Spotify API Bridge")
                 Spotify = New SpotifyApiBridge(SpotifyData.ClientID, SpotifyData.ClientSecret)
             End If
         End If
@@ -151,17 +154,24 @@ Public Class MusicDownloaderinterface
         Me.SetStyle(ControlStyles.UserPaint, True)
         Me.DoubleBuffered = True
     End Sub
-
+    Public Sub HandleAutos()
+        If AutoLoadsHandled = False Then
+            If AutoLoadFiles.Count <> 0 Then
+                Dim AuLoadThread As New Threading.Thread(Sub()
+                                                             Console.WriteLine("Loading from file.")
+                                                             For Each file In AutoLoadFiles
+                                                                 LoadFromFile(file)
+                                                             Next
+                                                         End Sub)
+                AuLoadThread.Start()
+            End If
+            AutoLoadsHandled = True
+        End If
+    End Sub
     Public Sub LoadUIElements()
         Me.BackgroundImage = My.Resources.GreyBacker1
         FlowItems.BackgroundImage = My.Resources.GreyBacker1
-
-
     End Sub
-
-
-
-
     Public Sub InvalidateOnScrol() Handles FlowItems.Scroll
         Application.DoEvents()
     End Sub
@@ -386,6 +396,86 @@ Public Class MusicDownloaderinterface
     Private Sub PbBtnBack_Click(sender As Object, e As EventArgs) Handles PbBtnBack.Click
         DownloaderInterface.SetInterface(DownloaderInterface.InterfaceScreen.MainInterface)
     End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim Resp As New OpenFileDialog With {.CheckFileExists = True, .CheckPathExists = True, .Filter = "Youtube Downloader Data|*.ytdl|Text files|*.txt|CSV files|*.csv|All Files|*.*", .Multiselect = False, .ValidateNames = True, .Title = "Select a file to load from"}
+        If Resp.ShowDialog = DialogResult.OK Then
+            LoadFromFile(Resp.FileName)
+        End If
+    End Sub
+    Public Sub LoadFromFile(File As String)
+        For Each Value In LoadDataFile(File)
+            Console.WriteLine("DatVal")
+            If Value.KeysPresent Then
+                Console.WriteLine("Keys present")
+                LoadFileDataFileValue(Value)
+            Else
+                Console.WriteLine("From Base")
+                Fromterm(Value.Base)
+            End If
+        Next
+    End Sub
+    Public Async Sub LoadFileDataFileValue(Value As DatafileEntry)
+        Dim SpotifyTrack As FullTrack = Nothing
+        Dim YouTubeTrack As Video = Nothing
+        If Value.KeyPresent("SpotifyID") Then
+            Console.WriteLine("Spotify Present")
+            SpotifyTrack = Spotify.Spotify.GetTrack(Value.GetKeyValue("SpotifyID"))
+        End If
+        YouTubeTrack = Await Youtube.GetVideoAsync(Value.GetKeyValue("YoutubeVideo"))
+        Dim Mex As MexMediaInfo = Nothing
+        If IsNothing(SpotifyTrack) Then
+            If Not IsNothing(YouTubeTrack) Then
+                Mex = MexMediaInfo.FromMediaTitle(YouTubeTrack.Title)
+            End If
+        Else
+            Mex = New MexMediaInfo(SpotifyTrack.Artists(0).Name, SpotifyTrack.Name)
+        End If
+        If Value.KeyPresent("MexArtist") Then
+            Mex.Artist = Value.GetKeyValue("MexArtist")
+        End If
+        If Value.KeyPresent("MexTitle") Then
+            Mex.Name = Value.GetKeyValue("MexTitle")
+        End If
+        Dim ACD As New AudioControlData(YouTubeTrack, SpotifyTrack, Mex)
+        Dim UiControl As New AudioEntry(ACD)
+        Dim CropAudio As Boolean = False
+        If Value.KeyPresent("CropAudio") Then
+            CropAudio = Value.GetKeyValue("CropAudio")
+        Else
+            CropAudio = False
+        End If
+        If CropAudio Then
+            Dim StartTime As TimeSpan = TimeSpan.FromSeconds(0)
+            Dim EndTime As TimeSpan = TimeSpan.FromSeconds(0)
+            If Value.KeyPresent("StartTime") Then
+                StartTime = TimeSpan.FromSeconds(Value.GetKeyValue("StartTime"))
+            End If
+            If Value.KeyPresent("EndTime") Then
+                EndTime = TimeSpan.FromSeconds(Value.GetKeyValue("EndTime"))
+            End If
+            UiControl.CropAudio = CropAudio
+            UiControl.CropStartSpan = StartTime
+            UiControl.CropEndSpan = EndTime
+        End If
+        AddHandler UiControl.DisposingData, Sub(x As Control)
+                                                FlowItems.Controls.Remove(x)
+                                            End Sub
+        Await UiTaskfactory.StartNew(Sub()
+                                         FlowItems.Controls.Add(UiControl)
+                                     End Sub)
+
+    End Sub
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim Resp As New SaveFileDialog With {.CheckPathExists = True, .Filter = "Youtube Downloader Data|*.ytdl|Text files|*.txt|CSV files|*.csv|All Files|*.*", .ValidateNames = True, .Title = "Select a file to load from"}
+        If Resp.ShowDialog = DialogResult.OK Then
+            Dim controldat As New List(Of DatafileEntry)
+            For Each control As AudioEntry In FlowItems.Controls.OfType(Of AudioEntry)
+                controldat.Add(AudioEntryToDataFileEntry(control))
+            Next
+            CreateDataFile(Resp.FileName, controldat.ToArray)
+        End If
+    End Sub
 End Class
 Public Class IniReader
     Public FileKeys As New List(Of KeyValuePair(Of String, String))
@@ -502,5 +592,84 @@ Public Class MexMediaInfo
             ScrubbedTitle = ScrubbedTitle.Trim(" ")
             Return New MexMediaInfo("", ScrubbedTitle)
         End If
+    End Function
+End Class
+Public Module DatafileHandler
+    Public Function LoadDataFile(File As String) As DatafileEntry()
+        Dim stream As New IO.StreamReader(File)
+        Dim Results As New List(Of DatafileEntry)
+        Do Until stream.EndOfStream
+            Dim line As String = stream.ReadLine
+            If line.Contains("|") Then
+                Dim KeyValues As List(Of String) = line.Split("|").ToList
+                Dim NewValue As New DatafileEntry With {.Base = "", .KeysPresent = True, .Values = New Dictionary(Of String, String)}
+                For Each KeyV In KeyValues
+                    If KeyV.Contains("=") Then
+                        Dim key As String = KeyV.Split("=")(0)
+                        Dim Value As String = KeyV.Remove(0, key.Length + 1)
+                        If Not NewValue.Values.Keys.Contains(key) Then
+                            NewValue.Values.Add(key, Value)
+                        End If
+                    Else
+                        NewValue.Base = KeyV
+                    End If
+                Next
+                Results.Add(NewValue)
+            Else
+                Results.Add(New DatafileEntry With {.Base = line, .KeysPresent = False, .Values = New Dictionary(Of String, String)})
+            End If
+        Loop
+        stream.Close()
+        Return Results.ToArray
+    End Function
+    Public Sub CreateDataFile(File As String, DataValues() As DatafileEntry)
+        Dim Stream As New IO.StreamWriter(File)
+        For Each value In DataValues
+            Dim Base As String = ""
+            If value.Base <> "" Then
+                Base = value.Base
+            End If
+            For Each keyval In value.Values
+                Dim AsiniStr As String = $"|{keyval.Key.ToLower}={keyval.Value}"
+                Base = Base & AsiniStr
+            Next
+            Stream.WriteLine(Base)
+        Next
+        Stream.Close()
+    End Sub
+    Public Function AudioEntryToDataFileEntry(Control As AudioEntry) As DatafileEntry
+        Dim Values As New Dictionary(Of String, String)
+        If Not IsNothing(Control.SpotifyTrack) Then
+            Values.Add("spotifyid", Control.SpotifyTrack.Id)
+        End If
+        If Not IsNothing(Control.Video) Then
+            Values.Add("youtubevideo", Control.Video.Id)
+        End If
+        Values.Add("mexartist", Control.MexData.Artist)
+        Values.Add("mextitle", Control.MexData.Name)
+        If Control.CropAudio Then
+            Values.Add("cropaudio", "True")
+            Values.Add("starttime", Control.CropStartSpan.TotalSeconds)
+            Values.Add("endtime", Control.CropEndSpan.TotalSeconds)
+        Else
+            Values.Add("cropaudio", "False")
+        End If
+        Dim NewEnt As New DatafileEntry With {.Base = "", .KeysPresent = True, .Values = Values}
+        Return NewEnt
+    End Function
+
+
+End Module
+Public Class DatafileEntry
+    Public KeysPresent As Boolean = False
+    Public Values As New Dictionary(Of String, String)
+    Public Base As String = ""
+    Public Function GetKeyValue(Key As String) As String
+        Key = Key.ToLower
+        Return Values(Key)
+    End Function
+    Public Function KeyPresent(key As String) As Boolean
+        key = key.ToLower
+        Return Values.Keys.Contains(key)
     End Function
 End Class

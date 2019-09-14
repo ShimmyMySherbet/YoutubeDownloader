@@ -226,6 +226,7 @@
     <Compile Include="PluginManager.vb" />
     <Compile Include="ProgramConfigurationBase.vb" />
     <Compile Include="ProgressbarModification.vb" />
+    <Compile Include="RegInstaller.vb" />
     <Compile Include="SettingsMenu.Designer.vb">
       <DependentUpon>SettingsMenu.vb</DependentUpon>
     </Compile>

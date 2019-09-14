@@ -278,4 +278,12 @@ Public Class SettingsMenuControl
     Private Sub SettingsMenuControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         BtnSaveChanges.Hide()
     End Sub
+
+    Private Sub BtnInstallTypes_Click(sender As Object, e As EventArgs) Handles BtnInstallTypes.Click
+        Dim proc As New ProcessStartInfo With {.FileName = "YouTubeDownloader.exe", .Arguments = "-install", .UseShellExecute = True, .Verb = "runas"}
+        Try
+            Process.Start(proc)
+        Catch ex As Exception
+        End Try
+    End Sub
 End Class

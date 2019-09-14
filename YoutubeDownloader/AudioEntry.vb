@@ -282,9 +282,26 @@ Public Class AudioEntry
 
 
         Console.WriteLine("Streams fetched")
-        Dim auinfo = SteaminfoSet.Audio(0)
-        Console.WriteLine("Audio stream fetched")
-        Console.WriteLine(auinfo.Bitrate)
+
+
+        Dim HighestQuality As Integer = 0
+        For Each inf In SteaminfoSet.Audio
+            If inf.Bitrate > HighestQuality Then
+                HighestQuality = inf.Bitrate
+            End If
+        Next
+        Dim HighestQualities As List(Of MediaStreams.AudioStreamInfo) = SteaminfoSet.Audio.Where(Function(x)
+                                                                                                     If x.Bitrate >= HighestQuality Then
+                                                                                                         Return True
+                                                                                                     Else
+                                                                                                         Return False
+                                                                                                     End If
+                                                                                                 End Function).ToList
+        For Each HighQual In HighestQualities
+            Console.WriteLine($"Highest Bitrate Stream, bitrate: {HighQual.Bitrate}, Encoding: {HighQual.AudioEncoding}")
+        Next
+        Dim auinfo = HighestQualities(0)
+
         Dim ext As String = "unknown"
         Select Case auinfo.AudioEncoding
             Case MediaStreams.AudioEncoding.Aac
@@ -521,6 +538,9 @@ RetryDownload:
 
 
     Private Sub TrimMp3(ByVal inputPath As String, ByVal outputPath As String, ByVal begin As TimeSpan?, ByVal [end] As TimeSpan?)
+        Console.WriteLine($"Crop Start Time: {begin.Value.TotalSeconds} end: {[end].Value.TotalSeconds}")
+
+
         If begin.HasValue AndAlso [end].HasValue AndAlso begin > [end] Then Throw New ArgumentOutOfRangeException("end", "end should be greater than begin")
         Using reader = New Mp3FileReader(inputPath)
             Using writer = IO.File.Create(outputPath)
