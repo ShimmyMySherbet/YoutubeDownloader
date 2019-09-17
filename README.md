@@ -35,12 +35,12 @@ It is recomeneded to go over the contents of the [Wiki](https://github.com/Shimm
 
 # Downloads:
 If you do not wish to compile this project yourself, you can download the Windows Binary here:
-Links Last Updated: 26/08/19 (Version 1.0)(Latest)
+Links Last Updated: 17/09/19 (Portable Version)
 
 ## Installer:
-Download: [Via DropBox](https://www.dropbox.com/s/cgt3hpvzvvg99vi/YouTubeDownloader_V1.0.0.2_Installer.zip?dl=1)
+Download: [Via DropBox](https://www.dropbox.com/s/cgt3hpvzvvg99vi/YouTubeDownloader_V1.0.0.2_Installer.zip?dl=1) (outdated)
 
-Fixed issue where package would be missing SQLite components
+NOTE: Some people have issues with the installer version, so it is recomended to use the portable version. (See Below)
 
 Installer MD5 sum: 7E77A4ECCF372AB209B021F973B477EB
 
@@ -48,8 +48,10 @@ Installer SHA1 sum: 158121C102370EF8819C8551782AF592098E4832
 
 
 ## Portable: 
-Download: [Via MEGA](https://mega.nz/#!ZNdEnSxQ!1hX7uQ9qHk43JZBUUkS6WyLE4M55uO_II8UfWCa3ws0) 
+Download: [Via Google](https://drive.google.com/open?id=1vnBnd0YGyrbWLWd-q8kW38Xqg2l5vpQ0) 
 
-Portable MD5 sum: 62D630EE1A51BC2935D5307DD524E347
+Latest version
 
-Portable SAH1 sum: E6F6EFCF5167EF51BFB858C8BDED049C6D879AC2
+Portable MD5 sum: 6B0321B8A688F4E1E1A6A234E72CB419
+
+Portable SAH1 sum: 663BD83F95DD76C0D6554D6137CD76B09B6E2039
