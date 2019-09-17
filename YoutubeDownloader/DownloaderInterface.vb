@@ -63,7 +63,13 @@
         End If
         If Not IO.File.Exists("ffmpeg.exe") Then
             Console.WriteLine("Getting FFMPEG...")
-            Xabe.FFmpeg.FFmpeg.GetLatestVersion()
+            SplashEntry.Status = "; Downloading FFMPEG"
+            Try
+                Xabe.FFmpeg.FFmpeg.GetLatestVersion().Wait()
+            Catch ex As Exception
+                MessageBox.Show(SplashEntry, ex.Message & vbNewLine & "Try downloading FFMPEG through the settings menu.")
+            End Try
+            SplashEntry.Status = ""
         End If
         Console.WriteLine("checking data...")
 
