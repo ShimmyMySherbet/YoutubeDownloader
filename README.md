@@ -9,6 +9,7 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 * Smart song search functionality.
 * Ability to add songs by draging songs/albums/playlists directly from Spotify or Youtube
 * Ability to add songs by a songs/albums/playlist's url from YouTube or Spotify
+* Ability to paste album artwork onto a track
 * Batch download functionality (Downlaod hundreds of songs at the click of a button!)
 * Track trimming/cropping functionality
 * Track data editing
@@ -37,21 +38,17 @@ It is recomeneded to go over the contents of the [Wiki](https://github.com/Shimm
 If you do not wish to compile this project yourself, you can download the Windows Binary here:
 Links Last Updated: 17/09/19 (Portable Version)
 
-## Installer:
-Download: [Via DropBox](https://www.dropbox.com/s/cgt3hpvzvvg99vi/YouTubeDownloader_V1.0.0.2_Installer.zip?dl=1) (outdated)
-
-NOTE: Some people have issues with the installer version, so it is recomended to use the portable version. (See Below)
-
-Installer MD5 sum: 7E77A4ECCF372AB209B021F973B477EB
-
-Installer SHA1 sum: 158121C102370EF8819C8551782AF592098E4832
-
-
 ## Portable: 
-Download: [Via Google](https://drive.google.com/open?id=1vnBnd0YGyrbWLWd-q8kW38Xqg2l5vpQ0) 
+Download: [Via Google](https://drive.google.com/file/d/18_haMzJC1ur9Zkj7uXwVOdyjwd4Wgs6k/view?usp=sharing) 
 
 Latest version
 
-Portable MD5 sum: 6B0321B8A688F4E1E1A6A234E72CB419
+Portable MD5 sum: 5FEB9EE8D7D84EC24E614C8B21EB4334
 
-Portable SAH1 sum: 663BD83F95DD76C0D6554D6137CD76B09B6E2039
+Portable SAH1 sum: FC17D0E095F7863062DD4F0AA13E5EA4C43CFC9B
+
+## Installer:
+No longer supported
+
+
+
