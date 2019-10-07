@@ -22,6 +22,7 @@ Partial Class AudioEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.lblYTtitle = New System.Windows.Forms.Label()
         Me.LblAlbum = New System.Windows.Forms.Label()
         Me.LblArtist = New System.Windows.Forms.Label()
@@ -38,6 +39,9 @@ Partial Class AudioEntry
         Me.Pbicon2 = New System.Windows.Forms.PictureBox()
         Me.PbIcon1 = New System.Windows.Forms.PictureBox()
         Me.PbArtwork = New System.Windows.Forms.PictureBox()
+        Me.CMSArtwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.TSMIPasteArtwork = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TSMIRemoveArtwork = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlowButtons.SuspendLayout()
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -45,6 +49,7 @@ Partial Class AudioEntry
         CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbIcon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.CMSArtwork.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblYTtitle
@@ -183,12 +188,31 @@ Partial Class AudioEntry
         '
         'PbArtwork
         '
+        Me.PbArtwork.ContextMenuStrip = Me.CMSArtwork
         Me.PbArtwork.Location = New System.Drawing.Point(444, 3)
         Me.PbArtwork.Name = "PbArtwork"
         Me.PbArtwork.Size = New System.Drawing.Size(163, 143)
         Me.PbArtwork.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PbArtwork.TabIndex = 0
         Me.PbArtwork.TabStop = False
+        '
+        'CMSArtwork
+        '
+        Me.CMSArtwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TSMIPasteArtwork, Me.TSMIRemoveArtwork})
+        Me.CMSArtwork.Name = "CMSArtwork"
+        Me.CMSArtwork.Size = New System.Drawing.Size(201, 70)
+        '
+        'TSMIPasteArtwork
+        '
+        Me.TSMIPasteArtwork.Name = "TSMIPasteArtwork"
+        Me.TSMIPasteArtwork.Size = New System.Drawing.Size(200, 22)
+        Me.TSMIPasteArtwork.Text = "Paste Artwork"
+        '
+        'TSMIRemoveArtwork
+        '
+        Me.TSMIRemoveArtwork.Name = "TSMIRemoveArtwork"
+        Me.TSMIRemoveArtwork.Size = New System.Drawing.Size(200, 22)
+        Me.TSMIRemoveArtwork.Text = "Remove pasted Artwork"
         '
         'AudioEntry
         '
@@ -219,6 +243,7 @@ Partial Class AudioEntry
         CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbIcon1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.CMSArtwork.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -240,4 +265,7 @@ Partial Class AudioEntry
     Friend WithEvents PbCrop As PictureBox
     Friend WithEvents FlowButtons As FlowLayoutPanel
     Friend WithEvents PbBtnEditMex As PictureBox
+    Friend WithEvents CMSArtwork As ContextMenuStrip
+    Friend WithEvents TSMIPasteArtwork As ToolStripMenuItem
+    Friend WithEvents TSMIRemoveArtwork As ToolStripMenuItem
 End Class

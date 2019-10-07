@@ -32,6 +32,10 @@ Public Class AudioEntry
     Public CropStartSpan As TimeSpan
     Public CropEndSpan As TimeSpan
 
+    Public UserPastedImage As Image
+
+    Public BaseArtworkImage As Image
+
     Private AlbumDownloadThread As New Threading.Thread(AddressOf GetSpotifyAlbum)
 #Region "Thread Glicth Woraround"
     'Strange glitch from when a video was added from a playlist, whenever the thread would attempt to add a task to the UI Thread's Task factory,
@@ -110,11 +114,13 @@ Public Class AudioEntry
             Dim Artworkdownloadthread As New Threading.Thread(Sub(Url As String)
                                                                   Dim MyClient As New Net.WebClient
                                                                   Dim resimage As Image = Image.FromStream(New IO.MemoryStream(MyClient.DownloadData(Url)))
+                                                                  BaseArtworkImage = resimage
                                                                   PbArtwork.Image = resimage
                                                               End Sub)
             Artworkdownloadthread.Start(IconUrl)
         End If
     End Sub
+
     Private Sub GetSpotifyAlbum()
         Console.WriteLine("getting album...")
         If Not IsNothing(SpotifyTrack) Then
@@ -348,8 +354,6 @@ Public Class AudioEntry
                                          End Sub)
         Else
             TypePipe = PipeType.Progress
-
-
         End If
 
 
@@ -415,6 +419,9 @@ RetryDownload:
             TagLib.Id3v2.Tag.ForceDefaultVersion = True
             ID3File.Tag.Title = SongTitle
             ID3File.Tag.AlbumArtists = {SongArtist}
+
+
+
             If Not IsNothing(SpotifyTrack) Then
                 ID3File.Tag.Album = SpotifyTrack.Album.Name
                 ID3File.Tag.Year = SpotifyTrack.Album.ReleaseDate.Split("-")(0)
@@ -443,6 +450,25 @@ RetryDownload:
                         ID3File.Tag.AlbumSort = SpotifyAlbum.AlbumType
                     End If
                 End If
+            Else
+
+                If Not IsNothing(UserPastedImage) Then
+
+                    Dim SavedName As String = $"ImageCache\{Video.Id}pasted_artwork.jpg"
+
+                    If IO.File.Exists(SavedName) Then
+                        IO.File.Delete(SavedName)
+                    End If
+                    UserPastedImage.Save(SavedName)
+                    Dim picture As TagLib.Picture = New TagLib.Picture(SavedName)
+                    Dim albumCoverPictFrame As New TagLib.Id3v2.AttachedPictureFrame(picture)
+                    albumCoverPictFrame.MimeType = Net.Mime.MediaTypeNames.Image.Jpeg
+                    albumCoverPictFrame.Type = TagLib.PictureType.FrontCover
+                    Dim pictFrames() As TagLib.IPicture = {albumCoverPictFrame}
+                    ID3File.Tag.Pictures = pictFrames
+                End If
+
+
             End If
 
             ID3File.Save()
@@ -606,6 +632,45 @@ RetryDownload:
     Private Sub LblAlbum_Click(sender As Object, e As EventArgs) Handles LblAlbum.Click
 
     End Sub
+
+    Private Sub CMSArtwork_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles CMSArtwork.Opening
+        If IsNothing(UserPastedImage) Then
+            TSMIRemoveArtwork.Enabled = False
+        Else
+            TSMIRemoveArtwork.Enabled = True
+        End If
+        If My.Computer.Clipboard.ContainsImage Then
+            TSMIPasteArtwork.Enabled = True
+        Else
+            TSMIPasteArtwork.Enabled = False
+        End If
+    End Sub
+
+    Private Sub TSMIPasteArtwork_Click(sender As Object, e As EventArgs) Handles TSMIPasteArtwork.Click
+        If Clipboard.ContainsImage Then
+            Dim PastedImage As Image = Clipboard.GetImage()
+            If PastedImage.Width = PastedImage.Height Then
+                If PastedImage.Width > 1000 Then
+                    Console.WriteLine("Resizeing Image...")
+                    Dim FixedImage As New Bitmap(1000, 1000)
+                    Dim G As Graphics = Graphics.FromImage(FixedImage)
+                    G.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+                    G.DrawImage(PastedImage, New RectangleF(0, 0, 1000, 100))
+                    G.Save()
+                    PastedImage = FixedImage
+                    Console.WriteLine("Image Resize Complete.")
+                End If
+            End If
+
+            PbArtwork.Image = PastedImage
+            UserPastedImage = PastedImage
+        End If
+    End Sub
+
+    Private Sub TSMIRemoveArtwork_Click(sender As Object, e As EventArgs) Handles TSMIRemoveArtwork.Click
+        UserPastedImage = Nothing
+        PbArtwork.Image = BaseArtworkImage
+    End Sub
 End Class
 Public Class AudioControlData
     Public Video As YoutubeExplode.Models.Video
@@ -617,5 +682,38 @@ Public Class AudioControlData
         SpotifyTrack = Track
         MexData = TitleData
         IsFromPlaylist = Playlist
+    End Sub
+End Class
+Public Class UnderlyingFile
+    Public Property Name As String
+    Public Property Stream As IO.Stream
+    Public Sub New(ByVal Name As String, ByVal Stream As IO.Stream)
+        Me.Name = Name
+        Me.Stream = Stream
+    End Sub
+End Class
+Public Class ArtworkAbstraction
+    Implements TagLib.File.IFileAbstraction
+    Private file As UnderlyingFile
+    Public Sub New(ByVal file As UnderlyingFile)
+        Me.file = file
+    End Sub
+    Public ReadOnly Property Name As String Implements TagLib.File.IFileAbstraction.Name
+        Get
+            Return file.Name
+        End Get
+    End Property
+    Public ReadOnly Property ReadStream As System.IO.Stream Implements TagLib.File.IFileAbstraction.ReadStream
+        Get
+            Return file.Stream
+        End Get
+    End Property
+    Public ReadOnly Property WriteStream As System.IO.Stream Implements TagLib.File.IFileAbstraction.WriteStream
+        Get
+            Return file.Stream
+        End Get
+    End Property
+    Public Sub CloseStream(ByVal stream As System.IO.Stream) Implements TagLib.File.IFileAbstraction.CloseStream
+        stream.Position = 0
     End Sub
 End Class

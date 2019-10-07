@@ -111,15 +111,18 @@ Public Class MusicDownloaderinterface
         End If
     End Sub
     Public Async Sub Fromterm(term As String)
-        Dim Dep As AudioControlData = Await GetSpotifyDataFromterm(term)
-        If IsNothing(Dep) Then
-            Dep = Await GetYoutubeDataFromterm(term)
-        End If
-        Dim UiControl As New AudioEntry(Dep)
-        AddHandler UiControl.DisposingData, Sub(x As Control)
-                                                FlowItems.Controls.Remove(x)
-                                            End Sub
-        FlowItems.Controls.Add(UiControl)
+        Try
+            Dim Dep As AudioControlData = Await GetSpotifyDataFromterm(term)
+            If IsNothing(Dep) Then
+                Dep = Await GetYoutubeDataFromterm(term)
+            End If
+            Dim UiControl As New AudioEntry(Dep)
+            AddHandler UiControl.DisposingData, Sub(x As Control)
+                                                    FlowItems.Controls.Remove(x)
+                                                End Sub
+            FlowItems.Controls.Add(UiControl)
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub Flow_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles FlowItems.DragEnter
