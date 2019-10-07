@@ -36,7 +36,7 @@ It is recomeneded to go over the contents of the [Wiki](https://github.com/Shimm
 
 # Downloads:
 If you do not wish to compile this project yourself, you can download the Windows Binary here:
-Links Last Updated: 17/09/19 (Portable Version)
+Links Last Updated: 07/10/19 (Portable Version)
 
 ## Portable: 
 Download: [Via Google](https://drive.google.com/file/d/18_haMzJC1ur9Zkj7uXwVOdyjwd4Wgs6k/view?usp=sharing) 
@@ -48,7 +48,7 @@ Portable MD5 sum: 5FEB9EE8D7D84EC24E614C8B21EB4334
 Portable SAH1 sum: FC17D0E095F7863062DD4F0AA13E5EA4C43CFC9B
 
 ## Installer:
-No longer supported
+No longer supported as of 07/10/19
 
 
 
