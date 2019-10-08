@@ -16,6 +16,7 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 * Basic YouTube video downloading functionality (Currently there is only muxed streams avalable, so expect very poor quality)
 * Customisable UI
 * Minor Spotify desktop app intergration.
+* Supports MP3, FLAC, and WAV
 
 **Embedded Music Tags:**
 * Track Name/Title
@@ -36,10 +37,10 @@ It is recomeneded to go over the contents of the [Wiki](https://github.com/Shimm
 
 # Downloads:
 If you do not wish to compile this project yourself, you can download the Windows Binary here:
-Links Last Updated: 07/10/19 (Portable Version)
+Links Last Updated: 08/10/19 (Portable Version)
 
 ## Portable: 
-Download: [Via Google](https://drive.google.com/file/d/18_haMzJC1ur9Zkj7uXwVOdyjwd4Wgs6k/view?usp=sharing) 
+Download: [Via Google](https://drive.google.com/file/d/1JBTNkA3iST-ssLN40ewfdVPOSHG7lnVX/view?usp=sharing) 
 
 Latest version
 
