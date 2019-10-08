@@ -6,6 +6,13 @@ Partial Class AudioEntry
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
+            If disposing Then
+                Try
+                    AudioFile.Dispose()
+                    OutputDevice.Dispose()
+                Catch ex As Exception
+                End Try
+            End If
             If disposing AndAlso components IsNot Nothing Then
                 components.Dispose()
             End If

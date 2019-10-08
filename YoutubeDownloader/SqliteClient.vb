@@ -5,7 +5,7 @@
         Connection = New SQLite.SQLiteConnection("Data Source=" & File)
         Connection.Open()
     End Sub
-    Public Sub Dispose() Implements IDisposable.Dispose
+    Public Overridable Sub Dispose() Implements IDisposable.Dispose
         Connection.Close()
     End Sub
     Public Function RunQuery(Query As String, ParamArray Param() As String) As DataRow()

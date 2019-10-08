@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Module ProgressbarModification
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass")>
     <DllImport("user32.dll", CharSet:=CharSet.Auto, SetLastError:=False)>
     Public Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal w As IntPtr, ByVal l As IntPtr) As IntPtr
     End Function

@@ -684,36 +684,3 @@ Public Class AudioControlData
         IsFromPlaylist = Playlist
     End Sub
 End Class
-Public Class UnderlyingFile
-    Public Property Name As String
-    Public Property Stream As IO.Stream
-    Public Sub New(ByVal Name As String, ByVal Stream As IO.Stream)
-        Me.Name = Name
-        Me.Stream = Stream
-    End Sub
-End Class
-Public Class ArtworkAbstraction
-    Implements TagLib.File.IFileAbstraction
-    Private file As UnderlyingFile
-    Public Sub New(ByVal file As UnderlyingFile)
-        Me.file = file
-    End Sub
-    Public ReadOnly Property Name As String Implements TagLib.File.IFileAbstraction.Name
-        Get
-            Return file.Name
-        End Get
-    End Property
-    Public ReadOnly Property ReadStream As System.IO.Stream Implements TagLib.File.IFileAbstraction.ReadStream
-        Get
-            Return file.Stream
-        End Get
-    End Property
-    Public ReadOnly Property WriteStream As System.IO.Stream Implements TagLib.File.IFileAbstraction.WriteStream
-        Get
-            Return file.Stream
-        End Get
-    End Property
-    Public Sub CloseStream(ByVal stream As System.IO.Stream) Implements TagLib.File.IFileAbstraction.CloseStream
-        stream.Position = 0
-    End Sub
-End Class

@@ -1,7 +1,10 @@
-﻿Public Class SqliteClientBridge
+﻿Public Class SqliteClientBridge : Implements IDisposable
     Public UnderlyingClient As SqliteClient
     Public Sub New(File As String)
         UnderlyingClient = New SqliteClient(File)
+    End Sub
+    Public Overridable Sub Dispose() Implements IDisposable.Dispose
+        UnderlyingClient.Dispose()
     End Sub
     Public Function GetSettingsValue(Key As String) As String
         Dim result As DataRow() = UnderlyingClient.RunQuery("Select value from 'settings' where key = '{0}'", Key)
@@ -36,7 +39,7 @@
     End Function
     Public Sub UpdateSettingsKey(Key As String, Value As String)
         If Value.Length > 50 Then
-            Console.WriteLine("Updating key '{0}'", Key, Value)
+            Console.WriteLine("Updating key '{0}'", Key)
         Else
             Console.WriteLine("Updating key '{0}' with value '{1}'", Key, Value)
         End If
