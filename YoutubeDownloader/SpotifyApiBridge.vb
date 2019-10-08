@@ -23,16 +23,32 @@ Public Class SpotifyApiBridge
         Console.WriteLine("[API]Spotify API ready")
         Ready = True
     End Sub
+    Public Sub RevalidateSession()
+        StartApi(SpotifyData.ClientID, SpotifyData.ClientSecret)
+    End Sub
     Public Function SearchMusic(Query As String) As SearchItem
         Console.WriteLine($"Seraching spotify for '{Query}'")
         Dim si As SearchItem = Spotify.SearchItems(Query, Enums.SearchType.Track)
         If si.HasError Then
-            MessageBox.Show($"Error!
+            If si.StatusCode = 401 Then
+                RevalidateSession()
+                si = Spotify.SearchItems(Query, Enums.SearchType.Track)
+                If si.HasError Then
+                    Dim msg As String = $"There was an error:
 {si.Error.Message}
-Status: {si.Error.Status}.")
-            Console.WriteLine($"Error!
+Status code: {si.Error.Status}
+Auto session refresh failed."
+                    MessageBox.Show(Me, msg, "Spotify Error")
+                    Console.WriteLine(msg)
+                End If
+            Else
+                Dim msg As String = $"There was an error:
 {si.Error.Message}
-Status: {si.Error.Status}.")
+Status code: {si.Error.Status}
+Unknown error"
+                MessageBox.Show(Me, msg, "Unknown Spotify Error")
+                Console.WriteLine(msg)
+            End If
         End If
         Return si
     End Function
@@ -229,68 +245,6 @@ Status: {si.Error.Status}.")
 
 
 
-    Public Function GetIntgralDifferance(left As Double, right As Double) As Double
-        If left = right Then
-            Return 0
-        Else
-            If left < right Then
-                Return right - left
-            Else
-                Return left - right
-            End If
-        End If
-    End Function
-End Class
-Public Class TempSpotifyobj
-    Dim YoutubeClient As New YoutubeClient
-    Public Async Function GetYoutubeTrack(Track As FullTrack) As Task(Of Video)
-
-        Console.WriteLine($"[GetYoutubeTrack] Track Length: {Track.DurationMs / 1000} seconds")
-
-        Dim MaxTrackDiff As Double = TrackLogic.MaxDurationDifferance
-        Dim ArtistStrings As New List(Of String)
-        Track.Artists.ForEach(Sub(x)
-                                  ArtistStrings.Add(x.Name)
-                              End Sub)
-        Dim Searchterm As String = $"{String.Join(" & ", ArtistStrings)} - {Track.Name}"
-        Console.WriteLine($"[GetYoutubeTrack] Term: {Searchterm}")
-        Dim TrackDuration As Double = Track.DurationMs
-        Console.WriteLine("[GetYoutubeTrack] Getting tracks from youtube...")
-        Dim cts = New CancellationTokenSource()
-        Dim ct As CancellationToken = cts.Token
-
-        Dim Videos As IReadOnlyList(Of Video) = Await YoutubeClient.SearchVideosAsync(Searchterm, 1)
-        Console.WriteLine("[GetYoutubeTrack] Sorting tracks from youtube...")
-        If Not IsNothing(Videos) Then
-
-            Console.WriteLine($"[GetYoutubeTrack] Recieved {Videos.Count} results.")
-
-            Dim SelectedVideo As Video = Nothing
-            For Each vid In Videos
-                Console.WriteLine(vid.Title)
-                If IsNothing(SelectedVideo) Then
-                    Dim VideoDuration As Double = vid.Duration.TotalMilliseconds
-                    Console.WriteLine($"[GetYoutubeTrack] Track Length: {VideoDuration / 1000} seconds")
-
-                    Dim Diff As Double = GetIntgralDifferance(TrackDuration, VideoDuration)
-                    Console.WriteLine($"[GetYoutubeTrack] Track Differance: {Diff}")
-                    If Not Diff > MaxTrackDiff Then
-                        SelectedVideo = vid
-                        Exit For
-                    End If
-                End If
-            Next
-            If IsNothing(SelectedVideo) Then
-                Console.WriteLine("Failed to find track.")
-            Else
-                Console.WriteLine($"Found track: {SelectedVideo.Title}")
-            End If
-            Return SelectedVideo
-        Else
-            Console.WriteLine("[GetYoutubeTrack] Search returned null.")
-            Return Nothing
-        End If
-    End Function
     Public Function GetIntgralDifferance(left As Double, right As Double) As Double
         If left = right Then
             Return 0
