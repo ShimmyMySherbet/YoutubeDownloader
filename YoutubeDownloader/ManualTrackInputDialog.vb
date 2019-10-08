@@ -1,4 +1,5 @@
 ﻿Public Class ManualTrackInputDialog
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
     Public Event DataSubmitted(Track As String, Artist As String)
     Public Sub New(track As String, artist As String)
         InitializeComponent()

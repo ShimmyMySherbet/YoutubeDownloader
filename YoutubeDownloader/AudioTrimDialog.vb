@@ -1,4 +1,5 @@
 ﻿Public Class AudioTrimDialog
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
     Public Event DataSubmitted(StartTime As TimeSpan, EndTime As TimeSpan)
     Public Sub New(TrackLengthInSecconds As Integer)
         InitializeComponent()

@@ -5,7 +5,9 @@ Public Class VideoDownloaderInterface
     Dim Webclient As New Net.WebClient
     Public SpotifyNotAvalableException As New Exception
     Public Spotify As SpotifyApiBridge
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
     Public Event PlaylistLoadComplete()
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
     Public Event LoadControls(Controls As Control)
     Public UiThread As Threading.Thread
     Public UiTaskScehule As TaskScheduler

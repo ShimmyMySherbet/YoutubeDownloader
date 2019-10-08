@@ -8,6 +8,7 @@ Public Class VideoEntry
     Public MuxedStreams As IReadOnlyCollection(Of MuxedStreamInfo)
     Public UiTaskfactory As TaskFactory = New TaskFactory(TaskScheduler.FromCurrentSynchronizationContext)
     Public MyVideo As Video
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
     Public Event DisposingData(Control As Control)
     Private QualBox As DomainUpDown
     Public IsDownloading As Boolean = False

@@ -19,6 +19,7 @@ Public Class AudioEntry
 
     Private Client As New YoutubeExplode.YoutubeClient
 
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
     Public Event DisposingData(Control As Control)
 
     Public SongTitle As String
@@ -341,7 +342,7 @@ Public Class AudioEntry
                 Dim dif As TimeSpan = endT.Subtract(StarTT)
                 Dim difs As Double = Math.Round(dif.TotalSeconds, 2)
                 Console.WriteLine($"Download complete in {difs} Seconds.")
-                If difs < 1 Then
+                If difs < 0.5 Then
                     Console.WriteLine("Something is wrong....")
                 End If
             End If
@@ -363,7 +364,13 @@ RetryDownload:
         DownloadTries = DownloadTries + 1
         Dim ExitedWithError As Boolean = False
         Try
-            Dim Mp3Out As String = "Music\" & Filename & ".mp3"
+
+
+
+            Console.WriteLine($"File extension: {TrackLogic.Extension}")
+
+
+            Dim Mp3Out As String = "Music\" & Filename & "." & TrackLogic.Extension
             If CropAudio Then
                 Mp3Out = "audiocache\" & Filename & ".crop.mp3"
             End If
@@ -396,10 +403,10 @@ RetryDownload:
                 Console.WriteLine("Conversion Failiure.")
             End If
             Console.WriteLine("Conversion Finished  ")
-
+            Dim DestFile As String = "Music\" & Filename & "." & TrackLogic.Extension
 
             If CropAudio Then
-                Dim BaseMP3Out As String = "Music\" & Filename & ".mp3"
+                Dim BaseMP3Out As String = "Audiocache\" & Filename & ".mp3"
                 TrimMp3(Mp3Out, BaseMP3Out, CropStartSpan, CropEndSpan)
                 If Not IsFromPlaylist Then
                     Await UiTaskfactory.StartNew(Sub()
@@ -410,6 +417,14 @@ RetryDownload:
                 End If
                 Mp3Out = BaseMP3Out
                 Console.WriteLine("Audio Cropped")
+                If TrackLogic.Extension.ToLower <> "mp3" Then
+                    Dim SeccondaryAudioConversion As IConversion = Conversion.Convert(BaseMP3Out, DestFile)
+                    SeccondaryAudioConversion.SetAudioBitrate(auinfo.Bitrate)
+                    SeccondaryAudioConversion.UseHardwareAcceleration(Enums.HardwareAccelerator.Auto, Enums.VideoCodec.H264_cuvid, Enums.VideoCodec.H264_cuvid)
+                    Dim Seccondaryresult As Model.IConversionResult = Await SeccondaryAudioConversion.Start()
+                Else
+                    IO.File.Move(BaseMP3Out, DestFile)
+                End If
             End If
 
 

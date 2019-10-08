@@ -2,13 +2,22 @@
 Public Class SettingsMenuControl
     Public AllowUpdates As Boolean = False
     Private RenderImage As Image = Nothing
-
+    Private CurrentAudioFormat As String = ""
     Public Sub New()
         InitializeComponent()
         NudMaxDiff.Value = TrackLogic.MaxDurationDifferance
         NudMaxRet.Value = TrackLogic.MaxDownloadRetries
 
         TxtVideoExt.Text = SQLClient.GetSettingsValue("Video_DefaultExtension")
+        CurrentAudioFormat = SQLClient.GetSettingsValue("Music_DefaultExtension").ToLower
+        Select Case CurrentAudioFormat
+            Case "mp3"
+                RBMp3.Checked = True
+            Case "flac"
+                RbFlac.Checked = True
+            Case "wav"
+                RbFlac.Checked = True
+        End Select
         TxtSpotifyClient.Text = SQLClient.GetSettingsValue("Spotify_ID")
         Dim sectxt As String = ""
         For i As Integer = 1 To SQLClient.GetSettingsValue("Spotify_Secret").Length
@@ -167,6 +176,8 @@ Public Class SettingsMenuControl
             MusicInterface.FlowItems.BackgroundImage = Nothing
             VideoInterface.FlowItems.BackgroundImage = Nothing
 
+
+
             Me.BackgroundImage = rndimg
             MusicInterface.BackgroundImage = rndimg
             VideoInterface.BackgroundImage = rndimg
@@ -285,5 +296,24 @@ Public Class SettingsMenuControl
             Process.Start(proc)
         Catch ex As Exception
         End Try
+    End Sub
+
+    Public Sub PatchAudioTypeSettings()
+        Dim newExt As String = ""
+        If RbFlac.Checked Then
+            newExt = "flac"
+        ElseIf RBMp3.Checked Then
+            newExt = "mp3"
+        ElseIf RBWav.Checked Then
+            newExt = "wav"
+        End If
+        If newExt <> CurrentAudioFormat Then
+            PatchSetting("Music_DefaultExtension", newExt)
+            TrackLogic.Extension = newExt
+        End If
+    End Sub
+
+    Private Sub RBMp3_CheckedChanged(sender As Object, e As EventArgs) Handles RBMp3.CheckedChanged, RBWav.CheckedChanged, RbFlac.CheckedChanged
+        PatchAudioTypeSettings()
     End Sub
 End Class

@@ -1,8 +1,10 @@
-﻿Public Class SqliteClientBridge : Implements IDisposable
+﻿<CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")>
+Public Class SqliteClientBridge : Implements IDisposable
     Public UnderlyingClient As SqliteClient
     Public Sub New(File As String)
         UnderlyingClient = New SqliteClient(File)
     End Sub
+    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")>
     Public Overridable Sub Dispose() Implements IDisposable.Dispose
         UnderlyingClient.Dispose()
     End Sub
@@ -29,6 +31,7 @@
             Return ""
         End If
     End Function
+
     Public Function SettingsKeyExists(key As String) As Boolean
         Dim result As DataRow() = UnderlyingClient.RunQuery("Select * from 'settings' where key = '{0}'", key)
         If result.Count <> 0 Then

@@ -79,6 +79,8 @@
             CreateNewDatabaseFile()
             SQLClient = New SqliteClientBridge("data")
         End If
+        Console.WriteLine("refreshing data...")
+        RefreshDataFile()
         Console.WriteLine("loading data...")
         LoadSettings()
         Console.WriteLine("Creating interface...")
@@ -122,6 +124,7 @@
         MusicInterface.HandleAutos()
     End Sub
 
+    <CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")>
     Public Sub CreateNewDatabaseFile()
         Console.WriteLine("creating database file...")
 
@@ -134,6 +137,7 @@
             "Insert into 'settings' Values('Music_MaxRetires', '5')",
             "Insert into 'settings' Values('Music_MaxTrackDifference', '5000')",
             "Insert into 'settings' Values('Video_DefaultExtension', 'webm')",
+            "Insert into 'settings' Values('Music_DefaultExtension', 'mp3')",
             "Insert into 'settings' Values('Interface_UseCustomBackground', 'False')",
             "Insert into 'settings' Values('Interface_BackgroundTransparency', '100')",
             "Insert into 'settings' Values('Interface_BackgroundImage', '')",
@@ -151,6 +155,37 @@
         Next
         myconn.Close()
     End Sub
+
+    Public Sub RefreshDataFile()
+        If Not SQLClient.SettingsKeyExists("Music_MaxRetires") Then
+            SQLClient.UpdateSettingsKey("Music_MaxRetires", 5)
+        End If
+        If Not SQLClient.SettingsKeyExists("Music_MaxTrackDifference") Then
+            SQLClient.UpdateSettingsKey("Music_MaxTrackDifference", 5000)
+        End If
+        If Not SQLClient.SettingsKeyExists("Video_DefaultExtension") Then
+            SQLClient.UpdateSettingsKey("Video_DefaultExtension", "webm")
+        End If
+        If Not SQLClient.SettingsKeyExists("Music_DefaultExtension") Then
+            SQLClient.UpdateSettingsKey("Music_DefaultExtension", "mp3")
+        End If
+        If Not SQLClient.SettingsKeyExists("Interface_UseCustomBackground") Then
+            SQLClient.UpdateSettingsKey("Interface_UseCustomBackground", "false")
+        End If
+        If Not SQLClient.SettingsKeyExists("Interface_BackgroundTransparency") Then
+            SQLClient.UpdateSettingsKey("Interface_BackgroundTransparency", "100")
+        End If
+        If Not SQLClient.SettingsKeyExists("Interface_BackgroundImage") Then
+            SQLClient.UpdateSettingsKey("Interface_BackgroundImage", "")
+        End If
+        If Not SQLClient.SettingsKeyExists("Interface_BackgroundColour") Then
+            SQLClient.UpdateSettingsKey("Interface_BackgroundColour", "44, 47, 51")
+        End If
+        If Not SQLClient.SettingsKeyExists("Interface_Style") Then
+            SQLClient.UpdateSettingsKey("Interface_Style", "Complete")
+        End If
+    End Sub
+
     Public Shared Sub SetInterface(Intf As InterfaceScreen)
         DownloaderInterface.SuspendLayout()
         For Each int As Control In DownloaderInterface.Controls
@@ -168,6 +203,7 @@
             SpotifyData.ClientSecret = SQLClient.TryGetSettingsValue("Spotify_Secret")
             TrackLogic.MaxDownloadRetries = SQLClient.TryGetSettingsValue("Music_MaxRetires")
             TrackLogic.MaxDurationDifferance = SQLClient.TryGetSettingsValue("Music_MaxTrackDifference")
+            TrackLogic.Extension = SQLClient.TryGetSettingsValue("Music_DefaultExtension").ToLower
         Else
             Console.WriteLine("SQL client is nothing.")
         End If
