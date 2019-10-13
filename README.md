@@ -37,7 +37,7 @@ It is recomeneded to go over the contents of the [Wiki](https://github.com/Shimm
 
 # Downloads:
 If you do not wish to compile this project yourself, you can download the Windows Binary here:
-Links Last Updated: 08/10/19 (Portable Version)
+Links Last Updated: 13/10/2019
 
 ## Portable: 
 Download: [Via Google](https://drive.google.com/file/d/1biS-gpZv-wJ7aJfgLAQXrMz7XDCkUER4/view?usp=sharing) 
