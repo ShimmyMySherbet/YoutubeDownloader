@@ -26,6 +26,7 @@ Public Class SettingsMenuControl
         txtSpotifySecret.Text = sectxt
 
         CbUseBackground.Checked = SQLClient.GetSettingsValue("Interface_UseCustomBackground")
+        CbEmbedLyrics.Checked = SQLClient.GetSettingsValue("Music_EmbedLyrics")
         TBTransparency.Value = SQLClient.GetSettingsValue("Interface_BackgroundTransparency")
         Dim inps As String = SQLClient.GetSettingsValue("Interface_BackgroundColour")
         Console.WriteLine(inps)
@@ -315,5 +316,10 @@ Public Class SettingsMenuControl
 
     Private Sub RBMp3_CheckedChanged(sender As Object, e As EventArgs) Handles RBMp3.CheckedChanged, RBWav.CheckedChanged, RbFlac.CheckedChanged
         PatchAudioTypeSettings()
+    End Sub
+
+    Private Sub CbEmbedLyrics_CheckedChanged(sender As Object, e As EventArgs) Handles CbEmbedLyrics.CheckedChanged
+        PatchSetting("Music_EmbedLyrics", CbEmbedLyrics.Checked)
+        TrackLogic.AttachLyrics = CbEmbedLyrics.Checked
     End Sub
 End Class

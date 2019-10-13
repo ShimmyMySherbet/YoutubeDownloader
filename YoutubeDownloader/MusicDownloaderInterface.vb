@@ -385,11 +385,6 @@ Public Class MusicDownloaderinterface
 
     End Sub
 
-    Private Sub PbSettings_Click(sender As Object, e As EventArgs)
-        SettingsMenu.Show()
-        SettingsMenu.BringToFront()
-    End Sub
-
     Private Sub PbOpenOutput_Click(sender As Object, e As EventArgs) Handles PbOpenOutput.Click
         Dim resp As String = IO.Directory.GetCurrentDirectory
         If Not resp.EndsWith("\") Then

@@ -60,6 +60,7 @@ Partial Class SettingsMenuControl
         Me.BtnSelectImage = New System.Windows.Forms.Button()
         Me.CDColour = New System.Windows.Forms.ColorDialog()
         Me.OFDImage = New System.Windows.Forms.OpenFileDialog()
+        Me.CbEmbedLyrics = New System.Windows.Forms.CheckBox()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxDiff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxRet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,7 +88,7 @@ Partial Class SettingsMenuControl
         'BtnUpdateFFMpeg
         '
         Me.BtnUpdateFFMpeg.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnUpdateFFMpeg.Location = New System.Drawing.Point(3, 338)
+        Me.BtnUpdateFFMpeg.Location = New System.Drawing.Point(3, 367)
         Me.BtnUpdateFFMpeg.Name = "BtnUpdateFFMpeg"
         Me.BtnUpdateFFMpeg.Size = New System.Drawing.Size(256, 23)
         Me.BtnUpdateFFMpeg.TabIndex = 5
@@ -97,7 +98,7 @@ Partial Class SettingsMenuControl
         'BtnClearCache
         '
         Me.BtnClearCache.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnClearCache.Location = New System.Drawing.Point(3, 309)
+        Me.BtnClearCache.Location = New System.Drawing.Point(3, 338)
         Me.BtnClearCache.Name = "BtnClearCache"
         Me.BtnClearCache.Size = New System.Drawing.Size(256, 23)
         Me.BtnClearCache.TabIndex = 4
@@ -163,15 +164,16 @@ Partial Class SettingsMenuControl
         Me.GbMusic.Controls.Add(Me.PnMusic)
         Me.GbMusic.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!)
         Me.GbMusic.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.GbMusic.Location = New System.Drawing.Point(97, 47)
+        Me.GbMusic.Location = New System.Drawing.Point(96, 27)
         Me.GbMusic.Name = "GbMusic"
-        Me.GbMusic.Size = New System.Drawing.Size(268, 393)
+        Me.GbMusic.Size = New System.Drawing.Size(268, 419)
         Me.GbMusic.TabIndex = 11
         Me.GbMusic.TabStop = False
         Me.GbMusic.Text = "Downloading"
         '
         'PnMusic
         '
+        Me.PnMusic.Controls.Add(Me.CbEmbedLyrics)
         Me.PnMusic.Controls.Add(Me.RBWav)
         Me.PnMusic.Controls.Add(Me.RbFlac)
         Me.PnMusic.Controls.Add(Me.Label7)
@@ -195,7 +197,7 @@ Partial Class SettingsMenuControl
         Me.PnMusic.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.PnMusic.Location = New System.Drawing.Point(3, 20)
         Me.PnMusic.Name = "PnMusic"
-        Me.PnMusic.Size = New System.Drawing.Size(262, 370)
+        Me.PnMusic.Size = New System.Drawing.Size(262, 396)
         Me.PnMusic.TabIndex = 0
         '
         'RBWav
@@ -245,7 +247,7 @@ Partial Class SettingsMenuControl
         Me.FlowLayoutPanel1.Controls.Add(Me.BtnSaveChanges)
         Me.FlowLayoutPanel1.Controls.Add(Me.BtnInstallTypes)
         Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(0, 244)
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(0, 273)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         Me.FlowLayoutPanel1.Size = New System.Drawing.Size(271, 63)
         Me.FlowLayoutPanel1.TabIndex = 31
@@ -346,9 +348,9 @@ Partial Class SettingsMenuControl
         Me.GroupBox1.Controls.Add(Me.Panel1)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!)
         Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.GroupBox1.Location = New System.Drawing.Point(437, 47)
+        Me.GroupBox1.Location = New System.Drawing.Point(439, 27)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(273, 393)
+        Me.GroupBox1.Size = New System.Drawing.Size(273, 419)
         Me.GroupBox1.TabIndex = 12
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Interface"
@@ -369,7 +371,7 @@ Partial Class SettingsMenuControl
         Me.Panel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Panel1.Location = New System.Drawing.Point(3, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(267, 370)
+        Me.Panel1.Size = New System.Drawing.Size(267, 396)
         Me.Panel1.TabIndex = 0
         '
         'DudTheme
@@ -381,7 +383,7 @@ Partial Class SettingsMenuControl
         Me.DudTheme.Items.Add("Partial - Solid")
         Me.DudTheme.Items.Add("Drop - Default")
         Me.DudTheme.Items.Add("Drop - Solid")
-        Me.DudTheme.Location = New System.Drawing.Point(7, 232)
+        Me.DudTheme.Location = New System.Drawing.Point(9, 258)
         Me.DudTheme.Name = "DudTheme"
         Me.DudTheme.Size = New System.Drawing.Size(256, 20)
         Me.DudTheme.TabIndex = 24
@@ -390,7 +392,7 @@ Partial Class SettingsMenuControl
         'btnReset
         '
         Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnReset.Location = New System.Drawing.Point(7, 313)
+        Me.btnReset.Location = New System.Drawing.Point(8, 338)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(256, 23)
         Me.btnReset.TabIndex = 23
@@ -401,7 +403,7 @@ Partial Class SettingsMenuControl
         '
         Me.PbBackgroundColour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PbBackgroundColour.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.PbBackgroundColour.Location = New System.Drawing.Point(223, 203)
+        Me.PbBackgroundColour.Location = New System.Drawing.Point(225, 229)
         Me.PbBackgroundColour.Name = "PbBackgroundColour"
         Me.PbBackgroundColour.Size = New System.Drawing.Size(40, 22)
         Me.PbBackgroundColour.TabIndex = 22
@@ -410,7 +412,7 @@ Partial Class SettingsMenuControl
         'BtnSetBackground
         '
         Me.BtnSetBackground.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSetBackground.Location = New System.Drawing.Point(7, 203)
+        Me.BtnSetBackground.Location = New System.Drawing.Point(9, 229)
         Me.BtnSetBackground.Name = "BtnSetBackground"
         Me.BtnSetBackground.Size = New System.Drawing.Size(210, 23)
         Me.BtnSetBackground.TabIndex = 21
@@ -420,7 +422,7 @@ Partial Class SettingsMenuControl
         'PbPreview
         '
         Me.PbPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PbPreview.Location = New System.Drawing.Point(7, 69)
+        Me.PbPreview.Location = New System.Drawing.Point(9, 95)
         Me.PbPreview.Name = "PbPreview"
         Me.PbPreview.Size = New System.Drawing.Size(256, 128)
         Me.PbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
@@ -430,7 +432,7 @@ Partial Class SettingsMenuControl
         'BtnSave
         '
         Me.BtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSave.Location = New System.Drawing.Point(8, 342)
+        Me.BtnSave.Location = New System.Drawing.Point(9, 367)
         Me.BtnSave.Name = "BtnSave"
         Me.BtnSave.Size = New System.Drawing.Size(255, 23)
         Me.BtnSave.TabIndex = 18
@@ -440,7 +442,7 @@ Partial Class SettingsMenuControl
         'lbltrans
         '
         Me.lbltrans.AutoSize = True
-        Me.lbltrans.Location = New System.Drawing.Point(6, 26)
+        Me.lbltrans.Location = New System.Drawing.Point(8, 52)
         Me.lbltrans.Name = "lbltrans"
         Me.lbltrans.Size = New System.Drawing.Size(165, 13)
         Me.lbltrans.TabIndex = 18
@@ -448,7 +450,7 @@ Partial Class SettingsMenuControl
         '
         'TBTransparency
         '
-        Me.TBTransparency.Location = New System.Drawing.Point(4, 42)
+        Me.TBTransparency.Location = New System.Drawing.Point(6, 68)
         Me.TBTransparency.Maximum = 100
         Me.TBTransparency.Name = "TBTransparency"
         Me.TBTransparency.Size = New System.Drawing.Size(260, 45)
@@ -458,7 +460,7 @@ Partial Class SettingsMenuControl
         'CbUseBackground
         '
         Me.CbUseBackground.AutoSize = True
-        Me.CbUseBackground.Location = New System.Drawing.Point(9, 6)
+        Me.CbUseBackground.Location = New System.Drawing.Point(8, 4)
         Me.CbUseBackground.Name = "CbUseBackground"
         Me.CbUseBackground.Size = New System.Drawing.Size(144, 17)
         Me.CbUseBackground.TabIndex = 0
@@ -468,7 +470,7 @@ Partial Class SettingsMenuControl
         'BtnSelectImage
         '
         Me.BtnSelectImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSelectImage.Location = New System.Drawing.Point(8, 284)
+        Me.BtnSelectImage.Location = New System.Drawing.Point(9, 309)
         Me.BtnSelectImage.Name = "BtnSelectImage"
         Me.BtnSelectImage.Size = New System.Drawing.Size(256, 23)
         Me.BtnSelectImage.TabIndex = 18
@@ -482,6 +484,16 @@ Partial Class SettingsMenuControl
         'OFDImage
         '
         Me.OFDImage.Filter = "Images|*.jpg;*.jpeg;*.png:*.tiff;*.bmp"
+        '
+        'CbEmbedLyrics
+        '
+        Me.CbEmbedLyrics.AutoSize = True
+        Me.CbEmbedLyrics.Location = New System.Drawing.Point(9, 246)
+        Me.CbEmbedLyrics.Name = "CbEmbedLyrics"
+        Me.CbEmbedLyrics.Size = New System.Drawing.Size(111, 17)
+        Me.CbEmbedLyrics.TabIndex = 36
+        Me.CbEmbedLyrics.Text = "Embed song lyrics"
+        Me.CbEmbedLyrics.UseVisualStyleBackColor = True
         '
         'SettingsMenuControl
         '
@@ -551,4 +563,5 @@ Partial Class SettingsMenuControl
     Friend WithEvents RbFlac As RadioButton
     Friend WithEvents Label7 As Label
     Friend WithEvents RBMp3 As RadioButton
+    Friend WithEvents CbEmbedLyrics As CheckBox
 End Class

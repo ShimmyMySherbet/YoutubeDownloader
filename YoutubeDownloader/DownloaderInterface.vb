@@ -117,7 +117,8 @@
                 End If
             Next
         End If
-
+        'This token is valid for read-only operations.
+        GeniusAPI.Init("AHxAt52xqrwjGmL-L6XeXa7kDSXayMAPIl3ajWHEjtz5O2jOZK2Ae6cj52pYza4W")
     End Sub
 
     Public Sub Shownd() Handles MyBase.Shown
@@ -131,7 +132,6 @@
         Dim SpotifyP As New SpotifyPrompt()
         Dim res As DialogResult = SpotifyP.ShowDialog
         Dim Commands As New List(Of String) From {"CREATE TABLE Settings (Key text, Value text)",
-            "CREATE TABLE History (type text, title text, url text, id int)",
             "CREATE UNIQUE INDEX ""SettingsIndex"" ON ""Settings"" (""Key"");",
             "CREATE UNIQUE INDEX ""HistoryIndex"" ON ""History"" (""id"");",
             "Insert into 'settings' Values('Music_MaxRetires', '5')",
@@ -184,6 +184,9 @@
         If Not SQLClient.SettingsKeyExists("Interface_Style") Then
             SQLClient.UpdateSettingsKey("Interface_Style", "Complete")
         End If
+        If Not SQLClient.SettingsKeyExists("Music_EmbedLyrics") Then
+            SQLClient.UpdateSettingsKey("Music_EmbedLyrics", "True")
+        End If
     End Sub
 
     Public Shared Sub SetInterface(Intf As InterfaceScreen)
@@ -204,6 +207,7 @@
             TrackLogic.MaxDownloadRetries = SQLClient.TryGetSettingsValue("Music_MaxRetires")
             TrackLogic.MaxDurationDifferance = SQLClient.TryGetSettingsValue("Music_MaxTrackDifference")
             TrackLogic.Extension = SQLClient.TryGetSettingsValue("Music_DefaultExtension").ToLower
+            TrackLogic.AttachLyrics = SQLClient.TryGetSettingsValue("Music_EmbedLyrics")
         Else
             Console.WriteLine("SQL client is nothing.")
         End If

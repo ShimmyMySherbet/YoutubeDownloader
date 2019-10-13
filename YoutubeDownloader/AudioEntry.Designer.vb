@@ -43,18 +43,15 @@ Partial Class AudioEntry
         Me.PbBtnEditMex = New System.Windows.Forms.PictureBox()
         Me.PbCrop = New System.Windows.Forms.PictureBox()
         Me.PbBtnClose = New System.Windows.Forms.PictureBox()
-        Me.Pbicon2 = New System.Windows.Forms.PictureBox()
-        Me.PbIcon1 = New System.Windows.Forms.PictureBox()
         Me.PbArtwork = New System.Windows.Forms.PictureBox()
         Me.CMSArtwork = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TSMIPasteArtwork = New System.Windows.Forms.ToolStripMenuItem()
         Me.TSMIRemoveArtwork = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FlowIcons = New System.Windows.Forms.FlowLayoutPanel()
         Me.FlowButtons.SuspendLayout()
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PbIcon1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.CMSArtwork.SuspendLayout()
         Me.SuspendLayout()
@@ -175,24 +172,6 @@ Partial Class AudioEntry
         Me.PbBtnClose.TabIndex = 9
         Me.PbBtnClose.TabStop = False
         '
-        'Pbicon2
-        '
-        Me.Pbicon2.Location = New System.Drawing.Point(3, 23)
-        Me.Pbicon2.Name = "Pbicon2"
-        Me.Pbicon2.Size = New System.Drawing.Size(20, 20)
-        Me.Pbicon2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.Pbicon2.TabIndex = 7
-        Me.Pbicon2.TabStop = False
-        '
-        'PbIcon1
-        '
-        Me.PbIcon1.Location = New System.Drawing.Point(3, 2)
-        Me.PbIcon1.Name = "PbIcon1"
-        Me.PbIcon1.Size = New System.Drawing.Size(20, 20)
-        Me.PbIcon1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PbIcon1.TabIndex = 6
-        Me.PbIcon1.TabStop = False
-        '
         'PbArtwork
         '
         Me.PbArtwork.ContextMenuStrip = Me.CMSArtwork
@@ -207,7 +186,7 @@ Partial Class AudioEntry
         '
         Me.CMSArtwork.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TSMIPasteArtwork, Me.TSMIRemoveArtwork})
         Me.CMSArtwork.Name = "CMSArtwork"
-        Me.CMSArtwork.Size = New System.Drawing.Size(201, 70)
+        Me.CMSArtwork.Size = New System.Drawing.Size(201, 48)
         '
         'TSMIPasteArtwork
         '
@@ -221,20 +200,28 @@ Partial Class AudioEntry
         Me.TSMIRemoveArtwork.Size = New System.Drawing.Size(200, 22)
         Me.TSMIRemoveArtwork.Text = "Remove pasted Artwork"
         '
+        'FlowIcons
+        '
+        Me.FlowIcons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowIcons.Location = New System.Drawing.Point(1, 1)
+        Me.FlowIcons.Margin = New System.Windows.Forms.Padding(0)
+        Me.FlowIcons.Name = "FlowIcons"
+        Me.FlowIcons.Size = New System.Drawing.Size(28, 92)
+        Me.FlowIcons.TabIndex = 15
+        '
         'AudioEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(49, Byte), Integer), CType(CType(52, Byte), Integer), CType(CType(56, Byte), Integer))
         Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Controls.Add(Me.FlowIcons)
         Me.Controls.Add(Me.PbBtnEditMex)
         Me.Controls.Add(Me.FlowButtons)
         Me.Controls.Add(Me.PbCrop)
         Me.Controls.Add(Me.PbProgress)
         Me.Controls.Add(Me.PbBtnClose)
         Me.Controls.Add(Me.lblSpotifySong)
-        Me.Controls.Add(Me.Pbicon2)
-        Me.Controls.Add(Me.PbIcon1)
         Me.Controls.Add(Me.lblytChannel)
         Me.Controls.Add(Me.LblArtist)
         Me.Controls.Add(Me.LblAlbum)
@@ -247,8 +234,6 @@ Partial Class AudioEntry
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Pbicon2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PbIcon1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).EndInit()
         Me.CMSArtwork.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -262,8 +247,6 @@ Partial Class AudioEntry
     Friend WithEvents LblArtist As Label
     Friend WithEvents BtnPlayAudio As Button
     Friend WithEvents lblytChannel As Label
-    Friend WithEvents PbIcon1 As PictureBox
-    Friend WithEvents Pbicon2 As PictureBox
     Friend WithEvents lblSpotifySong As Label
     Friend WithEvents PbBtnClose As PictureBox
     Friend WithEvents PbProgress As ProgressBar
@@ -275,4 +258,5 @@ Partial Class AudioEntry
     Friend WithEvents CMSArtwork As ContextMenuStrip
     Friend WithEvents TSMIPasteArtwork As ToolStripMenuItem
     Friend WithEvents TSMIRemoveArtwork As ToolStripMenuItem
+    Friend WithEvents FlowIcons As FlowLayoutPanel
 End Class

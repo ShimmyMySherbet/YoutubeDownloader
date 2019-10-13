@@ -1,6 +1,7 @@
 ﻿Imports NAudio.Wave
 Imports YoutubeExplode.Models
 Imports Xabe.FFmpeg
+Imports YoutubeDownloader.GeniusAPI
 Public Class AudioEntry
     Dim Downloading As Boolean = False
     Public Video As YoutubeExplode.Models.Video
@@ -38,6 +39,9 @@ Public Class AudioEntry
     Public BaseArtworkImage As Image
 
     Private AlbumDownloadThread As New Threading.Thread(AddressOf GetSpotifyAlbum)
+
+    Public GeniusResult As GeniusResult
+
 #Region "Thread Glicth Woraround"
     'Strange glitch from when a video was added from a playlist, whenever the thread would attempt to add a task to the UI Thread's Task factory,
     'The calling thread would immediatley exit with no error or stop code.
@@ -84,7 +88,7 @@ Public Class AudioEntry
         IsFromPlaylist = Data.IsFromPlaylist
         lblYTtitle.Text = Data.Video.Title
         lblytChannel.Text = Data.Video.Author
-        PbIcon1.Image = My.Resources.YouTube
+        'PbIcon1.Image = My.Resources.YouTube
         Dim IconUrl As String = ""
         If IsNothing(Data.SpotifyTrack) Then
             BtnPlayAudio.Hide()
@@ -94,9 +98,16 @@ Public Class AudioEntry
             SongTitle = Data.MexData.Name
             LblAlbum.Text = ""
             IconUrl = Data.Video.Thumbnails.MediumResUrl
+
+
+            Console.WriteLine("Fetching genius lyrics")
+            If TrackLogic.AttachLyrics Then
+                GeniusResult = GetLyrics(MexData.Artist, MexData.Name, False)
+            End If
+
         Else
             Console.WriteLine(Data.SpotifyTrack.Album.ReleaseDate)
-            Pbicon2.Image = My.Resources.Spotify
+            'Pbicon2.Image = My.Resources.Spotify
             LblAlbum.Text = "Album: " & Data.SpotifyTrack.Album.Name
             LblArtist.Text = "Artist: " & Data.SpotifyTrack.Artists(0).Name
             SongArtist = Data.SpotifyTrack.Artists(0).Name
@@ -107,7 +118,14 @@ Public Class AudioEntry
                 BtnPlayAudio.Hide()
             End If
             RefreshSpotifyAlbum()
+
+            Console.WriteLine("Fetching genius lyrics")
+            If TrackLogic.AttachLyrics Then
+                GeniusResult = GetLyrics(SpotifyTrack.Artists(0).Name, SpotifyTrack.Name, True)
+            End If
+
         End If
+        InitialiseIcons()
         If IconUrl = "" Then
             PbArtwork.Image = My.Resources.YouTube
         Else
@@ -121,6 +139,42 @@ Public Class AudioEntry
             Artworkdownloadthread.Start(IconUrl)
         End If
     End Sub
+
+    Public Sub InitialiseIcons()
+        Console.WriteLine("Initialising icons")
+        If FlowIcons.Controls.Count <> 0 Then
+            FlowIcons.Controls.Clear()
+        End If
+        If Not IsNothing(Video) Then
+            FlowIcons.Controls.Add(IconBuilder(My.Resources.YouTube, Video.GetUrl))
+        End If
+        If Not IsNothing(SpotifyTrack) Then
+            If SpotifyTrack.HasError = False Then
+                FlowIcons.Controls.Add(IconBuilder(My.Resources.Spotify, SpotifyTrack.Uri))
+            End If
+        End If
+        If Not IsNothing(GeniusResult) Then
+            If GeniusResult.Available Then
+                FlowIcons.Controls.Add(IconBuilder(My.Resources.genius, GeniusResult.URL))
+            End If
+        End If
+    End Sub
+    Private Function IconBuilder(Icon As Image, Link As String) As PictureBox
+        Dim PBI As New PictureBox With {
+            .Image = Icon,
+            .Size = New Size(20, 20),
+            .SizeMode = PictureBoxSizeMode.Zoom}
+        PBI.Tag = Link
+        AddHandler PBI.DoubleClick, Sub(sender As Object, e As EventArgs)
+                                        Dim Url As String = CType(sender, PictureBox).Tag
+                                        If Not IsNothing(Url) Then
+                                            If Url <> "" Then
+                                                Process.Start(Url)
+                                            End If
+                                        End If
+                                    End Sub
+        Return PBI
+    End Function
 
     Private Sub GetSpotifyAlbum()
         Console.WriteLine("getting album...")
@@ -435,6 +489,13 @@ RetryDownload:
             ID3File.Tag.Title = SongTitle
             ID3File.Tag.AlbumArtists = {SongArtist}
 
+            If TrackLogic.AttachLyrics Then
+                If Not IsNothing(GeniusResult) Then
+                    If GeniusResult.Available Then
+                        ID3File.Tag.Lyrics = GeniusResult.Lyrics
+                    End If
+                End If
+            End If
 
 
             If Not IsNothing(SpotifyTrack) Then
@@ -558,18 +619,6 @@ RetryDownload:
     End Sub
     Public Sub Workerprogress() Handles BackgroundDownloader.ProgressChanged
         PbProgress.PerformStep()
-    End Sub
-
-    Private Sub PbIcon1_Click(sender As Object, e As EventArgs) Handles PbIcon1.Click
-        Process.Start(Video.GetUrl)
-    End Sub
-
-    Private Sub Pbicon2_Click(sender As Object, e As EventArgs) Handles Pbicon2.Click
-        If Not IsNothing(SpotifyTrack) Then
-            If SpotifyTrack.Uri <> "" Then
-                Process.Start(SpotifyTrack.Uri)
-            End If
-        End If
     End Sub
 
     Public Function ScrubFilename(Filename As String)

@@ -97,6 +97,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.16.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.16\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="LtGt, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LtGt.1.0.1\lib\net45\LtGt.dll</HintPath>
     </Reference>
@@ -189,6 +192,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FFMPEGHandler.vb" />
+    <Compile Include="GeniusAPI.vb" />
     <Compile Include="HomeMenuControl.Designer.vb">
       <DependentUpon>HomeMenuControl.vb</DependentUpon>
     </Compile>
@@ -227,12 +231,6 @@
     <Compile Include="ProgramConfigurationBase.vb" />
     <Compile Include="ProgressbarModification.vb" />
     <Compile Include="RegInstaller.vb" />
-    <Compile Include="SettingsMenu.Designer.vb">
-      <DependentUpon>SettingsMenu.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsMenu.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="SettingsMenuControl.Designer.vb">
       <DependentUpon>SettingsMenuControl.vb</DependentUpon>
     </Compile>
@@ -303,9 +301,6 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SettingsMenu.resx">
-      <DependentUpon>SettingsMenu.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsMenuControl.resx">
       <DependentUpon>SettingsMenuControl.vb</DependentUpon>
@@ -449,6 +444,7 @@
     <None Include="Resources\Folder_Blue.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\genius.png" />
     <Content Include="SQLite.Interop.86.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
