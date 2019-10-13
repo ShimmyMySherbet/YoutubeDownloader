@@ -40,16 +40,19 @@ If you do not wish to compile this project yourself, you can download the Window
 Links Last Updated: 08/10/19 (Portable Version)
 
 ## Portable: 
-Download: [Via Google](https://drive.google.com/file/d/1JBTNkA3iST-ssLN40ewfdVPOSHG7lnVX/view?usp=sharing) 
+Download: [Via Google](https://drive.google.com/file/d/1biS-gpZv-wJ7aJfgLAQXrMz7XDCkUER4/view?usp=sharing) 
 
 Latest version
 
-Portable MD5 sum: 5FEB9EE8D7D84EC24E614C8B21EB4334
+Portable MD5 sum: 40DA597D1601ACF7E70034E612AC9DA4
 
-Portable SAH1 sum: FC17D0E095F7863062DD4F0AA13E5EA4C43CFC9B
+Portable SAH1 sum: B54BF8E0BC6B4EC516B2E4E0B9ECA1529B76BFC9
 
-## Installer:
-No longer supported as of 07/10/19
+# Changelog
+### 1.2.0.0
+* Added lyric support from Genius
+* Added option in the settings menu to enable/disable Genius lyrics.
+* Changed the way platform icons are rendered
 
 
 
