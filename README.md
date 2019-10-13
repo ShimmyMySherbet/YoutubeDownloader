@@ -11,6 +11,7 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 * Ability to add songs by a songs/albums/playlist's url from YouTube or Spotify
 * Ability to paste album artwork onto a track
 * Batch download functionality (Downlaod hundreds of songs at the click of a button!)
+* Embed lyrics to your music using Genius
 * Track trimming/cropping functionality
 * Track data editing
 * Basic YouTube video downloading functionality (Currently there is only muxed streams avalable, so expect very poor quality)
@@ -27,6 +28,7 @@ A music downloader for YouTube with Spotify integration. Quickly and easily down
 * Track Number
 * Album Total Tracks
 * Album Type (If Available)
+* Lyrics (You can toggle this)
 * Album Genre (If available, Spotify is strange...)
 
 **NOTE:** This project does not download music from spotify, it merely finds the song on YouTube utilising data from spotify such as artist name, song title and song duration.
