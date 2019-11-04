@@ -8,8 +8,21 @@ Public Class SettingsMenuControl
         NudMaxDiff.Value = TrackLogic.MaxDurationDifferance
         NudMaxRet.Value = TrackLogic.MaxDownloadRetries
 
+
+
         TxtVideoExt.Text = SQLClient.GetSettingsValue("Video_DefaultExtension")
         CurrentAudioFormat = SQLClient.GetSettingsValue("Music_DefaultExtension").ToLower
+
+        If SQLClient.GetSettingsValue("Spotify_UsePublicCredentials") Then
+            RBPublic.Checked = True
+            TxtSpotifyClient.Enabled = False
+            txtSpotifySecret.Enabled = False
+        Else
+            RbPrivate.Checked = True
+            TxtSpotifyClient.Enabled = True
+            txtSpotifySecret.Enabled = True
+        End If
+
         Select Case CurrentAudioFormat
             Case "mp3"
                 RBMp3.Checked = True
@@ -260,36 +273,14 @@ Public Class SettingsMenuControl
     Private Sub DudTheme_SelectedItemChanged(sender As Object, e As EventArgs) Handles DudTheme.SelectedItemChanged
     End Sub
 
-    Private Sub TxtVideoExt_TextChanged(sender As Object, e As EventArgs) Handles TxtVideoExt.TextChanged
-        If Not BtnSaveChanges.Visible Then
-            BtnSaveChanges.Show()
-        End If
-    End Sub
-
-    Private Sub TxtSpotifyClient_TextChanged(sender As Object, e As EventArgs) Handles TxtSpotifyClient.TextChanged
-        If Not BtnSaveChanges.Visible Then
-            BtnSaveChanges.Show()
-        End If
-    End Sub
-
-    Private Sub txtSpotifySecret_TextChanged(sender As Object, e As EventArgs) Handles txtSpotifySecret.TextChanged
-        If Not BtnSaveChanges.Visible Then
-            BtnSaveChanges.Show()
-        End If
-    End Sub
-
-    Private Sub BtnSaveChanges_Click(sender As Object, e As EventArgs) Handles BtnSaveChanges.Click
+    Private Sub SaveChanges() Handles txtSpotifySecret.TextChanged, TxtSpotifyClient.TextChanged, TxtVideoExt.TextChanged
         PatchSetting("Video_DefaultExtension", TxtVideoExt.Text)
         PatchSetting("Spotify_ID", TxtSpotifyClient.Text)
         If Not txtSpotifySecret.Text.Contains("~") Then
             PatchSetting("Spotify_Secret", txtSpotifySecret.Text)
         End If
-        BtnSaveChanges.Hide()
     End Sub
 
-    Private Sub SettingsMenuControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        BtnSaveChanges.Hide()
-    End Sub
 
     Private Sub BtnInstallTypes_Click(sender As Object, e As EventArgs) Handles BtnInstallTypes.Click
         Dim proc As New ProcessStartInfo With {.FileName = "YouTubeDownloader.exe", .Arguments = "-install", .UseShellExecute = True, .Verb = "runas"}
@@ -321,5 +312,22 @@ Public Class SettingsMenuControl
     Private Sub CbEmbedLyrics_CheckedChanged(sender As Object, e As EventArgs) Handles CbEmbedLyrics.CheckedChanged
         PatchSetting("Music_EmbedLyrics", CbEmbedLyrics.Checked)
         TrackLogic.AttachLyrics = CbEmbedLyrics.Checked
+    End Sub
+
+    Private Sub CredStatusChanged(sender As Object, e As EventArgs) Handles RBPublic.CheckedChanged, RbPrivate.CheckedChanged
+        If AllowUpdates Then
+            PatchSetting("Spotify_UsePublicCredentials", RBPublic.Checked)
+            If RBPublic.Checked Then
+                TxtSpotifyClient.Enabled = False
+                txtSpotifySecret.Enabled = False
+                Dim data As KeyValuePair(Of String, String) = GetRandomPublicCredentials()
+                SpotifyData.ClientID = data.Key
+                SpotifyData.ClientSecret = data.Value
+                RenewSpotifyToken()
+            Else
+                TxtSpotifyClient.Enabled = True
+                txtSpotifySecret.Enabled = True
+            End If
+        End If
     End Sub
 End Class

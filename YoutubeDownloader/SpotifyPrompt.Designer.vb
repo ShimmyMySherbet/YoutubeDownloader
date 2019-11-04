@@ -28,6 +28,7 @@ Partial Class SpotifyPrompt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(536, 302)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -35,7 +36,8 @@ Partial Class SpotifyPrompt
         Me.Name = "SpotifyPrompt"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "SpotifyPrompt"
+        Me.Text = "Setup YoutubeDownloader"
+        Me.TopMost = True
         Me.ResumeLayout(False)
 
     End Sub

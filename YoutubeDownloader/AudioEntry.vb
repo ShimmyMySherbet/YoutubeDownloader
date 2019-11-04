@@ -227,8 +227,11 @@ Public Class AudioEntry
             If IsNothing(OutputDevice) Then
                 OutputDevice = New WaveOutEvent()
                 AddHandler OutputDevice.PlaybackStopped, Sub()
-                                                             BtnPlayAudio.Text = "Play"
-                                                             AudioFile.Position = 0
+                                                             Try
+                                                                 BtnPlayAudio.Text = "Play"
+                                                                 AudioFile.Position = 0
+                                                             Catch ex As Exception
+                                                             End Try
                                                          End Sub
             End If
             If IsNothing(AudioFile) Then
@@ -437,7 +440,10 @@ RetryDownload:
             Dim AudioConversion As IConversion = Conversion.Convert("Downloads\" & Filename & "." & ext, Mp3Out)
             AudioConversion.SetAudioBitrate(auinfo.Bitrate)
             AudioConversion.UseHardwareAcceleration(Enums.HardwareAccelerator.Auto, Enums.VideoCodec.H264_cuvid, Enums.VideoCodec.H264_cuvid)
+            Dim timer As New FunctionTimer
             Dim result As Model.IConversionResult = Await AudioConversion.Start()
+            'Console.WriteLine($"   >>>>> Conversion complete, duration: {Math.Round(timer.GetDuration.TotalSeconds, 2)}")
+
             If Not IsFromPlaylist Then
 
                 Await UiTaskfactory.StartNew(Sub()
@@ -450,7 +456,7 @@ RetryDownload:
             End If
 
 
-            Console.WriteLine("Completed Integer {0} secconds", result.Duration.TotalSeconds)
+            Console.WriteLine("   >>>Completed {0} secconds", Math.Round(result.Duration.TotalSeconds, 2))
             If result.Success Then
                 Console.WriteLine("Conversion Successfull.")
             Else
@@ -734,7 +740,19 @@ RetryDownload:
     Private Sub TSMIRemoveArtwork_Click(sender As Object, e As EventArgs) Handles TSMIRemoveArtwork.Click
         UserPastedImage = Nothing
         PbArtwork.Image = BaseArtworkImage
+
     End Sub
+    Public Class FunctionTimer
+        Dim startt As Date
+        Sub New()
+            startt = Now
+        End Sub
+        Public Function GetDuration() As TimeSpan
+            Dim endT As Date = Now
+            Dim dif As TimeSpan = endT.Subtract(startt)
+            Return dif
+        End Function
+    End Class
 End Class
 Public Class AudioControlData
     Public Video As YoutubeExplode.Models.Video

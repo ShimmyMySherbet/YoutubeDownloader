@@ -117,6 +117,9 @@
                 End If
             Next
         End If
+
+
+
         'This token is valid for read-only operations.
         GeniusAPI.Init("AHxAt52xqrwjGmL-L6XeXa7kDSXayMAPIl3ajWHEjtz5O2jOZK2Ae6cj52pYza4W")
     End Sub
@@ -130,10 +133,12 @@
         Console.WriteLine("creating database file...")
 
         Dim SpotifyP As New SpotifyPrompt()
+        Console.WriteLine("Showing firststart dialog")
         Dim res As DialogResult = SpotifyP.ShowDialog
+        Console.WriteLine("data submitted")
+
         Dim Commands As New List(Of String) From {"CREATE TABLE Settings (Key text, Value text)",
             "CREATE UNIQUE INDEX ""SettingsIndex"" ON ""Settings"" (""Key"");",
-            "CREATE UNIQUE INDEX ""HistoryIndex"" ON ""History"" (""id"");",
             "Insert into 'settings' Values('Music_MaxRetires', '5')",
             "Insert into 'settings' Values('Music_MaxTrackDifference', '5000')",
             "Insert into 'settings' Values('Video_DefaultExtension', 'webm')",
@@ -144,8 +149,13 @@
             "Insert into 'settings' Values('Interface_BackgroundColour', '44, 47, 51')",
             "Insert into 'settings' Values('Interface_Style', 'Complete')"}
         If res = DialogResult.OK Then
-            Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_ID", SpotifyData.ClientID))
-            Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_Secret", SpotifyData.ClientSecret))
+            If SpotifyP.PublicCredentials Then
+                Commands.Add("Insert into 'settings' Values('Spotify_UsePublicCredentials', 'True')")
+            Else
+                Commands.Add("Insert into 'settings' Values('Spotify_UsePublicCredentials', 'False')")
+                Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_ID", SpotifyData.ClientID))
+                Commands.Add(String.Format("Insert into 'settings' Values('{0}', '{1}')", "Spotify_Secret", SpotifyData.ClientSecret))
+            End If
         End If
         Dim myconn As New SQLite.SQLiteConnection("Data Source=data")
         myconn.Open()
@@ -187,8 +197,26 @@
         If Not SQLClient.SettingsKeyExists("Music_EmbedLyrics") Then
             SQLClient.UpdateSettingsKey("Music_EmbedLyrics", "True")
         End If
+        If Not SQLClient.SettingsKeyExists("Spotify_ID") Then
+            SQLClient.UpdateSettingsKey("Spotify_ID", "")
+        End If
+        If Not SQLClient.SettingsKeyExists("Spotify_Secret") Then
+            SQLClient.UpdateSettingsKey("Spotify_Secret", "")
+        End If
+        If Not SQLClient.SettingsKeyExists("Spotify_UsePublicCredentials") Then
+            SQLClient.UpdateSettingsKey("Spotify_UsePublicCredentials", "True")
+        End If
     End Sub
-
+    Public Shared Sub RenewSpotifyToken()
+        Dim RenThread As New Threading.Thread(Sub()
+                                                  Dim NewClient As New SpotifyApiBridge(SpotifyData.ClientID, SpotifyData.ClientSecret)
+                                                  Do Until NewClient.Ready
+                                                      Threading.Thread.Sleep(100)
+                                                  Loop
+                                                  MusicInterface.Spotify = NewClient
+                                              End Sub)
+        RenThread.Start()
+    End Sub
     Public Shared Sub SetInterface(Intf As InterfaceScreen)
         DownloaderInterface.SuspendLayout()
         For Each int As Control In DownloaderInterface.Controls
@@ -204,6 +232,11 @@
         If Not IsNothing(SQLClient) Then
             SpotifyData.ClientID = SQLClient.TryGetSettingsValue("Spotify_ID")
             SpotifyData.ClientSecret = SQLClient.TryGetSettingsValue("Spotify_Secret")
+            If SQLClient.TryGetSettingsValue("Spotify_UsePublicCredentials") Then
+                Dim data As KeyValuePair(Of String, String) = GetRandomPublicCredentials()
+                SpotifyData.ClientID = data.Key
+                SpotifyData.ClientSecret = data.Value
+            End If
             TrackLogic.MaxDownloadRetries = SQLClient.TryGetSettingsValue("Music_MaxRetires")
             TrackLogic.MaxDurationDifferance = SQLClient.TryGetSettingsValue("Music_MaxTrackDifference")
             TrackLogic.Extension = SQLClient.TryGetSettingsValue("Music_DefaultExtension").ToLower

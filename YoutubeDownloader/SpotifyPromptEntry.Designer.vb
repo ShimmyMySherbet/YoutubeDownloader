@@ -33,7 +33,6 @@ Partial Class SpotifyPromptEntry
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtClientSecret = New System.Windows.Forms.TextBox()
         Me.btnSubmit = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.Errorprovider = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.Errorprovider, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -41,10 +40,11 @@ Partial Class SpotifyPromptEntry
         '
         'TextBox1
         '
-        Me.TextBox1.BackColor = System.Drawing.SystemColors.Control
+        Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBox1.Enabled = False
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.TextBox1.Location = New System.Drawing.Point(3, 3)
         Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
@@ -56,24 +56,26 @@ Partial Class SpotifyPromptEntry
         '
         'TextBox2
         '
-        Me.TextBox2.BackColor = System.Drawing.SystemColors.Control
+        Me.TextBox2.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.TextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBox2.Enabled = False
         Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.TextBox2.Location = New System.Drawing.Point(3, 59)
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
         Me.TextBox2.Size = New System.Drawing.Size(546, 144)
         Me.TextBox2.TabIndex = 1
-        Me.TextBox2.Text = "Don't worry, you can obtain these for free. All you need is a Spotify account!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Create a Spotify Account: " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Create a Spotify Application:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "How to get a Spo" &
-    "tify Client ID and Secret:"
+        Me.TextBox2.Text = "Create a Spotify Account: " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Create a Spotify Application:" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "How to get a Spoti" &
+    "fy Client ID and Secret:"
         '
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
         Me.LinkLabel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.LinkLabel1.Location = New System.Drawing.Point(188, 99)
+        Me.LinkLabel1.LinkColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
+        Me.LinkLabel1.Location = New System.Drawing.Point(186, 59)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(251, 20)
         Me.LinkLabel1.TabIndex = 2
@@ -84,7 +86,8 @@ Partial Class SpotifyPromptEntry
         '
         Me.LinkLabel2.AutoSize = True
         Me.LinkLabel2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.LinkLabel2.Location = New System.Drawing.Point(206, 140)
+        Me.LinkLabel2.LinkColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
+        Me.LinkLabel2.Location = New System.Drawing.Point(204, 100)
         Me.LinkLabel2.Name = "LinkLabel2"
         Me.LinkLabel2.Size = New System.Drawing.Size(294, 20)
         Me.LinkLabel2.TabIndex = 3
@@ -95,7 +98,7 @@ Partial Class SpotifyPromptEntry
         '
         Me.LinkLabel3.AutoSize = True
         Me.LinkLabel3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
-        Me.LinkLabel3.Location = New System.Drawing.Point(298, 179)
+        Me.LinkLabel3.Location = New System.Drawing.Point(298, 139)
         Me.LinkLabel3.Name = "LinkLabel3"
         Me.LinkLabel3.Size = New System.Drawing.Size(44, 20)
         Me.LinkLabel3.TabIndex = 4
@@ -104,6 +107,9 @@ Partial Class SpotifyPromptEntry
         '
         'TxtClientID
         '
+        Me.TxtClientID.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.TxtClientID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtClientID.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.TxtClientID.Location = New System.Drawing.Point(3, 224)
         Me.TxtClientID.Name = "TxtClientID"
         Me.TxtClientID.Size = New System.Drawing.Size(277, 20)
@@ -129,6 +135,9 @@ Partial Class SpotifyPromptEntry
         '
         'txtClientSecret
         '
+        Me.txtClientSecret.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.txtClientSecret.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtClientSecret.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.txtClientSecret.Location = New System.Drawing.Point(3, 262)
         Me.txtClientSecret.Name = "txtClientSecret"
         Me.txtClientSecret.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
@@ -137,21 +146,13 @@ Partial Class SpotifyPromptEntry
         '
         'btnSubmit
         '
-        Me.btnSubmit.Location = New System.Drawing.Point(302, 260)
+        Me.btnSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnSubmit.Location = New System.Drawing.Point(383, 260)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(75, 23)
         Me.btnSubmit.TabIndex = 9
         Me.btnSubmit.Text = "Submit"
         Me.btnSubmit.UseVisualStyleBackColor = True
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(474, 259)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 10
-        Me.Button2.Text = "Skip"
-        Me.Button2.UseVisualStyleBackColor = True
         '
         'Errorprovider
         '
@@ -159,7 +160,8 @@ Partial Class SpotifyPromptEntry
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(383, 259)
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button1.Location = New System.Drawing.Point(464, 259)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(85, 23)
         Me.Button1.TabIndex = 11
@@ -170,8 +172,8 @@ Partial Class SpotifyPromptEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.txtClientSecret)
@@ -182,6 +184,7 @@ Partial Class SpotifyPromptEntry
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
+        Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.Name = "SpotifyPromptEntry"
         Me.Size = New System.Drawing.Size(552, 293)
         CType(Me.Errorprovider, System.ComponentModel.ISupportInitialize).EndInit()
@@ -200,7 +203,6 @@ Partial Class SpotifyPromptEntry
     Friend WithEvents Label2 As Label
     Friend WithEvents txtClientSecret As TextBox
     Friend WithEvents btnSubmit As Button
-    Friend WithEvents Button2 As Button
     Friend WithEvents Errorprovider As ErrorProvider
     Friend WithEvents Button1 As Button
 End Class

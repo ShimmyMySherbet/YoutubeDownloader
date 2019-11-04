@@ -90,6 +90,29 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>YoutubeDownloader.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>YoutubeDownloader.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -185,6 +208,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BackgroundRenderer.vb" />
+    <Compile Include="CredentialPrompt.Designer.vb">
+      <DependentUpon>CredentialPrompt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CredentialPrompt.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="DownloaderInterface.Designer.vb">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>
     </Compile>
@@ -199,6 +228,7 @@
     <Compile Include="HomeMenuControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="LoadPublicCredentials.vb" />
     <Compile Include="ManualTrackInputDialog.Designer.vb">
       <DependentUpon>ManualTrackInputDialog.vb</DependentUpon>
     </Compile>
@@ -283,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AudioTrimDialog.resx">
       <DependentUpon>AudioTrimDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CredentialPrompt.resx">
+      <DependentUpon>CredentialPrompt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DownloaderInterface.resx">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>

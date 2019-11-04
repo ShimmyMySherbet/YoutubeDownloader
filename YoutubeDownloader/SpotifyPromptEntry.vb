@@ -1,8 +1,8 @@
 ﻿Public Class SpotifyPromptEntry
-    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
-    Public Event DataSkiped()
-    <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
+    Public Event GoBack()
     Public Event DataSubmitted()
+
+
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         Process.Start(LinkLabel1.Text)
     End Sub
@@ -40,14 +40,7 @@ When you register an application on your account, two credentials are created fo
         Errorprovider.Clear()
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Dim res As DialogResult = MessageBox.Show(Me, "Are you sure you want to skip this stage? Doing so will disable all usage of spotify, meaning you won't be able to get any media information for music. If you wish to add this later, you can enter the values in the settings menu. Continue?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
-        If res = DialogResult.Yes Then
-            RaiseEvent DataSkiped()
-        End If
-    End Sub
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        End
+        RaiseEvent GoBack()
     End Sub
 End Class

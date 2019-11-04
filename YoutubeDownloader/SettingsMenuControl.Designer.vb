@@ -27,27 +27,31 @@ Partial Class SettingsMenuControl
         Me.BtnClearCache = New System.Windows.Forms.Button()
         Me.NudMaxDiff = New System.Windows.Forms.NumericUpDown()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.NudMaxRet = New System.Windows.Forms.NumericUpDown()
         Me.GbMusic = New System.Windows.Forms.GroupBox()
         Me.PnMusic = New System.Windows.Forms.Panel()
-        Me.RBWav = New System.Windows.Forms.RadioButton()
-        Me.RbFlac = New System.Windows.Forms.RadioButton()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.RBMp3 = New System.Windows.Forms.RadioButton()
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
-        Me.BtnSaveChanges = New System.Windows.Forms.Button()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.CbEmbedLyrics = New System.Windows.Forms.CheckBox()
         Me.BtnInstallTypes = New System.Windows.Forms.Button()
-        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtSpotifySecret = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TxtSpotifyClient = New System.Windows.Forms.TextBox()
+        Me.PnCreds = New System.Windows.Forms.Panel()
+        Me.RBPublic = New System.Windows.Forms.RadioButton()
+        Me.RbPrivate = New System.Windows.Forms.RadioButton()
+        Me.PnFormat = New System.Windows.Forms.Panel()
+        Me.RBMp3 = New System.Windows.Forms.RadioButton()
+        Me.RbFlac = New System.Windows.Forms.RadioButton()
+        Me.RBWav = New System.Windows.Forms.RadioButton()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.TxtVideoExt = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.DudTheme = New System.Windows.Forms.DomainUpDown()
         Me.btnReset = New System.Windows.Forms.Button()
         Me.PbBackgroundColour = New System.Windows.Forms.PictureBox()
@@ -60,15 +64,16 @@ Partial Class SettingsMenuControl
         Me.BtnSelectImage = New System.Windows.Forms.Button()
         Me.CDColour = New System.Windows.Forms.ColorDialog()
         Me.OFDImage = New System.Windows.Forms.OpenFileDialog()
-        Me.CbEmbedLyrics = New System.Windows.Forms.CheckBox()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxDiff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxRet, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GbMusic.SuspendLayout()
         Me.PnMusic.SuspendLayout()
-        Me.FlowLayoutPanel1.SuspendLayout()
+        Me.PnCreds.SuspendLayout()
+        Me.PnFormat.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBackgroundColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbPreview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TBTransparency, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,7 +116,7 @@ Partial Class SettingsMenuControl
         Me.NudMaxDiff.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.NudMaxDiff.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.NudMaxDiff.Increment = New Decimal(New Integer() {500, 0, 0, 0})
-        Me.NudMaxDiff.Location = New System.Drawing.Point(9, 20)
+        Me.NudMaxDiff.Location = New System.Drawing.Point(12, 243)
         Me.NudMaxDiff.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
         Me.NudMaxDiff.Minimum = New Decimal(New Integer() {100, 0, 0, 0})
         Me.NudMaxDiff.Name = "NudMaxDiff"
@@ -122,26 +127,16 @@ Partial Class SettingsMenuControl
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(3, 4)
+        Me.Label1.Location = New System.Drawing.Point(6, 227)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(149, 13)
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "Max Track Length Differance:"
         '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.Label2.Location = New System.Drawing.Point(114, 20)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(20, 13)
-        Me.Label2.TabIndex = 8
-        Me.Label2.Text = "ms"
-        '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(3, 42)
+        Me.Label3.Location = New System.Drawing.Point(6, 265)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(117, 13)
         Me.Label3.TabIndex = 9
@@ -152,7 +147,7 @@ Partial Class SettingsMenuControl
         Me.NudMaxRet.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.NudMaxRet.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.NudMaxRet.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.NudMaxRet.Location = New System.Drawing.Point(9, 58)
+        Me.NudMaxRet.Location = New System.Drawing.Point(12, 281)
         Me.NudMaxRet.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NudMaxRet.Name = "NudMaxRet"
         Me.NudMaxRet.Size = New System.Drawing.Size(213, 16)
@@ -164,35 +159,32 @@ Partial Class SettingsMenuControl
         Me.GbMusic.Controls.Add(Me.PnMusic)
         Me.GbMusic.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!)
         Me.GbMusic.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.GbMusic.Location = New System.Drawing.Point(96, 27)
+        Me.GbMusic.Location = New System.Drawing.Point(99, 17)
         Me.GbMusic.Name = "GbMusic"
         Me.GbMusic.Size = New System.Drawing.Size(268, 419)
         Me.GbMusic.TabIndex = 11
         Me.GbMusic.TabStop = False
-        Me.GbMusic.Text = "Downloading"
+        Me.GbMusic.Text = "Music"
         '
         'PnMusic
         '
+        Me.PnMusic.Controls.Add(Me.Label8)
+        Me.PnMusic.Controls.Add(Me.Label1)
+        Me.PnMusic.Controls.Add(Me.Label3)
         Me.PnMusic.Controls.Add(Me.CbEmbedLyrics)
-        Me.PnMusic.Controls.Add(Me.RBWav)
-        Me.PnMusic.Controls.Add(Me.RbFlac)
-        Me.PnMusic.Controls.Add(Me.Label7)
-        Me.PnMusic.Controls.Add(Me.RBMp3)
-        Me.PnMusic.Controls.Add(Me.BtnClearCache)
-        Me.PnMusic.Controls.Add(Me.FlowLayoutPanel1)
         Me.PnMusic.Controls.Add(Me.Label9)
+        Me.PnMusic.Controls.Add(Me.NudMaxRet)
+        Me.PnMusic.Controls.Add(Me.BtnInstallTypes)
+        Me.PnMusic.Controls.Add(Me.NudMaxDiff)
+        Me.PnMusic.Controls.Add(Me.Label7)
+        Me.PnMusic.Controls.Add(Me.BtnClearCache)
         Me.PnMusic.Controls.Add(Me.Label6)
         Me.PnMusic.Controls.Add(Me.txtSpotifySecret)
         Me.PnMusic.Controls.Add(Me.Label5)
         Me.PnMusic.Controls.Add(Me.TxtSpotifyClient)
-        Me.PnMusic.Controls.Add(Me.Label4)
-        Me.PnMusic.Controls.Add(Me.TxtVideoExt)
-        Me.PnMusic.Controls.Add(Me.NudMaxDiff)
         Me.PnMusic.Controls.Add(Me.BtnUpdateFFMpeg)
-        Me.PnMusic.Controls.Add(Me.Label2)
-        Me.PnMusic.Controls.Add(Me.NudMaxRet)
-        Me.PnMusic.Controls.Add(Me.Label1)
-        Me.PnMusic.Controls.Add(Me.Label3)
+        Me.PnMusic.Controls.Add(Me.PnCreds)
+        Me.PnMusic.Controls.Add(Me.PnFormat)
         Me.PnMusic.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PnMusic.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.PnMusic.Location = New System.Drawing.Point(3, 20)
@@ -200,103 +192,59 @@ Partial Class SettingsMenuControl
         Me.PnMusic.Size = New System.Drawing.Size(262, 396)
         Me.PnMusic.TabIndex = 0
         '
-        'RBWav
+        'Label8
         '
-        Me.RBWav.AutoSize = True
-        Me.RBWav.Location = New System.Drawing.Point(121, 221)
-        Me.RBWav.Name = "RBWav"
-        Me.RBWav.Size = New System.Drawing.Size(50, 17)
-        Me.RBWav.TabIndex = 35
-        Me.RBWav.TabStop = True
-        Me.RBWav.Text = "WAV"
-        Me.RBWav.UseVisualStyleBackColor = True
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(6, 75)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(149, 13)
+        Me.Label8.TabIndex = 39
+        Me.Label8.Text = "Spotify API Credential Source:"
         '
-        'RbFlac
+        'CbEmbedLyrics
         '
-        Me.RbFlac.AutoSize = True
-        Me.RbFlac.Location = New System.Drawing.Point(64, 221)
-        Me.RbFlac.Name = "RbFlac"
-        Me.RbFlac.Size = New System.Drawing.Size(51, 17)
-        Me.RbFlac.TabIndex = 34
-        Me.RbFlac.TabStop = True
-        Me.RbFlac.Text = "FLAC"
-        Me.RbFlac.UseVisualStyleBackColor = True
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(6, 203)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(69, 13)
-        Me.Label7.TabIndex = 33
-        Me.Label7.Text = "Audio Format"
-        '
-        'RBMp3
-        '
-        Me.RBMp3.AutoSize = True
-        Me.RBMp3.Location = New System.Drawing.Point(9, 221)
-        Me.RBMp3.Name = "RBMp3"
-        Me.RBMp3.Size = New System.Drawing.Size(47, 17)
-        Me.RBMp3.TabIndex = 32
-        Me.RBMp3.TabStop = True
-        Me.RBMp3.Text = "MP3"
-        Me.RBMp3.UseVisualStyleBackColor = True
-        '
-        'FlowLayoutPanel1
-        '
-        Me.FlowLayoutPanel1.Controls.Add(Me.BtnSaveChanges)
-        Me.FlowLayoutPanel1.Controls.Add(Me.BtnInstallTypes)
-        Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(0, 273)
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(271, 63)
-        Me.FlowLayoutPanel1.TabIndex = 31
-        '
-        'BtnSaveChanges
-        '
-        Me.BtnSaveChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSaveChanges.Location = New System.Drawing.Point(3, 37)
-        Me.BtnSaveChanges.Name = "BtnSaveChanges"
-        Me.BtnSaveChanges.Size = New System.Drawing.Size(256, 23)
-        Me.BtnSaveChanges.TabIndex = 17
-        Me.BtnSaveChanges.Text = "Save Changes"
-        Me.BtnSaveChanges.UseVisualStyleBackColor = True
+        Me.CbEmbedLyrics.AutoSize = True
+        Me.CbEmbedLyrics.Location = New System.Drawing.Point(9, 8)
+        Me.CbEmbedLyrics.Name = "CbEmbedLyrics"
+        Me.CbEmbedLyrics.Size = New System.Drawing.Size(111, 17)
+        Me.CbEmbedLyrics.TabIndex = 36
+        Me.CbEmbedLyrics.Text = "Embed song lyrics"
+        Me.CbEmbedLyrics.UseVisualStyleBackColor = True
         '
         'BtnInstallTypes
         '
         Me.BtnInstallTypes.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnInstallTypes.Location = New System.Drawing.Point(3, 8)
+        Me.BtnInstallTypes.Location = New System.Drawing.Point(3, 309)
         Me.BtnInstallTypes.Name = "BtnInstallTypes"
-        Me.BtnInstallTypes.Size = New System.Drawing.Size(108, 23)
+        Me.BtnInstallTypes.Size = New System.Drawing.Size(256, 23)
         Me.BtnInstallTypes.TabIndex = 31
         Me.BtnInstallTypes.Text = "Install File Types"
         Me.BtnInstallTypes.UseVisualStyleBackColor = True
         '
-        'Label9
+        'Label7
         '
-        Me.Label9.AutoSize = True
-        Me.Label9.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.Label9.Location = New System.Drawing.Point(184, 21)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(20, 13)
-        Me.Label9.TabIndex = 30
-        Me.Label9.Text = "ms"
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 30)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(72, 13)
+        Me.Label7.TabIndex = 33
+        Me.Label7.Text = "Audio Format:"
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 161)
+        Me.Label6.Location = New System.Drawing.Point(14, 176)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(105, 13)
+        Me.Label6.Size = New System.Drawing.Size(141, 13)
         Me.Label6.TabIndex = 16
-        Me.Label6.Text = "Spotify Client Secret:"
+        Me.Label6.Text = "Private Spotify Client Secret:"
         '
         'txtSpotifySecret
         '
         Me.txtSpotifySecret.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.txtSpotifySecret.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtSpotifySecret.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.txtSpotifySecret.Location = New System.Drawing.Point(9, 177)
+        Me.txtSpotifySecret.Location = New System.Drawing.Point(21, 192)
         Me.txtSpotifySecret.Name = "txtSpotifySecret"
         Me.txtSpotifySecret.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtSpotifySecret.Size = New System.Drawing.Size(213, 20)
@@ -306,27 +254,111 @@ Partial Class SettingsMenuControl
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 121)
+        Me.Label5.Location = New System.Drawing.Point(14, 136)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(85, 13)
+        Me.Label5.Size = New System.Drawing.Size(121, 13)
         Me.Label5.TabIndex = 14
-        Me.Label5.Text = "Spotify Client ID:"
+        Me.Label5.Text = "Private Spotify Client ID:"
         '
         'TxtSpotifyClient
         '
         Me.TxtSpotifyClient.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.TxtSpotifyClient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtSpotifyClient.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.TxtSpotifyClient.Location = New System.Drawing.Point(9, 137)
+        Me.TxtSpotifyClient.Location = New System.Drawing.Point(21, 152)
         Me.TxtSpotifyClient.Name = "TxtSpotifyClient"
         Me.TxtSpotifyClient.Size = New System.Drawing.Size(213, 20)
         Me.TxtSpotifyClient.TabIndex = 13
         Me.TxtSpotifyClient.Text = "?"
         '
+        'PnCreds
+        '
+        Me.PnCreds.Controls.Add(Me.RBPublic)
+        Me.PnCreds.Controls.Add(Me.RbPrivate)
+        Me.PnCreds.Location = New System.Drawing.Point(11, 90)
+        Me.PnCreds.Name = "PnCreds"
+        Me.PnCreds.Size = New System.Drawing.Size(188, 45)
+        Me.PnCreds.TabIndex = 40
+        '
+        'RBPublic
+        '
+        Me.RBPublic.AutoSize = True
+        Me.RBPublic.Location = New System.Drawing.Point(3, 3)
+        Me.RBPublic.Name = "RBPublic"
+        Me.RBPublic.Size = New System.Drawing.Size(131, 17)
+        Me.RBPublic.TabIndex = 38
+        Me.RBPublic.TabStop = True
+        Me.RBPublic.Text = "Use Public Credentials"
+        Me.RBPublic.UseVisualStyleBackColor = True
+        '
+        'RbPrivate
+        '
+        Me.RbPrivate.AutoSize = True
+        Me.RbPrivate.Location = New System.Drawing.Point(3, 26)
+        Me.RbPrivate.Name = "RbPrivate"
+        Me.RbPrivate.Size = New System.Drawing.Size(135, 17)
+        Me.RbPrivate.TabIndex = 37
+        Me.RbPrivate.TabStop = True
+        Me.RbPrivate.Text = "Use Private Credentials"
+        Me.RbPrivate.UseVisualStyleBackColor = True
+        '
+        'PnFormat
+        '
+        Me.PnFormat.Controls.Add(Me.RBMp3)
+        Me.PnFormat.Controls.Add(Me.RbFlac)
+        Me.PnFormat.Controls.Add(Me.RBWav)
+        Me.PnFormat.Location = New System.Drawing.Point(10, 45)
+        Me.PnFormat.Name = "PnFormat"
+        Me.PnFormat.Size = New System.Drawing.Size(200, 37)
+        Me.PnFormat.TabIndex = 41
+        '
+        'RBMp3
+        '
+        Me.RBMp3.AutoSize = True
+        Me.RBMp3.Location = New System.Drawing.Point(5, 6)
+        Me.RBMp3.Name = "RBMp3"
+        Me.RBMp3.Size = New System.Drawing.Size(47, 17)
+        Me.RBMp3.TabIndex = 32
+        Me.RBMp3.TabStop = True
+        Me.RBMp3.Text = "MP3"
+        Me.RBMp3.UseVisualStyleBackColor = True
+        '
+        'RbFlac
+        '
+        Me.RbFlac.AutoSize = True
+        Me.RbFlac.Location = New System.Drawing.Point(60, 6)
+        Me.RbFlac.Name = "RbFlac"
+        Me.RbFlac.Size = New System.Drawing.Size(51, 17)
+        Me.RbFlac.TabIndex = 34
+        Me.RbFlac.TabStop = True
+        Me.RbFlac.Text = "FLAC"
+        Me.RbFlac.UseVisualStyleBackColor = True
+        '
+        'RBWav
+        '
+        Me.RBWav.AutoSize = True
+        Me.RBWav.Location = New System.Drawing.Point(117, 6)
+        Me.RBWav.Name = "RBWav"
+        Me.RBWav.Size = New System.Drawing.Size(50, 17)
+        Me.RBWav.TabIndex = 35
+        Me.RBWav.TabStop = True
+        Me.RBWav.Text = "WAV"
+        Me.RBWav.UseVisualStyleBackColor = True
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.Label9.Location = New System.Drawing.Point(182, 244)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(20, 13)
+        Me.Label9.TabIndex = 30
+        Me.Label9.Text = "ms"
+        '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(3, 79)
+        Me.Label4.Location = New System.Drawing.Point(8, 6)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(123, 13)
         Me.Label4.TabIndex = 12
@@ -337,7 +369,7 @@ Partial Class SettingsMenuControl
         Me.TxtVideoExt.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.TxtVideoExt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtVideoExt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.TxtVideoExt.Location = New System.Drawing.Point(6, 95)
+        Me.TxtVideoExt.Location = New System.Drawing.Point(11, 22)
         Me.TxtVideoExt.Name = "TxtVideoExt"
         Me.TxtVideoExt.Size = New System.Drawing.Size(213, 20)
         Me.TxtVideoExt.TabIndex = 11
@@ -348,15 +380,16 @@ Partial Class SettingsMenuControl
         Me.GroupBox1.Controls.Add(Me.Panel1)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!)
         Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.GroupBox1.Location = New System.Drawing.Point(439, 27)
+        Me.GroupBox1.Location = New System.Drawing.Point(442, 17)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(273, 419)
+        Me.GroupBox1.Size = New System.Drawing.Size(276, 419)
         Me.GroupBox1.TabIndex = 12
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Interface"
+        Me.GroupBox1.Text = "Customise"
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.PictureBox1)
         Me.Panel1.Controls.Add(Me.DudTheme)
         Me.Panel1.Controls.Add(Me.btnReset)
         Me.Panel1.Controls.Add(Me.PbBackgroundColour)
@@ -367,12 +400,23 @@ Partial Class SettingsMenuControl
         Me.Panel1.Controls.Add(Me.TBTransparency)
         Me.Panel1.Controls.Add(Me.CbUseBackground)
         Me.Panel1.Controls.Add(Me.BtnSelectImage)
+        Me.Panel1.Controls.Add(Me.TxtVideoExt)
+        Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.Panel1.Location = New System.Drawing.Point(3, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(267, 396)
+        Me.Panel1.Size = New System.Drawing.Size(270, 396)
         Me.Panel1.TabIndex = 0
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
+        Me.PictureBox1.Location = New System.Drawing.Point(11, 47)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(245, 1)
+        Me.PictureBox1.TabIndex = 25
+        Me.PictureBox1.TabStop = False
         '
         'DudTheme
         '
@@ -383,7 +427,7 @@ Partial Class SettingsMenuControl
         Me.DudTheme.Items.Add("Partial - Solid")
         Me.DudTheme.Items.Add("Drop - Default")
         Me.DudTheme.Items.Add("Drop - Solid")
-        Me.DudTheme.Location = New System.Drawing.Point(9, 258)
+        Me.DudTheme.Location = New System.Drawing.Point(8, 282)
         Me.DudTheme.Name = "DudTheme"
         Me.DudTheme.Size = New System.Drawing.Size(256, 20)
         Me.DudTheme.TabIndex = 24
@@ -392,7 +436,7 @@ Partial Class SettingsMenuControl
         'btnReset
         '
         Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnReset.Location = New System.Drawing.Point(8, 338)
+        Me.btnReset.Location = New System.Drawing.Point(8, 342)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(256, 23)
         Me.btnReset.TabIndex = 23
@@ -403,7 +447,7 @@ Partial Class SettingsMenuControl
         '
         Me.PbBackgroundColour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PbBackgroundColour.Cursor = System.Windows.Forms.Cursors.Arrow
-        Me.PbBackgroundColour.Location = New System.Drawing.Point(225, 229)
+        Me.PbBackgroundColour.Location = New System.Drawing.Point(224, 252)
         Me.PbBackgroundColour.Name = "PbBackgroundColour"
         Me.PbBackgroundColour.Size = New System.Drawing.Size(40, 22)
         Me.PbBackgroundColour.TabIndex = 22
@@ -412,7 +456,7 @@ Partial Class SettingsMenuControl
         'BtnSetBackground
         '
         Me.BtnSetBackground.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSetBackground.Location = New System.Drawing.Point(9, 229)
+        Me.BtnSetBackground.Location = New System.Drawing.Point(8, 253)
         Me.BtnSetBackground.Name = "BtnSetBackground"
         Me.BtnSetBackground.Size = New System.Drawing.Size(210, 23)
         Me.BtnSetBackground.TabIndex = 21
@@ -422,7 +466,7 @@ Partial Class SettingsMenuControl
         'PbPreview
         '
         Me.PbPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PbPreview.Location = New System.Drawing.Point(9, 95)
+        Me.PbPreview.Location = New System.Drawing.Point(8, 119)
         Me.PbPreview.Name = "PbPreview"
         Me.PbPreview.Size = New System.Drawing.Size(256, 128)
         Me.PbPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
@@ -432,7 +476,7 @@ Partial Class SettingsMenuControl
         'BtnSave
         '
         Me.BtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSave.Location = New System.Drawing.Point(9, 367)
+        Me.BtnSave.Location = New System.Drawing.Point(9, 371)
         Me.BtnSave.Name = "BtnSave"
         Me.BtnSave.Size = New System.Drawing.Size(255, 23)
         Me.BtnSave.TabIndex = 18
@@ -442,7 +486,7 @@ Partial Class SettingsMenuControl
         'lbltrans
         '
         Me.lbltrans.AutoSize = True
-        Me.lbltrans.Location = New System.Drawing.Point(8, 52)
+        Me.lbltrans.Location = New System.Drawing.Point(7, 76)
         Me.lbltrans.Name = "lbltrans"
         Me.lbltrans.Size = New System.Drawing.Size(165, 13)
         Me.lbltrans.TabIndex = 18
@@ -450,7 +494,7 @@ Partial Class SettingsMenuControl
         '
         'TBTransparency
         '
-        Me.TBTransparency.Location = New System.Drawing.Point(6, 68)
+        Me.TBTransparency.Location = New System.Drawing.Point(5, 92)
         Me.TBTransparency.Maximum = 100
         Me.TBTransparency.Name = "TBTransparency"
         Me.TBTransparency.Size = New System.Drawing.Size(260, 45)
@@ -460,7 +504,7 @@ Partial Class SettingsMenuControl
         'CbUseBackground
         '
         Me.CbUseBackground.AutoSize = True
-        Me.CbUseBackground.Location = New System.Drawing.Point(8, 4)
+        Me.CbUseBackground.Location = New System.Drawing.Point(11, 54)
         Me.CbUseBackground.Name = "CbUseBackground"
         Me.CbUseBackground.Size = New System.Drawing.Size(144, 17)
         Me.CbUseBackground.TabIndex = 0
@@ -470,9 +514,9 @@ Partial Class SettingsMenuControl
         'BtnSelectImage
         '
         Me.BtnSelectImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSelectImage.Location = New System.Drawing.Point(9, 309)
+        Me.BtnSelectImage.Location = New System.Drawing.Point(8, 313)
         Me.BtnSelectImage.Name = "BtnSelectImage"
-        Me.BtnSelectImage.Size = New System.Drawing.Size(256, 23)
+        Me.BtnSelectImage.Size = New System.Drawing.Size(257, 23)
         Me.BtnSelectImage.TabIndex = 18
         Me.BtnSelectImage.Text = "Select Background Image"
         Me.BtnSelectImage.UseVisualStyleBackColor = True
@@ -484,16 +528,6 @@ Partial Class SettingsMenuControl
         'OFDImage
         '
         Me.OFDImage.Filter = "Images|*.jpg;*.jpeg;*.png:*.tiff;*.bmp"
-        '
-        'CbEmbedLyrics
-        '
-        Me.CbEmbedLyrics.AutoSize = True
-        Me.CbEmbedLyrics.Location = New System.Drawing.Point(9, 246)
-        Me.CbEmbedLyrics.Name = "CbEmbedLyrics"
-        Me.CbEmbedLyrics.Size = New System.Drawing.Size(111, 17)
-        Me.CbEmbedLyrics.TabIndex = 36
-        Me.CbEmbedLyrics.Text = "Embed song lyrics"
-        Me.CbEmbedLyrics.UseVisualStyleBackColor = True
         '
         'SettingsMenuControl
         '
@@ -514,10 +548,14 @@ Partial Class SettingsMenuControl
         Me.GbMusic.ResumeLayout(False)
         Me.PnMusic.ResumeLayout(False)
         Me.PnMusic.PerformLayout()
-        Me.FlowLayoutPanel1.ResumeLayout(False)
+        Me.PnCreds.ResumeLayout(False)
+        Me.PnCreds.PerformLayout()
+        Me.PnFormat.ResumeLayout(False)
+        Me.PnFormat.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbBackgroundColour, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbPreview, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TBTransparency, System.ComponentModel.ISupportInitialize).EndInit()
@@ -530,14 +568,12 @@ Partial Class SettingsMenuControl
     Friend WithEvents BtnClearCache As Button
     Friend WithEvents NudMaxDiff As NumericUpDown
     Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents NudMaxRet As NumericUpDown
     Friend WithEvents GbMusic As GroupBox
     Friend WithEvents PnMusic As Panel
     Friend WithEvents Label4 As Label
     Friend WithEvents TxtVideoExt As TextBox
-    Friend WithEvents BtnSaveChanges As Button
     Friend WithEvents Label6 As Label
     Friend WithEvents txtSpotifySecret As TextBox
     Friend WithEvents Label5 As Label
@@ -558,10 +594,15 @@ Partial Class SettingsMenuControl
     Friend WithEvents OFDImage As OpenFileDialog
     Friend WithEvents DudTheme As DomainUpDown
     Friend WithEvents BtnInstallTypes As Button
-    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
     Friend WithEvents RBWav As RadioButton
     Friend WithEvents RbFlac As RadioButton
     Friend WithEvents Label7 As Label
     Friend WithEvents RBMp3 As RadioButton
     Friend WithEvents CbEmbedLyrics As CheckBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents RBPublic As RadioButton
+    Friend WithEvents RbPrivate As RadioButton
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents PnCreds As Panel
+    Friend WithEvents PnFormat As Panel
 End Class
