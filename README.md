@@ -38,16 +38,13 @@ To view screen shots of this project, got to the [Wiki Page](https://github.com/
 It is recomeneded to go over the contents of the [Wiki](https://github.com/ShimmyMySherbet/YoutubeDownloader/wiki) pior to usage.
 
 # Downloads:
-If you do not wish to compile this project yourself, you can download the Windows Binary here:
-Links Last Updated: 4/11/2019 [dd-mm-yy]
+For downloads, see [Releases](https://github.com/ShimmyMySherbet/YoutubeDownloader/releases)
 
 ## Portable: 
-Download: [Via Google](https://drive.google.com/file/d/1l9Wo8vqpObIhNUTRD8eD9wHxqpLLehNp/view?usp=sharing) 
+Download: [Via Releases](https://github.com/ShimmyMySherbet/YoutubeDownloader/releases) 
 
-Latest version
-
+###1.3.0.0.0
 Portable MD5 sum: 85B28A6CF95B03BA025C4213253445AB
-
 Portable SAH1 sum: 3F8D01B8A62D3CBA5C36D2727946FA09728EBC3F
 
 # Changelog
