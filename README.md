@@ -45,6 +45,7 @@ Download: [Via Releases](https://github.com/ShimmyMySherbet/YoutubeDownloader/re
 
 ### 1.3.0.0
 Portable MD5 sum: 85B28A6CF95B03BA025C4213253445AB
+
 Portable SAH1 sum: 3F8D01B8A62D3CBA5C36D2727946FA09728EBC3F
 
 # Changelog
