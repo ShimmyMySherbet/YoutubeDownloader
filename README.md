@@ -42,18 +42,24 @@ If you do not wish to compile this project yourself, you can download the Window
 Links Last Updated: 13/10/2019
 
 ## Portable: 
-Download: [Via Google](https://drive.google.com/file/d/1biS-gpZv-wJ7aJfgLAQXrMz7XDCkUER4/view?usp=sharing) 
+Download: [Via Google](https://drive.google.com/file/d/1l9Wo8vqpObIhNUTRD8eD9wHxqpLLehNp/view?usp=sharing) 
 
 Latest version
 
-Portable MD5 sum: 40DA597D1601ACF7E70034E612AC9DA4
+Portable MD5 sum: 85B28A6CF95B03BA025C4213253445AB
 
-Portable SAH1 sum: B54BF8E0BC6B4EC516B2E4E0B9ECA1529B76BFC9
+Portable SAH1 sum: 3F8D01B8A62D3CBA5C36D2727946FA09728EBC3F
 
 # Changelog
+### 1.3.0.0
+* Added public credential system (You no longer need your own Spotify Client and Secret)
+* Revamped the First-Run screen
+* Revamped the settings menu
+* Added options to change between Public and Private Spotify Credentials in the settings menu
+
 ### 1.2.0.0
 * Added lyric support from Genius
-* Added option in the settings menu to enable/disable Genius lyrics.
+* Added option in the settings menu to enable/disable Genius lyrics
 * Changed the way platform icons are rendered
 
 
