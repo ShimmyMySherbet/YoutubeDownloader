@@ -101,10 +101,37 @@ Public Class SettingsMenuControl
         Next
         MessageBox.Show("Cache Cleared.")
     End Sub
-
+    Dim dlc As New FFMPEGDownloaderClient
     Private Sub BtnUpdateFFMpeg_Click(sender As Object, e As EventArgs) Handles BtnUpdateFFMpeg.Click
-        Xabe.FFmpeg.FFmpeg.GetLatestVersion()
-        MessageBox.Show("FFMPEG Updated.")
+        If BtnUpdateFFMpeg.Text = "Update FFMPEG" Then
+            DownloadFFMPEG()
+        Else
+            dlc.Cancel()
+        End If
+    End Sub
+
+    Public Sub DownloadFFMPEG()
+        pbDownload.Show()
+        pbDownload.Value = 0
+        lblDownloading.Show()
+        Dim T As New Threading.Thread(Sub()
+                                          Try
+                                              BtnUpdateFFMpeg.Text = "Cancel FFMPEG Update"
+                                              dlc.ForceGCOnCompletion = True
+                                              dlc.Start()
+                                              Do While dlc.Downloading
+                                                  lblDownloading.Text = $"Downloading FFMPEG: {dlc.DownloadPercentage}% ({dlc.DownloadSpeedString})"
+                                                  pbDownload.Value = CType(dlc.DownloadPercentage, Integer)
+                                                  Threading.Thread.Sleep(100)
+                                              Loop
+                                          Catch ex As Exception
+                                          End Try
+                                          pbDownload.Hide()
+                                          pbDownload.Value = 0
+                                          lblDownloading.Hide()
+                                          BtnUpdateFFMpeg.Text = "Update FFMPEG"
+                                      End Sub)
+        T.Start()
     End Sub
 
     Private Sub NudMaxDiff_ValueChanged(sender As Object, e As EventArgs) Handles NudMaxDiff.ValueChanged

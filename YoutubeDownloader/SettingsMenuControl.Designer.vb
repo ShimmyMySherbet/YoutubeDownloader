@@ -33,6 +33,7 @@ Partial Class SettingsMenuControl
         Me.PnMusic = New System.Windows.Forms.Panel()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.CbEmbedLyrics = New System.Windows.Forms.CheckBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.BtnInstallTypes = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -46,7 +47,6 @@ Partial Class SettingsMenuControl
         Me.RBMp3 = New System.Windows.Forms.RadioButton()
         Me.RbFlac = New System.Windows.Forms.RadioButton()
         Me.RBWav = New System.Windows.Forms.RadioButton()
-        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.TxtVideoExt = New System.Windows.Forms.TextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -64,6 +64,8 @@ Partial Class SettingsMenuControl
         Me.BtnSelectImage = New System.Windows.Forms.Button()
         Me.CDColour = New System.Windows.Forms.ColorDialog()
         Me.OFDImage = New System.Windows.Forms.OpenFileDialog()
+        Me.pbDownload = New System.Windows.Forms.ProgressBar()
+        Me.lblDownloading = New System.Windows.Forms.Label()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxDiff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxRet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -159,7 +161,7 @@ Partial Class SettingsMenuControl
         Me.GbMusic.Controls.Add(Me.PnMusic)
         Me.GbMusic.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!)
         Me.GbMusic.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.GbMusic.Location = New System.Drawing.Point(99, 17)
+        Me.GbMusic.Location = New System.Drawing.Point(99, 4)
         Me.GbMusic.Name = "GbMusic"
         Me.GbMusic.Size = New System.Drawing.Size(268, 419)
         Me.GbMusic.TabIndex = 11
@@ -210,6 +212,16 @@ Partial Class SettingsMenuControl
         Me.CbEmbedLyrics.TabIndex = 36
         Me.CbEmbedLyrics.Text = "Embed song lyrics"
         Me.CbEmbedLyrics.UseVisualStyleBackColor = True
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.Label9.Location = New System.Drawing.Point(182, 244)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(20, 13)
+        Me.Label9.TabIndex = 30
+        Me.Label9.Text = "ms"
         '
         'BtnInstallTypes
         '
@@ -345,16 +357,6 @@ Partial Class SettingsMenuControl
         Me.RBWav.Text = "WAV"
         Me.RBWav.UseVisualStyleBackColor = True
         '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.BackColor = System.Drawing.Color.FromArgb(CType(CType(58, Byte), Integer), CType(CType(57, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.Label9.Location = New System.Drawing.Point(182, 244)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(20, 13)
-        Me.Label9.TabIndex = 30
-        Me.Label9.Text = "ms"
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -380,7 +382,7 @@ Partial Class SettingsMenuControl
         Me.GroupBox1.Controls.Add(Me.Panel1)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!)
         Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
-        Me.GroupBox1.Location = New System.Drawing.Point(442, 17)
+        Me.GroupBox1.Location = New System.Drawing.Point(442, 4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(276, 419)
         Me.GroupBox1.TabIndex = 12
@@ -529,12 +531,33 @@ Partial Class SettingsMenuControl
         '
         Me.OFDImage.Filter = "Images|*.jpg;*.jpeg;*.png:*.tiff;*.bmp"
         '
+        'pbDownload
+        '
+        Me.pbDownload.Location = New System.Drawing.Point(99, 443)
+        Me.pbDownload.Name = "pbDownload"
+        Me.pbDownload.Size = New System.Drawing.Size(619, 23)
+        Me.pbDownload.Step = 1
+        Me.pbDownload.TabIndex = 13
+        Me.pbDownload.Visible = False
+        '
+        'lblDownloading
+        '
+        Me.lblDownloading.AutoSize = True
+        Me.lblDownloading.Location = New System.Drawing.Point(99, 428)
+        Me.lblDownloading.Name = "lblDownloading"
+        Me.lblDownloading.Size = New System.Drawing.Size(172, 13)
+        Me.lblDownloading.TabIndex = 14
+        Me.lblDownloading.Text = "Downloading FFMPEG; 0% (0bp/s)"
+        Me.lblDownloading.Visible = False
+        '
         'SettingsMenuControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(44, Byte), Integer), CType(CType(47, Byte), Integer), CType(CType(51, Byte), Integer))
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Controls.Add(Me.lblDownloading)
+        Me.Controls.Add(Me.pbDownload)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.GbMusic)
         Me.Controls.Add(Me.PbBtnBack)
@@ -560,6 +583,7 @@ Partial Class SettingsMenuControl
         CType(Me.PbPreview, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TBTransparency, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -605,4 +629,6 @@ Partial Class SettingsMenuControl
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents PnCreds As Panel
     Friend WithEvents PnFormat As Panel
+    Friend WithEvents pbDownload As ProgressBar
+    Friend WithEvents lblDownloading As Label
 End Class

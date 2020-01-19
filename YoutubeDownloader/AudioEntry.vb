@@ -263,6 +263,9 @@ Public Class AudioEntry
     Private Sub PbBtnClose_Click(sender As Object, e As EventArgs) Handles PbBtnClose.Click
         DisposeData()
     End Sub
+
+
+    
     Public Sub InvokeTrackDownload()
         If Not Downloading Then
             Console.WriteLine("Invoker starting download")

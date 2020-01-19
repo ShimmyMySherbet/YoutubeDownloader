@@ -6,6 +6,7 @@ Public Class VideoEntry
     Private Client As New YoutubeClient
     Public VideoStreams As IReadOnlyList(Of VideoStreamInfo)
     Public MuxedStreams As IReadOnlyCollection(Of MuxedStreamInfo)
+    Public AudioStreams As IReadOnlyCollection(Of AudioStreamInfo)
     Public UiTaskfactory As TaskFactory = New TaskFactory(TaskScheduler.FromCurrentSynchronizationContext)
     Public MyVideo As Video
     <CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")>
@@ -43,10 +44,11 @@ Public Class VideoEntry
 
 
         Dim InfoStreams As MediaStreamInfoSet = Await Client.GetVideoMediaStreamInfosAsync(vid.Id)
-        MuxedStreams = InfoStreams.Muxed
         VideoStreams = InfoStreams.Video
+        MuxedStreams = InfoStreams.Muxed
+        AudioStreams = InfoStreams.Audio
         Dim qualiychk As New List(Of String)
-        For Each qual In InfoStreams.Muxed
+        For Each qual In InfoStreams.Video
             Dim chstr As String = qual.VideoQualityLabel
             If Not qualiychk.Contains(chstr) Then
                 qualiychk.Add(chstr)
@@ -88,62 +90,160 @@ Public Class VideoEntry
 
 
     Public Async Sub DownloadVideo()
-        Await UiTaskfactory.StartNew(Sub()
-                                         PbProgress.Value = 0
-                                         PbProgress.Step = 1
-                                         PbProgress.Maximum = 3
-                                         PbProgress.Show()
-                                     End Sub)
-        Console.WriteLine("Streams fetched")
-
-
-
-
-
-        Dim auinfo = MuxedStreams.Where(Function(x)
-                                            Dim qualtxt As String = QualBox.Text
-                                            If qualtxt.Contains(x.VideoQualityLabel) Then
-                                                Return True
-                                            Else
-                                                Return False
-                                            End If
-                                        End Function)(0)
-        If Not IsNothing(auinfo) Then
-            Await UiTaskfactory.StartNew(Sub()
-                                             PbProgress.PerformStep()
-                                         End Sub)
-
-
-            Console.WriteLine("Video stream fetched")
-            Console.WriteLine(auinfo)
-            Dim ext As String = auinfo.VideoEncoding.ToString
-            Console.WriteLine("ext: {0}", ext)
-            Console.WriteLine("Downloading...")
-            Dim Filename As String = ""
-            Filename = ScrubFilename(MyVideo.Title)
-            Try
-                If IO.File.Exists("Downloads\" & Filename & "." & ext) Then
-                    IO.File.Delete("Downloads\" & Filename & "." & ext)
-                End If
-                If Not IO.File.Exists("Downloads\" & Filename & "." & ext) Then
-                    Await Client.DownloadMediaStreamAsync(auinfo, "Downloads\" & Filename & "." & ext)
-                End If
-            Catch ex As Exception
-                Console.WriteLine(ex.Message)
-            End Try
-            Await UiTaskfactory.StartNew(Sub()
-                                             PbProgress.PerformStep()
-                                         End Sub)
-            Dim NewExt As String = ""
-            Dim VideoConversion As IConversion = Conversion.Convert($"Downloads\{Filename}.{ext}", $"Videos\{Filename}.{VideoLogic.DefaultExtension}")
-            Await VideoConversion.Start
-            Await UiTaskfactory.StartNew(Sub()
-                                             PbProgress.PerformStep()
-                                             PbProgress.Hide()
-                                         End Sub)
+        If IsNothing(AudioStreams) Then
+            Throw New Exception("No Audio")
         End If
 
+        Dim MXAS As Integer = 0
+        Dim bestAudioStream As AudioStreamInfo = AudioStreams.Where(Function(x)
+                                                                        If IsNothing(x) Then
+                                                                            Console.WriteLine("NOTHING")
+                                                                        End If
+                                                                        If x.Bitrate > MXAS Then
+                                                                            MXAS = x.Bitrate
+                                                                            Return True
+                                                                        Else
+                                                                            Return False
+                                                                        End If
+                                                                    End Function).Last()
+        Dim SelectedVideoStream As VideoStreamInfo = VideoStreams.Where(Function(x)
+                                                                            Return x.VideoQualityLabel = QualBox.Items(QualBox.SelectedIndex)
+                                                                        End Function).First
+
+        If IsNothing(SelectedVideoStream) Then
+            Throw New Exception("No stream")
+        End If
+
+        Dim VideoDownloader As Task = DlVid(SelectedVideoStream)
+        Dim AudioDownloader As Task = DlAudio(bestAudioStream)
+
+        Do Until AudioDownloader.IsCompleted
+        Loop
+        Console.WriteLine("Audio Downloaded")
+        Do Until VideoDownloader.IsCompleted
+        Loop
+        Console.WriteLine("Video Downloaded")
+
+
+        Dim vidext As String = SelectedVideoStream.VideoEncoding.ToString
+        Dim SourceVideo As String = $"VideoCache\{ScrubFilename(MyVideo.Title)}.{vidext}"
+        Dim audioext As String = "unknown"
+        Select Case bestAudioStream.AudioEncoding
+            Case MediaStreams.AudioEncoding.Aac
+                audioext = "aac"
+            Case MediaStreams.AudioEncoding.Opus
+                audioext = "opus"
+            Case MediaStreams.AudioEncoding.Vorbis
+                audioext = "vorbis"
+        End Select
+        Dim SourceAudio As String = $"AudioCache\{ScrubFilename(MyVideo.Title)}.{audioext}"
+
+
+
+        Dim output As String = $"Videos\{ScrubFilename(MyVideo.Title)}.{VideoLogic.DefaultExtension}"
+        If IO.File.Exists(output) Then
+            IO.File.Delete(output)
+        End If
+        Dim result As Model.IConversionResult = Await Conversion.AddAudio(SourceVideo, SourceAudio, output).UseHardwareAcceleration(Enums.HardwareAccelerator.cuvid, Enums.VideoCodec.H264_nvenc, Enums.VideoCodec.H264_nvenc).Start()
+        Console.WriteLine("Download Complete")
     End Sub
+
+    Private Async Function DlVid(Vid As VideoStreamInfo) As Task
+        Dim ext As String = Vid.VideoEncoding.ToString
+        Dim Name As String = $"VideoCache\{ScrubFilename(MyVideo.Title)}.{ext}"
+        If IO.File.Exists(Name) Then
+            Exit Function
+            IO.File.Delete(Name)
+        End If
+        Await Client.DownloadMediaStreamAsync(Vid, Name)
+    End Function
+    Private Async Function DlAudio(Au As AudioStreamInfo) As Task
+        Dim ext As String = "unknown"
+        Select Case Au.AudioEncoding
+            Case MediaStreams.AudioEncoding.Aac
+                ext = "aac"
+            Case MediaStreams.AudioEncoding.Opus
+                ext = "opus"
+            Case MediaStreams.AudioEncoding.Vorbis
+                ext = "vorbis"
+        End Select
+        Dim Name As String = $"AudioCache\{ScrubFilename(MyVideo.Title)}.{ext}"
+        If IO.File.Exists(Name) Then
+            Exit Function
+            IO.File.Delete(Name)
+        End If
+        Await Client.DownloadMediaStreamAsync(Au, Name)
+    End Function
+
+
+    Async Sub x()
+#Region "Old Code"
+
+        If False Then
+
+
+
+            Await UiTaskfactory.StartNew(Sub()
+                                             PbProgress.Value = 0
+                                             PbProgress.Step = 1
+                                             PbProgress.Maximum = 3
+                                             PbProgress.Show()
+                                         End Sub)
+            Console.WriteLine("Streams fetched")
+
+
+
+
+
+            Dim auinfo = MuxedStreams.Where(Function(x)
+                                                Dim qualtxt As String = QualBox.Text
+                                                If qualtxt.Contains(x.VideoQualityLabel) Then
+                                                    Return True
+                                                Else
+                                                    Return False
+                                                End If
+                                            End Function)(0)
+            If Not IsNothing(auinfo) Then
+                Await UiTaskfactory.StartNew(Sub()
+                                                 PbProgress.PerformStep()
+                                             End Sub)
+
+
+                Console.WriteLine("Video stream fetched")
+                Console.WriteLine(auinfo)
+                Dim ext As String = auinfo.VideoEncoding.ToString
+                Console.WriteLine("ext: {0}", ext)
+                Console.WriteLine("Downloading...")
+                Dim Filename As String = ""
+                Filename = ScrubFilename(MyVideo.Title)
+                Try
+                    If IO.File.Exists("Downloads\" & Filename & "." & ext) Then
+                        IO.File.Delete("Downloads\" & Filename & "." & ext)
+                    End If
+                    If Not IO.File.Exists("Downloads\" & Filename & "." & ext) Then
+                        Await Client.DownloadMediaStreamAsync(auinfo, "Downloads\" & Filename & "." & ext)
+                    End If
+                Catch ex As Exception
+                    Console.WriteLine(ex.Message)
+                End Try
+                Await UiTaskfactory.StartNew(Sub()
+                                                 PbProgress.PerformStep()
+                                             End Sub)
+                Dim NewExt As String = ""
+                Dim VideoConversion As IConversion = Conversion.Convert($"Downloads\{Filename}.{ext}", $"Videos\{Filename}.{VideoLogic.DefaultExtension}")
+                Await VideoConversion.Start
+                Await UiTaskfactory.StartNew(Sub()
+                                                 PbProgress.PerformStep()
+                                                 PbProgress.Hide()
+                                             End Sub)
+            End If
+
+        End If
+#End Region
+
+    End Sub
+
+
     Public Function ScrubFilename(Filename As String)
         Return Filename.Replace("/", "").Replace("\", "").Replace("|", "").Replace("?", "").Replace("<", "").Replace(">", "").Replace(":", "").Replace("""", "").Replace("*", "")
     End Function

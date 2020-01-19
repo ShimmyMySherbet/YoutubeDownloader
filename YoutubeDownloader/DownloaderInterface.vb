@@ -61,14 +61,25 @@
         If Not IO.Directory.Exists("Downloads") Then
             IO.Directory.CreateDirectory("Downloads")
         End If
+        If Not IO.Directory.Exists("Videos") Then
+            IO.Directory.CreateDirectory("Videos")
+        End If
+        If Not IO.Directory.Exists("VideoCache") Then
+            IO.Directory.CreateDirectory("VideoCache")
+        End If
+
         If Not IO.File.Exists("ffmpeg.exe") Then
             Console.WriteLine("Getting FFMPEG...")
             SplashEntry.Status = "; Downloading FFMPEG"
-            Try
-                Xabe.FFmpeg.FFmpeg.GetLatestVersion().Wait()
-            Catch ex As Exception
-                MessageBox.Show(SplashEntry, ex.Message & vbNewLine & "Try downloading FFMPEG through the settings menu.")
-            End Try
+            Dim DownloadClient As New FFMPEGDownloaderClient
+            DownloadClient.ForceGCOnCompletion = True
+            DownloadClient.Start()
+            Do While DownloadClient.Downloading
+                SplashEntry.Status = $"; Downloading FFMPEG: {DownloadClient.DownloadPercentage}%  {DownloadClient.DownloadedSizeString}/{DownloadClient.DownloadSizeString} ({DownloadClient.DownloadPercentage}%) {DownloadClient.DownloadSpeedString}"
+            Loop
+            If DownloadClient.HasError Then
+                MessageBox.Show($"Failed to download FFMPEG: {vbNewLine} {DownloadClient.Error.Message} {vbNewLine} Try downloading FFMpeg through the settings menu later, or you can manually download ffmpeg.exe and ffmprobe.exe and place them next to YoutubeDownloader.exe.")
+            End If
             SplashEntry.Status = ""
         End If
         Console.WriteLine("checking data...")
