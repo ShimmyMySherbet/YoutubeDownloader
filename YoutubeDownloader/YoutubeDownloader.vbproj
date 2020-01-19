@@ -224,7 +224,7 @@
     <Compile Include="CredentialPrompt.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CustomFFmpegDownlaoder.vb" />
+    <Compile Include="CustomFFmpegDownloader.vb" />
     <Compile Include="DownloaderInterface.Designer.vb">
       <DependentUpon>DownloaderInterface.vb</DependentUpon>
     </Compile>
