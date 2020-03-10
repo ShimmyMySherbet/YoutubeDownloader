@@ -114,6 +114,7 @@ Public Class AudioEntry
             lblSpotifySong.Text = "Song: " & Data.SpotifyTrack.Name
             SongTitle = Data.SpotifyTrack.Name
             IconUrl = Data.SpotifyTrack.Album.Images(0).Url
+            Console.WriteLine($"Album Artwork URL: {IconUrl}")
             If Data.SpotifyTrack.PreviewUrl = "" Then
                 BtnPlayAudio.Hide()
             End If
@@ -306,11 +307,30 @@ Public Class AudioEntry
                                         End Sub)
     End Sub
 
-
+    Private Function TestAudioStream(Stream As MediaStreams.AudioStreamInfo) As Boolean
+        Try
+            Dim url As String = Stream.Url
+            Dim req As Net.HttpWebRequest = Net.WebRequest.Create(url)
+            req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/73.0"
+            req.UseDefaultCredentials = True
+            req.Timeout = 5000
+            req.Method = "GET"
+            Dim resp As Net.HttpWebResponse = req.GetResponse()
+            Console.WriteLine($"Request returned HTTP status of {resp.StatusCode}")
+            If resp.StatusCode <> 403 Then
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
 
 
 
     Private Async Sub DownloadTrack()
+        Console.WriteLine($"Youtube Source: {Video.GetUrl}")
         Console.WriteLine("Starting download...")
         Downloading = True
         If Not IsFromPlaylist Then
@@ -357,17 +377,99 @@ Public Class AudioEntry
                 HighestQuality = inf.Bitrate
             End If
         Next
-        Dim HighestQualities As List(Of MediaStreams.AudioStreamInfo) = SteaminfoSet.Audio.Where(Function(x)
-                                                                                                     If x.Bitrate >= HighestQuality Then
-                                                                                                         Return True
-                                                                                                     Else
-                                                                                                         Return False
-                                                                                                     End If
-                                                                                                 End Function).ToList
-        For Each HighQual In HighestQualities
-            Console.WriteLine($"Highest Bitrate Stream, bitrate: {HighQual.Bitrate}, Encoding: {HighQual.AudioEncoding}")
+
+        Dim QualityIndex As New Dictionary(Of Integer, List(Of MediaStreams.AudioStreamInfo))
+
+        'Dim HighestQualities As List(Of MediaStreams.AudioStreamInfo) = SteaminfoSet.Audio.Where(Function(x)
+        '                                                                                             If x.Bitrate >= HighestQuality Then
+        '                                                                                                 Return True
+        '                                                                                             Else
+        '                                                                                                 Return False
+        '                                                                                             End If
+        '                                                                                         End Function).ToList
+        For Each stream In SteaminfoSet.Audio
+            Dim bitrate As Integer = stream.Bitrate
+            If QualityIndex.Keys.Contains(bitrate) Then
+                QualityIndex(bitrate).Add(stream)
+            Else
+                QualityIndex.Add(bitrate, New List(Of MediaStreams.AudioStreamInfo) From {stream})
+            End If
         Next
-        Dim auinfo = HighestQualities(0)
+        Dim HighestBitrate As Integer = 0
+        QualityIndex.Keys.ToList.ForEach(Sub(x)
+                                             If x > HighestBitrate Then
+                                                 HighestBitrate = x
+                                             End If
+                                         End Sub)
+        Dim WorkingStream As MediaStreams.AudioStreamInfo = Nothing
+
+        Dim HighestIndex As List(Of MediaStreams.AudioStreamInfo) = QualityIndex(HighestBitrate)
+        Console.WriteLine($"Found {HighestIndex.Count} streams for bitrate {HighestBitrate} (highest in set)")
+        For Each Stream In HighestIndex
+            Console.WriteLine($"Audio Stream -> Bitrate: {Stream.Bitrate}, Encoding: {Stream.AudioEncoding}, URL: {Stream.Url}")
+            If TestAudioStream(Stream) Then
+                WorkingStream = Stream
+                Console.WriteLine("Found a valid audio stream!")
+                Exit For
+            End If
+        Next
+        If WorkingStream Is Nothing Then
+            Dim AllowedStreams As New List(Of Integer)
+            For Each br In QualityIndex.Keys
+                If br > 102400 Then
+                    AllowedStreams.Add(br)
+                End If
+            Next
+            Dim _BitratesSorted() As Integer = AllowedStreams.ToArray()
+            Array.Sort(_BitratesSorted)
+            Array.Reverse(_BitratesSorted)
+            Dim BitratesSorted As List(Of Integer) = _BitratesSorted.ToList()
+            BitratesSorted.Remove(HighestBitrate)
+            Console.WriteLine($"testing {BitratesSorted.Count} alternate bitrates")
+            For Each BR In BitratesSorted
+                Console.WriteLine($"Testing bitrate {BR}...")
+                For Each Stream In QualityIndex(BR)
+                    Console.WriteLine($"Testing {Stream.AudioEncoding} at bitrate of {Stream.Bitrate}")
+                    If TestAudioStream(Stream) Then
+                        WorkingStream = Stream
+                        Console.WriteLine($"Found best working audio stream with bitrate of {BR} (Highest Limited Stream: {HighestBitrate})")
+                    Else
+                        Console.WriteLine("Stream returned 403: Access Denied.")
+                    End If
+                Next
+            Next
+            If WorkingStream Is Nothing Then
+                For Each arg In BitratesSorted
+                    Console.WriteLine($"Bitr: {arg}")
+                Next
+                Console.WriteLine("Failed to find working audio stream!")
+                If IsFromPlaylist Then
+                    TypePipe = PipeType.TriggerError
+                Else
+                    Await UiTaskfactory.StartNew(Sub()
+                                                     PbProgress.Value = PbProgress.Maximum
+                                                     WorkaroundTimer.Stop()
+                                                     ProgressbarModification.SetState(PbProgress, 2)
+                                                 End Sub)
+                End If
+                Exit Sub
+            End If
+        End If
+        If WorkingStream.Bitrate < 130000 Then
+            Try
+                lblNonOptimal.Visible = True
+            Catch ex As Exception
+            End Try
+        End If
+
+
+        Dim auinfo As MediaStreams.AudioStreamInfo = WorkingStream
+
+        If auinfo Is Nothing Then
+            Console.WriteLine("INFO NUL!")
+        Else
+            Console.WriteLine($"{auinfo.AudioEncoding} {auinfo.Bitrate}bps {auinfo.Url}")
+        End If
 
         Dim ext As String = "unknown"
         Select Case auinfo.AudioEncoding
@@ -397,7 +499,9 @@ Public Class AudioEntry
             If Not IO.File.Exists("Downloads\" & Filename & "." & ext) Then
                 Console.WriteLine("Download Start.")
                 Dim StarTT As Date = Now
+                Console.WriteLine("Client Download Start!")
                 Await Client.DownloadMediaStreamAsync(auinfo, "Downloads\" & Filename & "." & ext)
+                Console.WriteLine("Client Download End!")
                 Dim endT As Date = Now
                 Dim dif As TimeSpan = endT.Subtract(StarTT)
                 Dim difs As Double = Math.Round(dif.TotalSeconds, 2)
@@ -434,7 +538,7 @@ RetryDownload:
             If CropAudio Then
                 Mp3Out = "audiocache\" & Filename & ".crop.mp3"
             End If
-
+            Mp3Out = ScrubFilename(Mp3Out)
 
             If IO.File.Exists(Mp3Out) Then
                 IO.File.Delete(Mp3Out)
@@ -444,7 +548,22 @@ RetryDownload:
             AudioConversion.SetAudioBitrate(auinfo.Bitrate)
             AudioConversion.UseHardwareAcceleration(Enums.HardwareAccelerator.Auto, Enums.VideoCodec.H264_cuvid, Enums.VideoCodec.H264_cuvid)
             Dim timer As New FunctionTimer
+            Console.WriteLine("Convertstart")
             Dim result As Model.IConversionResult = Await AudioConversion.Start()
+
+            ''Dim procinf As New ProcessStartInfo() With {
+            ''    .CreateNoWindow = True,
+            ''    .RedirectStandardOutput = True,
+            ''    .RedirectStandardInput = True,
+            ''    .FileName = "ffmpeg.exe",
+            ''    .Arguments = $"-i ""{"Downloads\" & Filename & "." & ext}}} ""{Mp3Out}""",
+            ''    .UseShellExecute = False,
+            ''    .WindowStyle = ProcessWindowStyle.Hidden}
+            ''Dim proc As Process = Process.Start(procinf)
+            ''proc.Start()
+            ''proc.WaitForExit()
+            Console.WriteLine("ConvertEnd")
+
             'Console.WriteLine($"   >>>>> Conversion complete, duration: {Math.Round(timer.GetDuration.TotalSeconds, 2)}")
 
             If Not IsFromPlaylist Then
@@ -459,12 +578,6 @@ RetryDownload:
             End If
 
 
-            Console.WriteLine("   >>>Completed {0} secconds", Math.Round(result.Duration.TotalSeconds, 2))
-            If result.Success Then
-                Console.WriteLine("Conversion Successfull.")
-            Else
-                Console.WriteLine("Conversion Failiure.")
-            End If
             Console.WriteLine("Conversion Finished  ")
             Dim DestFile As String = "Music\" & Filename & "." & TrackLogic.Extension
 
@@ -631,7 +744,7 @@ RetryDownload:
     End Sub
 
     Public Function ScrubFilename(Filename As String)
-        Return Filename.Replace("/", "").Replace("\", "").Replace("|", "").Replace("?", "").Replace("<", "").Replace(">", "").Replace(":", "").Replace("""", "").Replace("*", "")
+        Return Filename.Replace("/", "").Replace("\", "").Replace("|", "").Replace("?", "").Replace("<", "").Replace(">", "").Replace(":", "").Replace("""", "").Replace("*", "").Replace(";", "")
     End Function
 
 

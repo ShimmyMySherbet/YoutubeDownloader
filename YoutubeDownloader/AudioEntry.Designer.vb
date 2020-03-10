@@ -48,6 +48,7 @@ Partial Class AudioEntry
         Me.TSMIPasteArtwork = New System.Windows.Forms.ToolStripMenuItem()
         Me.TSMIRemoveArtwork = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlowIcons = New System.Windows.Forms.FlowLayoutPanel()
+        Me.lblNonOptimal = New System.Windows.Forms.Label()
         Me.FlowButtons.SuspendLayout()
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -209,12 +210,24 @@ Partial Class AudioEntry
         Me.FlowIcons.Size = New System.Drawing.Size(28, 92)
         Me.FlowIcons.TabIndex = 15
         '
+        'lblNonOptimal
+        '
+        Me.lblNonOptimal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblNonOptimal.AutoSize = True
+        Me.lblNonOptimal.Location = New System.Drawing.Point(292, 3)
+        Me.lblNonOptimal.Name = "lblNonOptimal"
+        Me.lblNonOptimal.Size = New System.Drawing.Size(146, 13)
+        Me.lblNonOptimal.TabIndex = 16
+        Me.lblNonOptimal.Text = "Warning: Non-Optimal Quality"
+        Me.lblNonOptimal.Visible = False
+        '
         'AudioEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(49, Byte), Integer), CType(CType(52, Byte), Integer), CType(CType(56, Byte), Integer))
         Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Controls.Add(Me.lblNonOptimal)
         Me.Controls.Add(Me.FlowIcons)
         Me.Controls.Add(Me.PbBtnEditMex)
         Me.Controls.Add(Me.FlowButtons)
@@ -259,4 +272,5 @@ Partial Class AudioEntry
     Friend WithEvents TSMIPasteArtwork As ToolStripMenuItem
     Friend WithEvents TSMIRemoveArtwork As ToolStripMenuItem
     Friend WithEvents FlowIcons As FlowLayoutPanel
+    Friend WithEvents lblNonOptimal As Label
 End Class
