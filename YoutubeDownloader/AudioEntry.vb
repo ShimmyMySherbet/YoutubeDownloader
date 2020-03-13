@@ -42,6 +42,8 @@ Public Class AudioEntry
 
     Public GeniusResult As GeniusResult
 
+    Public _OverRideNetworkSource As String = ""
+
 #Region "Thread Glicth Woraround"
     'Strange glitch from when a video was added from a playlist, whenever the thread would attempt to add a task to the UI Thread's Task factory,
     'The calling thread would immediatley exit with no error or stop code.
@@ -413,7 +415,7 @@ Public Class AudioEntry
                 Exit For
             End If
         Next
-        If WorkingStream Is Nothing Then
+        If WorkingStream Is Nothing And _OverRideNetworkSource = "" Then
             Dim AllowedStreams As New List(Of Integer)
             For Each br In QualityIndex.Keys
                 If br > 102400 Then
@@ -455,11 +457,16 @@ Public Class AudioEntry
                 Exit Sub
             End If
         End If
-        If WorkingStream.Bitrate < 130000 Then
-            Try
-                lblNonOptimal.Visible = True
-            Catch ex As Exception
-            End Try
+        If _OverRideNetworkSource = "" Then
+            If WorkingStream.Bitrate < 130000 Then
+                Try
+                    lblNonOptimal.Visible = True
+                Catch ex As Exception
+                End Try
+            End If
+
+
+
         End If
 
 
@@ -472,14 +479,18 @@ Public Class AudioEntry
         End If
 
         Dim ext As String = "unknown"
-        Select Case auinfo.AudioEncoding
-            Case MediaStreams.AudioEncoding.Aac
-                ext = "aac"
-            Case MediaStreams.AudioEncoding.Opus
-                ext = "opus"
-            Case MediaStreams.AudioEncoding.Vorbis
-                ext = "vorbis"
-        End Select
+        If _OverRideNetworkSource = "" Then
+            Select Case auinfo.AudioEncoding
+                Case MediaStreams.AudioEncoding.Aac
+                    ext = "aac"
+                Case MediaStreams.AudioEncoding.Opus
+                    ext = "opus"
+                Case MediaStreams.AudioEncoding.Vorbis
+                    ext = "vorbis"
+            End Select
+        Else
+            ext = "networkoverride"
+        End If
 
         Console.WriteLine("ext: {0}", ext)
         Console.WriteLine("Downloading...")
@@ -500,7 +511,21 @@ Public Class AudioEntry
                 Console.WriteLine("Download Start.")
                 Dim StarTT As Date = Now
                 Console.WriteLine("Client Download Start!")
-                Await Client.DownloadMediaStreamAsync(auinfo, "Downloads\" & Filename & "." & ext)
+                If _OverRideNetworkSource <> "" Then
+                    Console.WriteLine($"DEBUG! Downloading overrides steam...")
+                    Dim ClientDownload As Net.HttpWebRequest = Net.WebRequest.Create(_OverRideNetworkSource)
+                    ClientDownload.Method = "GET"
+                    Using DownloadData As New IO.MemoryStream
+                        Using WebRep As Net.HttpWebResponse = ClientDownload.GetResponse()
+                            WebRep.GetResponseStream.CopyTo(DownloadData)
+                            IO.File.WriteAllBytes("Downloads\" & Filename & "." & ext, DownloadData.ToArray)
+                            WebRep.Close()
+                        End Using
+                        DownloadData.Close()
+                    End Using
+                Else
+                    Await Client.DownloadMediaStreamAsync(auinfo, "Downloads\" & Filename & "." & ext)
+                End If
                 Console.WriteLine("Client Download End!")
                 Dim endT As Date = Now
                 Dim dif As TimeSpan = endT.Subtract(StarTT)
@@ -513,6 +538,9 @@ Public Class AudioEntry
         Catch ex As Exception
             Console.WriteLine(ex.Message)
         End Try
+
+
+
         If Not IsFromPlaylist Then
             Await UiTaskfactory.StartNew(Sub()
                                              PbProgress.PerformStep()
@@ -534,37 +562,24 @@ RetryDownload:
             Console.WriteLine($"File extension: {TrackLogic.Extension}")
 
 
-            Dim Mp3Out As String = "Music\" & Filename & "." & TrackLogic.Extension
+            Dim Mp3Out As String = "Music\" & ScrubFilename(Filename) & "." & TrackLogic.Extension
             If CropAudio Then
                 Mp3Out = "audiocache\" & Filename & ".crop.mp3"
             End If
-            Mp3Out = ScrubFilename(Mp3Out)
 
             If IO.File.Exists(Mp3Out) Then
                 IO.File.Delete(Mp3Out)
             End If
             Console.WriteLine("Conversion Start")
             Dim AudioConversion As IConversion = Conversion.Convert("Downloads\" & Filename & "." & ext, Mp3Out)
-            AudioConversion.SetAudioBitrate(auinfo.Bitrate)
+            If _OverRideNetworkSource = "" Then
+                AudioConversion.SetAudioBitrate(auinfo.Bitrate)
+            End If
             AudioConversion.UseHardwareAcceleration(Enums.HardwareAccelerator.Auto, Enums.VideoCodec.H264_cuvid, Enums.VideoCodec.H264_cuvid)
             Dim timer As New FunctionTimer
             Console.WriteLine("Convertstart")
             Dim result As Model.IConversionResult = Await AudioConversion.Start()
-
-            ''Dim procinf As New ProcessStartInfo() With {
-            ''    .CreateNoWindow = True,
-            ''    .RedirectStandardOutput = True,
-            ''    .RedirectStandardInput = True,
-            ''    .FileName = "ffmpeg.exe",
-            ''    .Arguments = $"-i ""{"Downloads\" & Filename & "." & ext}}} ""{Mp3Out}""",
-            ''    .UseShellExecute = False,
-            ''    .WindowStyle = ProcessWindowStyle.Hidden}
-            ''Dim proc As Process = Process.Start(procinf)
-            ''proc.Start()
-            ''proc.WaitForExit()
             Console.WriteLine("ConvertEnd")
-
-            'Console.WriteLine($"   >>>>> Conversion complete, duration: {Math.Round(timer.GetDuration.TotalSeconds, 2)}")
 
             If Not IsFromPlaylist Then
 
@@ -595,7 +610,9 @@ RetryDownload:
                 Console.WriteLine("Audio Cropped")
                 If TrackLogic.Extension.ToLower <> "mp3" Then
                     Dim SeccondaryAudioConversion As IConversion = Conversion.Convert(BaseMP3Out, DestFile)
-                    SeccondaryAudioConversion.SetAudioBitrate(auinfo.Bitrate)
+                    If _OverRideNetworkSource = "" Then
+                        SeccondaryAudioConversion.SetAudioBitrate(auinfo.Bitrate)
+                    End If
                     SeccondaryAudioConversion.UseHardwareAcceleration(Enums.HardwareAccelerator.Auto, Enums.VideoCodec.H264_cuvid, Enums.VideoCodec.H264_cuvid)
                     Dim Seccondaryresult As Model.IConversionResult = Await SeccondaryAudioConversion.Start()
                 Else
@@ -671,6 +688,15 @@ RetryDownload:
 
             ID3File.Save()
 
+            Try
+                If IO.File.Exists(Filename & ".mp3") Then
+                    System.IO.File.Move(Filename & ".mp3", DestFile)
+                End If
+            Catch ex As Exception
+
+            End Try
+
+
             If Not IsFromPlaylist Then
                 Await UiTaskfactory.StartNew(Sub()
                                                  PbProgress.PerformStep()
@@ -688,6 +714,9 @@ RetryDownload:
             Console.WriteLine(ex.Source)
             ExitedWithError = True
         End Try
+
+
+
         If ExitedWithError Then
             If DownloadTries >= TrackLogic.MaxDownloadRetries Then
                 If IsFromPlaylist Then
@@ -713,6 +742,10 @@ RetryDownload:
                 GoTo RetryDownload
             End If
         End If
+
+
+
+
         Downloading = False
     End Sub
 
@@ -744,7 +777,10 @@ RetryDownload:
     End Sub
 
     Public Function ScrubFilename(Filename As String)
-        Return Filename.Replace("/", "").Replace("\", "").Replace("|", "").Replace("?", "").Replace("<", "").Replace(">", "").Replace(":", "").Replace("""", "").Replace("*", "").Replace(";", "")
+        Dim scrubbed As String = Filename.Replace("/", "").Replace("\", "").Replace("|", "").Replace("?", "").Replace("<", "").Replace(">", "").Replace(":", "").Replace("""", "").Replace("*", "").Replace(";", "")
+        Console.WriteLine($"Scrubbing File Name: {Filename}")
+        Console.WriteLine($"Scrub Out: {scrubbed}")
+        Return scrubbed
     End Function
 
 
@@ -869,6 +905,23 @@ RetryDownload:
             Return dif
         End Function
     End Class
+
+    Private Sub RemoveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveToolStripMenuItem.Click
+        PbBtnClose_Click(sender, e)
+    End Sub
+
+    Private Sub EditInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditInfoToolStripMenuItem.Click
+        EditTrackData()
+    End Sub
+
+    Private Sub TrimAudioToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TrimAudioToolStripMenuItem.Click
+
+        PbCrop_Click(sender, e)
+    End Sub
+
+    Private Sub DEBUGPasteNetworkSourceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DEBUGPasteNetworkSourceToolStripMenuItem.Click
+        _OverRideNetworkSource = My.Computer.Clipboard.GetText
+    End Sub
 End Class
 Public Class AudioControlData
     Public Video As YoutubeExplode.Models.Video

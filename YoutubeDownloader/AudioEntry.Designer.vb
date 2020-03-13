@@ -49,12 +49,18 @@ Partial Class AudioEntry
         Me.TSMIRemoveArtwork = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlowIcons = New System.Windows.Forms.FlowLayoutPanel()
         Me.lblNonOptimal = New System.Windows.Forms.Label()
+        Me.CMSMyBase = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TrimAudioToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DEBUGPasteNetworkSourceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlowButtons.SuspendLayout()
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.CMSArtwork.SuspendLayout()
+        Me.CMSMyBase.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblYTtitle
@@ -221,12 +227,43 @@ Partial Class AudioEntry
         Me.lblNonOptimal.Text = "Warning: Non-Optimal Quality"
         Me.lblNonOptimal.Visible = False
         '
+        'CMSMyBase
+        '
+        Me.CMSMyBase.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveToolStripMenuItem, Me.EditInfoToolStripMenuItem, Me.TrimAudioToolStripMenuItem, Me.DEBUGPasteNetworkSourceToolStripMenuItem})
+        Me.CMSMyBase.Name = "CMSMyBase"
+        Me.CMSMyBase.Size = New System.Drawing.Size(235, 114)
+        '
+        'RemoveToolStripMenuItem
+        '
+        Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
+        Me.RemoveToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.RemoveToolStripMenuItem.Text = "Remove"
+        '
+        'EditInfoToolStripMenuItem
+        '
+        Me.EditInfoToolStripMenuItem.Name = "EditInfoToolStripMenuItem"
+        Me.EditInfoToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.EditInfoToolStripMenuItem.Text = "Edit Info"
+        '
+        'TrimAudioToolStripMenuItem
+        '
+        Me.TrimAudioToolStripMenuItem.Name = "TrimAudioToolStripMenuItem"
+        Me.TrimAudioToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.TrimAudioToolStripMenuItem.Text = "Trim Audio"
+        '
+        'DEBUGPasteNetworkSourceToolStripMenuItem
+        '
+        Me.DEBUGPasteNetworkSourceToolStripMenuItem.Name = "DEBUGPasteNetworkSourceToolStripMenuItem"
+        Me.DEBUGPasteNetworkSourceToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.DEBUGPasteNetworkSourceToolStripMenuItem.Text = "(DEBUG)Paste Network Source"
+        '
         'AudioEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(49, Byte), Integer), CType(CType(52, Byte), Integer), CType(CType(56, Byte), Integer))
         Me.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.ContextMenuStrip = Me.CMSMyBase
         Me.Controls.Add(Me.lblNonOptimal)
         Me.Controls.Add(Me.FlowIcons)
         Me.Controls.Add(Me.PbBtnEditMex)
@@ -240,6 +277,7 @@ Partial Class AudioEntry
         Me.Controls.Add(Me.LblAlbum)
         Me.Controls.Add(Me.lblYTtitle)
         Me.Controls.Add(Me.PbArtwork)
+        Me.DoubleBuffered = True
         Me.ForeColor = System.Drawing.Color.FromArgb(CType(CType(114, Byte), Integer), CType(CType(137, Byte), Integer), CType(CType(218, Byte), Integer))
         Me.Name = "AudioEntry"
         Me.Size = New System.Drawing.Size(608, 147)
@@ -249,6 +287,7 @@ Partial Class AudioEntry
         CType(Me.PbBtnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbArtwork, System.ComponentModel.ISupportInitialize).EndInit()
         Me.CMSArtwork.ResumeLayout(False)
+        Me.CMSMyBase.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -273,4 +312,9 @@ Partial Class AudioEntry
     Friend WithEvents TSMIRemoveArtwork As ToolStripMenuItem
     Friend WithEvents FlowIcons As FlowLayoutPanel
     Friend WithEvents lblNonOptimal As Label
+    Friend WithEvents CMSMyBase As ContextMenuStrip
+    Friend WithEvents RemoveToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditInfoToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TrimAudioToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DEBUGPasteNetworkSourceToolStripMenuItem As ToolStripMenuItem
 End Class
