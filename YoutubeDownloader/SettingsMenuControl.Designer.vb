@@ -66,6 +66,7 @@ Partial Class SettingsMenuControl
         Me.OFDImage = New System.Windows.Forms.OpenFileDialog()
         Me.pbDownload = New System.Windows.Forms.ProgressBar()
         Me.lblDownloading = New System.Windows.Forms.Label()
+        Me.CBNormalise = New System.Windows.Forms.CheckBox()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxDiff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NudMaxRet, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -170,6 +171,7 @@ Partial Class SettingsMenuControl
         '
         'PnMusic
         '
+        Me.PnMusic.Controls.Add(Me.CBNormalise)
         Me.PnMusic.Controls.Add(Me.Label8)
         Me.PnMusic.Controls.Add(Me.Label1)
         Me.PnMusic.Controls.Add(Me.Label3)
@@ -550,6 +552,16 @@ Partial Class SettingsMenuControl
         Me.lblDownloading.Text = "Downloading FFMPEG; 0% (0bp/s)"
         Me.lblDownloading.Visible = False
         '
+        'CBNormalise
+        '
+        Me.CBNormalise.AutoSize = True
+        Me.CBNormalise.Location = New System.Drawing.Point(127, 8)
+        Me.CBNormalise.Name = "CBNormalise"
+        Me.CBNormalise.Size = New System.Drawing.Size(102, 17)
+        Me.CBNormalise.TabIndex = 42
+        Me.CBNormalise.Text = "Normalize Audio"
+        Me.CBNormalise.UseVisualStyleBackColor = True
+        '
         'SettingsMenuControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -631,4 +643,5 @@ Partial Class SettingsMenuControl
     Friend WithEvents PnFormat As Panel
     Friend WithEvents pbDownload As ProgressBar
     Friend WithEvents lblDownloading As Label
+    Friend WithEvents CBNormalise As CheckBox
 End Class

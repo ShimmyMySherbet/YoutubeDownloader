@@ -613,10 +613,58 @@ RetryDownload:
                     If _OverRideNetworkSource = "" Then
                         SeccondaryAudioConversion.SetAudioBitrate(auinfo.Bitrate)
                     End If
-                    SeccondaryAudioConversion.UseHardwareAcceleration(Enums.HardwareAccelerator.Auto, Enums.VideoCodec.H264_cuvid, Enums.VideoCodec.H264_cuvid)
                     Dim Seccondaryresult As Model.IConversionResult = Await SeccondaryAudioConversion.Start()
                 Else
                     IO.File.Move(BaseMP3Out, DestFile)
+                End If
+            End If
+
+            'Experimental Audio Normalisation
+            If TrackLogic.NormalizeAudio Then
+
+                Console.WriteLine("Starting Audio Normalisation")
+                Dim NormalisedMP3Out = $"AudioCache\{Filename}_normalised.mp3"
+                Dim Normalised As Boolean = False
+                Dim inPath As String = Mp3Out
+                Dim Max As Single = 0
+                Using InputFileReader = New AudioFileReader(inPath)
+                    Dim SampleBuffer As Single() = New Single(InputFileReader.WaveFormat.SampleRate - 1) {}
+                    Dim readsize As Integer = 1
+                    Do While readsize > 0
+                        readsize = InputFileReader.Read(SampleBuffer, 0, SampleBuffer.Length)
+                        For i As Integer = 0 To readsize - 1
+                            Dim abs As Single = Math.Abs(SampleBuffer(i))
+                            If abs > Max Then
+                                Max = abs
+                            End If
+                        Next
+                    Loop
+                    Console.WriteLine($"Max Sample Size: {Max}")
+                    InputFileReader.Position = 0
+                    If Max <> 0 And Max <> 1 Then
+                        Console.WriteLine("Audio Normalised.")
+                        InputFileReader.Volume = 1.0F / Max
+                        Normalised = True
+                        MediaFoundationEncoder.EncodeToMp3(InputFileReader, NormalisedMP3Out)
+                    Else
+                        Console.WriteLine("Audio doesn't require normalisation.")
+                    End If
+                    Console.WriteLine("Normalisation Complete")
+                    InputFileReader.Close()
+                End Using
+                If Normalised Then
+                    If IO.File.Exists(Mp3Out) Then
+                        IO.File.Delete(Mp3Out)
+                    End If
+                    If TrackLogic.Extension.ToLower <> "" Then
+                        Dim SeccondaryAudioConversion As IConversion = Conversion.Convert(NormalisedMP3Out, DestFile)
+                        If _OverRideNetworkSource = "" Then
+                            SeccondaryAudioConversion.SetAudioBitrate(auinfo.Bitrate)
+                        End If
+                        Dim Seccondaryresult As Model.IConversionResult = Await SeccondaryAudioConversion.Start()
+                    Else
+                        IO.File.Move(NormalisedMP3Out, Mp3Out)
+                    End If
                 End If
             End If
 

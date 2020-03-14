@@ -41,6 +41,8 @@ Public Class SettingsMenuControl
         CbUseBackground.Checked = SQLClient.GetSettingsValue("Interface_UseCustomBackground")
         CbEmbedLyrics.Checked = SQLClient.GetSettingsValue("Music_EmbedLyrics")
         TBTransparency.Value = SQLClient.GetSettingsValue("Interface_BackgroundTransparency")
+        CBNormalise.Checked = SQLClient.GetSettingsValue("Music_NormalizeAudio")
+
         Dim inps As String = SQLClient.GetSettingsValue("Interface_BackgroundColour")
         Console.WriteLine(inps)
 
@@ -356,5 +358,24 @@ Public Class SettingsMenuControl
                 txtSpotifySecret.Enabled = True
             End If
         End If
+    End Sub
+
+    Private Sub CBNormalise_CheckedChanged(sender As Object, e As EventArgs) Handles CBNormalise.CheckedChanged
+        If CBNormalise.Checked Then
+            If My.Computer.Info.OSFullName.Contains("7") Then
+                Dim result As DialogResult = MessageBox.Show(Me, "YoutubeDownloader has detected your are running Windows 7. Windows 7 does not currently have support for audio Normalization. Enabling this feature might cause YoutubeDownloader to become unstable. Proceed?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2)
+                If result = DialogResult.No Then
+                    CBNormalise.Checked = False
+                    Exit Sub
+                End If
+            End If
+            Try
+                NAudio.MediaFoundation.MediaFoundationApi.Startup()
+            Catch ex As Exception
+                MessageBox.Show("Failed to start MediaFoundationAPI. Audio Normalization has been disabled.")
+                CBNormalise.Checked = False
+            End Try
+        End If
+        PatchSetting("Music_NormalizeAudio", CBNormalise.Checked)
     End Sub
 End Class

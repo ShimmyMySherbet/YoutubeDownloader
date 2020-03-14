@@ -128,9 +128,13 @@
                 End If
             Next
         End If
-
-
-
+        If TrackLogic.NormalizeAudio Then
+            'Experimental Audio Normalisation Codec Starter. NOTE: Only valid for windows 8 and higher.
+            Try
+                NAudio.MediaFoundation.MediaFoundationApi.Startup()
+            Catch ex As Exception
+            End Try
+        End If
         'This token is valid for read-only operations.
         GeniusAPI.Init("AHxAt52xqrwjGmL-L6XeXa7kDSXayMAPIl3ajWHEjtz5O2jOZK2Ae6cj52pYza4W")
     End Sub
@@ -217,6 +221,14 @@
         If Not SQLClient.SettingsKeyExists("Spotify_UsePublicCredentials") Then
             SQLClient.UpdateSettingsKey("Spotify_UsePublicCredentials", "True")
         End If
+
+        If Not SQLClient.SettingsKeyExists("Music_NormalizeAudio") Then
+            If My.Computer.Info.OSFullName.Contains("7") Then
+                SQLClient.UpdateSettingsKey("Music_NormalizeAudio", "False")
+            Else
+                SQLClient.UpdateSettingsKey("Music_NormalizeAudio", "True")
+            End If
+        End If
     End Sub
     Public Shared Sub RenewSpotifyToken()
         Dim RenThread As New Threading.Thread(Sub()
@@ -252,6 +264,7 @@
             TrackLogic.MaxDurationDifferance = SQLClient.TryGetSettingsValue("Music_MaxTrackDifference")
             TrackLogic.Extension = SQLClient.TryGetSettingsValue("Music_DefaultExtension").ToLower
             TrackLogic.AttachLyrics = SQLClient.TryGetSettingsValue("Music_EmbedLyrics")
+            TrackLogic.NormalizeAudio = SQLClient.TryGetSettingsValue("Music_NormalizeAudio")
         Else
             Console.WriteLine("SQL client is nothing.")
         End If
