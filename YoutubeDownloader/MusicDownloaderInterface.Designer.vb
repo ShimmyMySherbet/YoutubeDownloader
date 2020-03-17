@@ -22,17 +22,27 @@ Partial Class MusicDownloaderinterface
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Button5 = New System.Windows.Forms.Button()
+        Me.CMSClear = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ClearFailuresToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearDownloadedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.BtnDownloadAll = New System.Windows.Forms.Button()
+        Me.CMSDownloadAll = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.BTNRestartfailures = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ResetFailedItemsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlowItems = New System.Windows.Forms.FlowLayoutPanel()
         Me.BtnGo = New System.Windows.Forms.Button()
         Me.txturl = New System.Windows.Forms.TextBox()
         Me.PbOpenOutput = New System.Windows.Forms.PictureBox()
         Me.PbBtnBack = New System.Windows.Forms.PictureBox()
+        Me.ClearUnusedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout()
+        Me.CMSClear.SuspendLayout()
+        Me.CMSDownloadAll.SuspendLayout()
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -54,6 +64,7 @@ Partial Class MusicDownloaderinterface
         '
         'Button5
         '
+        Me.Button5.ContextMenuStrip = Me.CMSClear
         Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button5.Location = New System.Drawing.Point(6, 106)
         Me.Button5.Name = "Button5"
@@ -61,6 +72,24 @@ Partial Class MusicDownloaderinterface
         Me.Button5.TabIndex = 4
         Me.Button5.Text = "Clear List"
         Me.Button5.UseVisualStyleBackColor = True
+        '
+        'CMSClear
+        '
+        Me.CMSClear.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearFailuresToolStripMenuItem, Me.ClearDownloadedToolStripMenuItem, Me.ClearUnusedToolStripMenuItem})
+        Me.CMSClear.Name = "CMSClear"
+        Me.CMSClear.Size = New System.Drawing.Size(181, 92)
+        '
+        'ClearFailuresToolStripMenuItem
+        '
+        Me.ClearFailuresToolStripMenuItem.Name = "ClearFailuresToolStripMenuItem"
+        Me.ClearFailuresToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearFailuresToolStripMenuItem.Text = "Clear Failures"
+        '
+        'ClearDownloadedToolStripMenuItem
+        '
+        Me.ClearDownloadedToolStripMenuItem.Name = "ClearDownloadedToolStripMenuItem"
+        Me.ClearDownloadedToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearDownloadedToolStripMenuItem.Text = "Clear Downloaded"
         '
         'Button4
         '
@@ -84,6 +113,7 @@ Partial Class MusicDownloaderinterface
         '
         'BtnDownloadAll
         '
+        Me.BtnDownloadAll.ContextMenuStrip = Me.CMSDownloadAll
         Me.BtnDownloadAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnDownloadAll.Location = New System.Drawing.Point(7, 19)
         Me.BtnDownloadAll.Name = "BtnDownloadAll"
@@ -91,6 +121,24 @@ Partial Class MusicDownloaderinterface
         Me.BtnDownloadAll.TabIndex = 1
         Me.BtnDownloadAll.Text = "Download All With MP3 Tags"
         Me.BtnDownloadAll.UseVisualStyleBackColor = True
+        '
+        'CMSDownloadAll
+        '
+        Me.CMSDownloadAll.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BTNRestartfailures, Me.ResetFailedItemsToolStripMenuItem})
+        Me.CMSDownloadAll.Name = "CMSDownloadAll"
+        Me.CMSDownloadAll.Size = New System.Drawing.Size(169, 48)
+        '
+        'BTNRestartfailures
+        '
+        Me.BTNRestartfailures.Name = "BTNRestartfailures"
+        Me.BTNRestartfailures.Size = New System.Drawing.Size(168, 22)
+        Me.BTNRestartfailures.Text = "Restart Failures"
+        '
+        'ResetFailedItemsToolStripMenuItem
+        '
+        Me.ResetFailedItemsToolStripMenuItem.Name = "ResetFailedItemsToolStripMenuItem"
+        Me.ResetFailedItemsToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.ResetFailedItemsToolStripMenuItem.Text = "Reset Failed Items"
         '
         'FlowItems
         '
@@ -150,6 +198,12 @@ Partial Class MusicDownloaderinterface
         Me.PbBtnBack.TabIndex = 0
         Me.PbBtnBack.TabStop = False
         '
+        'ClearUnusedToolStripMenuItem
+        '
+        Me.ClearUnusedToolStripMenuItem.Name = "ClearUnusedToolStripMenuItem"
+        Me.ClearUnusedToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearUnusedToolStripMenuItem.Text = "Clear Unused"
+        '
         'MusicDownloaderinterface
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -167,6 +221,8 @@ Partial Class MusicDownloaderinterface
         Me.Name = "MusicDownloaderinterface"
         Me.Size = New System.Drawing.Size(855, 487)
         Me.GroupBox1.ResumeLayout(False)
+        Me.CMSClear.ResumeLayout(False)
+        Me.CMSDownloadAll.ResumeLayout(False)
         CType(Me.PbOpenOutput, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PbBtnBack, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -184,4 +240,11 @@ Partial Class MusicDownloaderinterface
     Friend WithEvents txturl As TextBox
     Friend WithEvents PbOpenOutput As PictureBox
     Friend WithEvents PbBtnBack As PictureBox
+    Friend WithEvents CMSDownloadAll As ContextMenuStrip
+    Friend WithEvents BTNRestartfailures As ToolStripMenuItem
+    Friend WithEvents ResetFailedItemsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CMSClear As ContextMenuStrip
+    Friend WithEvents ClearFailuresToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ClearDownloadedToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ClearUnusedToolStripMenuItem As ToolStripMenuItem
 End Class

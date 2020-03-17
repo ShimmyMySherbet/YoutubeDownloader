@@ -44,6 +44,11 @@ Public Class AudioEntry
 
     Public _OverRideNetworkSource As String = ""
 
+
+    Public ErrorState As ErrorState = ErrorState.Idle
+
+
+
 #Region "Thread Glicth Woraround"
     'Strange glitch from when a video was added from a playlist, whenever the thread would attempt to add a task to the UI Thread's Task factory,
     'The calling thread would immediatley exit with no error or stop code.
@@ -77,6 +82,76 @@ Public Class AudioEntry
     End Sub
 #End Region
 
+
+    Public Sub ResetState()
+        PbArtwork.Image = My.Resources.Loading1
+        Downloading = False
+        WebClient = New Net.WebClient
+        Client = New YoutubeExplode.YoutubeClient
+        CropAudio = False
+        CropStartSpan = Nothing
+        CropEndSpan = Nothing
+        UserPastedImage = Nothing
+        BaseArtworkImage = Nothing
+        AlbumDownloadThread = New Threading.Thread(AddressOf GetSpotifyAlbum)
+        GeniusResult = Nothing
+        _OverRideNetworkSource = ""
+        ErrorState = ErrorState.Idle
+        SetState(PbProgress, 0)
+        PbProgress.Value = 0
+        PbProgress.Hide()
+        lblYTtitle.Text = Video.Title
+        lblytChannel.Text = Video.Author
+        'PbIcon1.Image = My.Resources.YouTube
+        Dim IconUrl As String = ""
+        If IsNothing(SpotifyTrack) Then
+            BtnPlayAudio.Hide()
+            LblArtist.Text = MexData.Artist
+            lblSpotifySong.Text = MexData.Name
+            SongArtist = MexData.Artist
+            SongTitle = MexData.Name
+            LblAlbum.Text = ""
+            IconUrl = Video.Thumbnails.MediumResUrl
+
+
+            Console.WriteLine("Fetching genius lyrics")
+            If TrackLogic.AttachLyrics Then
+                GeniusResult = GetLyrics(MexData.Artist, MexData.Name, False)
+            End If
+
+        Else
+            Console.WriteLine(SpotifyTrack.Album.ReleaseDate)
+            'Pbicon2.Image = My.Resources.Spotify
+            LblAlbum.Text = "Album: " & SpotifyTrack.Album.Name
+            LblArtist.Text = "Artist: " & SpotifyTrack.Artists(0).Name
+            SongArtist = SpotifyTrack.Artists(0).Name
+            lblSpotifySong.Text = "Song: " & SpotifyTrack.Name
+            SongTitle = SpotifyTrack.Name
+            IconUrl = SpotifyTrack.Album.Images(0).Url
+            Console.WriteLine($"Album Artwork URL: {IconUrl}")
+            If SpotifyTrack.PreviewUrl = "" Then
+                BtnPlayAudio.Hide()
+            End If
+            RefreshSpotifyAlbum()
+            Console.WriteLine("Fetching genius lyrics")
+            If TrackLogic.AttachLyrics Then
+                GeniusResult = GetLyrics(SpotifyTrack.Artists(0).Name, SpotifyTrack.Name, True)
+            End If
+        End If
+        InitialiseIcons()
+        If IconUrl = "" Then
+            PbArtwork.Image = My.Resources.YouTube
+        Else
+            PbArtwork.Image = My.Resources.Loading1
+            Dim Artworkdownloadthread As New Threading.Thread(Sub(Url As String)
+                                                                  Dim MyClient As New Net.WebClient
+                                                                  Dim resimage As Image = Image.FromStream(New IO.MemoryStream(MyClient.DownloadData(Url)))
+                                                                  BaseArtworkImage = resimage
+                                                                  PbArtwork.Image = resimage
+                                                              End Sub)
+            Artworkdownloadthread.Start(IconUrl)
+        End If
+    End Sub
 
     Public Sub New(Data As AudioControlData)
         InitializeComponent()
@@ -268,7 +343,7 @@ Public Class AudioEntry
     End Sub
 
 
-    
+
     Public Sub InvokeTrackDownload()
         If Not Downloading Then
             Console.WriteLine("Invoker starting download")
@@ -445,6 +520,7 @@ Public Class AudioEntry
                     Console.WriteLine($"Bitr: {arg}")
                 Next
                 Console.WriteLine("Failed to find working audio stream!")
+                ErrorState = ErrorState.FailHard
                 If IsFromPlaylist Then
                     TypePipe = PipeType.TriggerError
                 Else
@@ -762,11 +838,14 @@ RetryDownload:
             Console.WriteLine(ex.Source)
             ExitedWithError = True
         End Try
-
+        If Not ExitedWithError Then
+            ErrorState = ErrorState.Success
+        End If
 
 
         If ExitedWithError Then
             If DownloadTries >= TrackLogic.MaxDownloadRetries Then
+                ErrorState = ErrorState.FailHard
                 If IsFromPlaylist Then
                     TypePipe = PipeType.TriggerError
                 Else
@@ -777,6 +856,7 @@ RetryDownload:
                                                  End Sub)
                 End If
             Else
+                ErrorState = ErrorState.FailSoft
                 If IsFromPlaylist Then
                     TypePipe = PipeType.TriggerWarning
                 Else
@@ -970,7 +1050,19 @@ RetryDownload:
     Private Sub DEBUGPasteNetworkSourceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DEBUGPasteNetworkSourceToolStripMenuItem.Click
         _OverRideNetworkSource = My.Computer.Clipboard.GetText
     End Sub
+
+    Private Sub ResetToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetToolStripMenuItem.Click
+        ResetState()
+    End Sub
 End Class
+Public Module AudioStatusEnums
+    Public Enum ErrorState
+        Idle = 0
+        Success = 1
+        FailSoft = 2
+        FailHard = 3
+    End Enum
+End Module
 Public Class AudioControlData
     Public Video As YoutubeExplode.Models.Video
     Public SpotifyTrack As SpotifyAPI.Web.Models.FullTrack

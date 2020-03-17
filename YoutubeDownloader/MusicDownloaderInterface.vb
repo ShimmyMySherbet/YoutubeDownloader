@@ -218,15 +218,20 @@ Public Class MusicDownloaderinterface
             Mytrack = trackOverride
         End If
         Console.WriteLine("Recieved Track.")
-        Dim Vid As Video = Await Spotify.GetYoutubeTrack(Mytrack)
-        If Not IsNothing(Vid) Then
-            Dim UiControlData As New AudioControlData(Vid, Mytrack, New MexMediaInfo(Mytrack.Artists(0).Name, Mytrack.Name))
-            Dim UiControl As New AudioEntry(UiControlData)
-            AddHandler UiControl.DisposingData, Sub(x As Control)
-                                                    FlowItems.Controls.Remove(x)
-                                                End Sub
-            FlowItems.Controls.Add(UiControl)
+        If Not Mytrack Is Nothing Then
+            If Not Mytrack.Id Is Nothing Then
+                Dim Vid As Video = Await Spotify.GetYoutubeTrack(Mytrack)
+                If Not IsNothing(Vid) Then
+                    Dim UiControlData As New AudioControlData(Vid, Mytrack, New MexMediaInfo(Mytrack.Artists(0).Name, Mytrack.Name))
+                    Dim UiControl As New AudioEntry(UiControlData)
+                    AddHandler UiControl.DisposingData, Sub(x As Control)
+                                                            FlowItems.Controls.Remove(x)
+                                                        End Sub
+                    FlowItems.Controls.Add(UiControl)
+                End If
+            End If
         End If
+
     End Sub
     Async Sub FetchVideosFromPlaylist(PlaylistID As String)
         Dim Playlist As Playlist = Await Youtube.GetPlaylistAsync(PlaylistID)
@@ -475,6 +480,62 @@ Public Class MusicDownloaderinterface
             Next
             CreateDataFile(Resp.FileName, controldat.ToArray)
         End If
+    End Sub
+
+    Private Sub BTNRestartfailures_Click(sender As Object, e As EventArgs) Handles BTNRestartfailures.Click
+        Dim startt As New Threading.Thread(Sub()
+                                               For Each item In FlowItems.Controls.OfType(Of AudioEntry)
+                                                   Threading.Thread.Sleep(800)
+                                                   If item.ErrorState = ErrorState.FailHard Then
+                                                       item.btnDownload.PerformClick()
+                                                   End If
+                                               Next
+                                           End Sub)
+        startt.Start()
+
+    End Sub
+
+    Private Sub ResetFailedItemsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ResetFailedItemsToolStripMenuItem.Click
+        Dim startt As New Threading.Thread(Sub()
+                                               For Each item In FlowItems.Controls.OfType(Of AudioEntry)
+                                                   Threading.Thread.Sleep(800)
+                                                   If item.ErrorState = ErrorState.FailHard Then
+                                                       item.ResetState()
+                                                   End If
+                                               Next
+                                           End Sub)
+        startt.Start()
+
+    End Sub
+
+    Private Sub ClearFailuresToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearFailuresToolStripMenuItem.Click
+        Do Until FlowItems.Controls.OfType(Of AudioEntry).Count = 0
+            For Each control In FlowItems.Controls.OfType(Of AudioEntry)
+                If control.ErrorState = ErrorState.FailHard Then
+                    control.DisposeData()
+                End If
+            Next
+        Loop
+    End Sub
+
+    Private Sub ClearDownloadedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearDownloadedToolStripMenuItem.Click
+        Do Until FlowItems.Controls.OfType(Of AudioEntry).Count = 0
+            For Each control In FlowItems.Controls.OfType(Of AudioEntry)
+                If control.ErrorState = ErrorState.Success Then
+                    control.DisposeData()
+                End If
+            Next
+        Loop
+    End Sub
+
+    Private Sub ClearUnusedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearUnusedToolStripMenuItem.Click
+        Do Until FlowItems.Controls.OfType(Of AudioEntry).Count = 0
+            For Each control In FlowItems.Controls.OfType(Of AudioEntry)
+                If control.ErrorState = ErrorState.Idle Then
+                    control.DisposeData()
+                End If
+            Next
+        Loop
     End Sub
 End Class
 Public Class IniReader

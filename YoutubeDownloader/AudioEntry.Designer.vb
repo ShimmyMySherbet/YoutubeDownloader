@@ -54,6 +54,7 @@ Partial Class AudioEntry
         Me.EditInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TrimAudioToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DEBUGPasteNetworkSourceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlowButtons.SuspendLayout()
         CType(Me.PbBtnEditMex, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PbCrop, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -229,9 +230,9 @@ Partial Class AudioEntry
         '
         'CMSMyBase
         '
-        Me.CMSMyBase.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveToolStripMenuItem, Me.EditInfoToolStripMenuItem, Me.TrimAudioToolStripMenuItem, Me.DEBUGPasteNetworkSourceToolStripMenuItem})
+        Me.CMSMyBase.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveToolStripMenuItem, Me.EditInfoToolStripMenuItem, Me.TrimAudioToolStripMenuItem, Me.ResetToolStripMenuItem, Me.DEBUGPasteNetworkSourceToolStripMenuItem})
         Me.CMSMyBase.Name = "CMSMyBase"
-        Me.CMSMyBase.Size = New System.Drawing.Size(235, 114)
+        Me.CMSMyBase.Size = New System.Drawing.Size(235, 136)
         '
         'RemoveToolStripMenuItem
         '
@@ -256,6 +257,12 @@ Partial Class AudioEntry
         Me.DEBUGPasteNetworkSourceToolStripMenuItem.Name = "DEBUGPasteNetworkSourceToolStripMenuItem"
         Me.DEBUGPasteNetworkSourceToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
         Me.DEBUGPasteNetworkSourceToolStripMenuItem.Text = "(DEBUG)Paste Network Source"
+        '
+        'ResetToolStripMenuItem
+        '
+        Me.ResetToolStripMenuItem.Name = "ResetToolStripMenuItem"
+        Me.ResetToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+        Me.ResetToolStripMenuItem.Text = "Reset State"
         '
         'AudioEntry
         '
@@ -317,4 +324,5 @@ Partial Class AudioEntry
     Friend WithEvents EditInfoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TrimAudioToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DEBUGPasteNetworkSourceToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ResetToolStripMenuItem As ToolStripMenuItem
 End Class
