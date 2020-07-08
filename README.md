@@ -2,7 +2,7 @@
 
 A music downloader for YouTube with Spotify integration. Quickly and easily download music with it's respective ID3 tags.
 
-**This project is no longer maintained. A successor to this project is <a href="https://github.com/ShimmyMySherbet/MusixDownloader">Musix Downloader</a>
+**This project is no longer maintained. A successor to this project is <a href="https://github.com/ShimmyMySherbet/MusixDownloader">Musix Downloader</a>**
 
 **DISCLAIMER**: I am not responsible for any misuse of this program. You need permission from the author/copyright holder of the content before downloading it.
 
